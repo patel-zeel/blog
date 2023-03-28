@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,10 +20,9 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -50,13 +49,43 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -114,29 +143,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <span class="navbar-title">blog</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
+    <a class="nav-link" href="../about.html">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/patel-zeel"><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/patel_zeel_"><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
+              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -223,103 +250,101 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-display" data-execution_count="69">
 
+
   <div id="df-305b7016-509f-4d8a-b19f-2ceb75804e65">
     <div class="colab-df-container">
       <div>
 
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">node_id</th>
-<th data-quarto-table-cell-role="th">avatar_url</th>
-<th data-quarto-table-cell-role="th">gravatar_id</th>
-<th data-quarto-table-cell-role="th">url</th>
-<th data-quarto-table-cell-role="th">html_url</th>
-<th data-quarto-table-cell-role="th">followers_url</th>
-<th data-quarto-table-cell-role="th">following_url</th>
-<th data-quarto-table-cell-role="th">gists_url</th>
-<th data-quarto-table-cell-role="th">starred_url</th>
-<th data-quarto-table-cell-role="th">subscriptions_url</th>
-<th data-quarto-table-cell-role="th">organizations_url</th>
-<th data-quarto-table-cell-role="th">repos_url</th>
-<th data-quarto-table-cell-role="th">events_url</th>
-<th data-quarto-table-cell-role="th">received_events_url</th>
-<th data-quarto-table-cell-role="th">type</th>
-<th data-quarto-table-cell-role="th">site_admin</th>
-<th data-quarto-table-cell-role="th">contributions</th>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">login</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">murphyk</td>
-<td>4632336</td>
-<td>MDQ6VXNlcjQ2MzIzMzY=</td>
-<td>https://avatars.githubusercontent.com/u/463233...</td>
-<td></td>
-<td>https://api.github.com/users/murphyk</td>
-<td>https://github.com/murphyk</td>
-<td>https://api.github.com/users/murphyk/followers</td>
-<td>https://api.github.com/users/murphyk/following...</td>
-<td>https://api.github.com/users/murphyk/gists{/gi...</td>
-<td>https://api.github.com/users/murphyk/starred{/...</td>
-<td>https://api.github.com/users/murphyk/subscript...</td>
-<td>https://api.github.com/users/murphyk/orgs</td>
-<td>https://api.github.com/users/murphyk/repos</td>
-<td>https://api.github.com/users/murphyk/events{/p...</td>
-<td>https://api.github.com/users/murphyk/received_...</td>
-<td>User</td>
-<td>False</td>
-<td>1777</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">Neoanarika</td>
-<td>5188337</td>
-<td>MDQ6VXNlcjUxODgzMzc=</td>
-<td>https://avatars.githubusercontent.com/u/518833...</td>
-<td></td>
-<td>https://api.github.com/users/Neoanarika</td>
-<td>https://github.com/Neoanarika</td>
-<td>https://api.github.com/users/Neoanarika/followers</td>
-<td>https://api.github.com/users/Neoanarika/follow...</td>
-<td>https://api.github.com/users/Neoanarika/gists{...</td>
-<td>https://api.github.com/users/Neoanarika/starre...</td>
-<td>https://api.github.com/users/Neoanarika/subscr...</td>
-<td>https://api.github.com/users/Neoanarika/orgs</td>
-<td>https://api.github.com/users/Neoanarika/repos</td>
-<td>https://api.github.com/users/Neoanarika/events...</td>
-<td>https://api.github.com/users/Neoanarika/receiv...</td>
-<td>User</td>
-<td>False</td>
-<td>184</td>
-</tr>
-</tbody>
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id</th>
+      <th>node_id</th>
+      <th>avatar_url</th>
+      <th>gravatar_id</th>
+      <th>url</th>
+      <th>html_url</th>
+      <th>followers_url</th>
+      <th>following_url</th>
+      <th>gists_url</th>
+      <th>starred_url</th>
+      <th>subscriptions_url</th>
+      <th>organizations_url</th>
+      <th>repos_url</th>
+      <th>events_url</th>
+      <th>received_events_url</th>
+      <th>type</th>
+      <th>site_admin</th>
+      <th>contributions</th>
+    </tr>
+    <tr>
+      <th>login</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>murphyk</th>
+      <td>4632336</td>
+      <td>MDQ6VXNlcjQ2MzIzMzY=</td>
+      <td>https://avatars.githubusercontent.com/u/463233...</td>
+      <td></td>
+      <td>https://api.github.com/users/murphyk</td>
+      <td>https://github.com/murphyk</td>
+      <td>https://api.github.com/users/murphyk/followers</td>
+      <td>https://api.github.com/users/murphyk/following...</td>
+      <td>https://api.github.com/users/murphyk/gists{/gi...</td>
+      <td>https://api.github.com/users/murphyk/starred{/...</td>
+      <td>https://api.github.com/users/murphyk/subscript...</td>
+      <td>https://api.github.com/users/murphyk/orgs</td>
+      <td>https://api.github.com/users/murphyk/repos</td>
+      <td>https://api.github.com/users/murphyk/events{/p...</td>
+      <td>https://api.github.com/users/murphyk/received_...</td>
+      <td>User</td>
+      <td>False</td>
+      <td>1777</td>
+    </tr>
+    <tr>
+      <th>Neoanarika</th>
+      <td>5188337</td>
+      <td>MDQ6VXNlcjUxODgzMzc=</td>
+      <td>https://avatars.githubusercontent.com/u/518833...</td>
+      <td></td>
+      <td>https://api.github.com/users/Neoanarika</td>
+      <td>https://github.com/Neoanarika</td>
+      <td>https://api.github.com/users/Neoanarika/followers</td>
+      <td>https://api.github.com/users/Neoanarika/follow...</td>
+      <td>https://api.github.com/users/Neoanarika/gists{...</td>
+      <td>https://api.github.com/users/Neoanarika/starre...</td>
+      <td>https://api.github.com/users/Neoanarika/subscr...</td>
+      <td>https://api.github.com/users/Neoanarika/orgs</td>
+      <td>https://api.github.com/users/Neoanarika/repos</td>
+      <td>https://api.github.com/users/Neoanarika/events...</td>
+      <td>https://api.github.com/users/Neoanarika/receiv...</td>
+      <td>User</td>
+      <td>False</td>
+      <td>184</td>
+    </tr>
+  </tbody>
 </table>
-
-
 </div>
       <button class="colab-df-convert" onclick="convertToInteractive('df-305b7016-509f-4d8a-b19f-2ceb75804e65')" title="Convert this dataframe to an interactive table." style="display:none;">
         
@@ -410,91 +435,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-display" data-execution_count="47">
 
+
   <div id="df-0f95f846-d9f9-4693-8c82-09395415ce76">
     <div class="colab-df-container">
       <div>
 
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">url</th>
-<th data-quarto-table-cell-role="th">id</th>
-<th data-quarto-table-cell-role="th">node_id</th>
-<th data-quarto-table-cell-role="th">html_url</th>
-<th data-quarto-table-cell-role="th">diff_url</th>
-<th data-quarto-table-cell-role="th">patch_url</th>
-<th data-quarto-table-cell-role="th">issue_url</th>
-<th data-quarto-table-cell-role="th">number</th>
-<th data-quarto-table-cell-role="th">state</th>
-<th data-quarto-table-cell-role="th">locked</th>
-<th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">review_comments_url</th>
-<th data-quarto-table-cell-role="th">review_comment_url</th>
-<th data-quarto-table-cell-role="th">comments_url</th>
-<th data-quarto-table-cell-role="th">statuses_url</th>
-<th data-quarto-table-cell-role="th">head</th>
-<th data-quarto-table-cell-role="th">base</th>
-<th data-quarto-table-cell-role="th">_links</th>
-<th data-quarto-table-cell-role="th">author_association</th>
-<th data-quarto-table-cell-role="th">auto_merge</th>
-<th data-quarto-table-cell-role="th">active_lock_reason</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>938329819</td>
-<td>PR_kwDOA-3vB8437cbb</td>
-<td>https://github.com/probml/pyprobml/pull/841</td>
-<td>https://github.com/probml/pyprobml/pull/841.diff</td>
-<td>https://github.com/probml/pyprobml/pull/841.patch</td>
-<td>https://api.github.com/repos/probml/pyprobml/i...</td>
-<td>841</td>
-<td>closed</td>
-<td>False</td>
-<td>...</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>https://api.github.com/repos/probml/pyprobml/i...</td>
-<td>https://api.github.com/repos/probml/pyprobml/s...</td>
-<td>{'label': 'karm-patel:posrprocessing', 'ref': ...</td>
-<td>{'label': 'probml:master', 'ref': 'master', 's...</td>
-<td>{'self': {'href': 'https://api.github.com/repo...</td>
-<td>CONTRIBUTOR</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>938317389</td>
-<td>PR_kwDOA-3vB8437ZZN</td>
-<td>https://github.com/probml/pyprobml/pull/840</td>
-<td>https://github.com/probml/pyprobml/pull/840.diff</td>
-<td>https://github.com/probml/pyprobml/pull/840.patch</td>
-<td>https://api.github.com/repos/probml/pyprobml/i...</td>
-<td>840</td>
-<td>closed</td>
-<td>False</td>
-<td>...</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>https://api.github.com/repos/probml/pyprobml/p...</td>
-<td>https://api.github.com/repos/probml/pyprobml/i...</td>
-<td>https://api.github.com/repos/probml/pyprobml/s...</td>
-<td>{'label': 'karm-patel:master', 'ref': 'master'...</td>
-<td>{'label': 'probml:master', 'ref': 'master', 's...</td>
-<td>{'self': {'href': 'https://api.github.com/repo...</td>
-<td>CONTRIBUTOR</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>url</th>
+      <th>id</th>
+      <th>node_id</th>
+      <th>html_url</th>
+      <th>diff_url</th>
+      <th>patch_url</th>
+      <th>issue_url</th>
+      <th>number</th>
+      <th>state</th>
+      <th>locked</th>
+      <th>...</th>
+      <th>review_comments_url</th>
+      <th>review_comment_url</th>
+      <th>comments_url</th>
+      <th>statuses_url</th>
+      <th>head</th>
+      <th>base</th>
+      <th>_links</th>
+      <th>author_association</th>
+      <th>auto_merge</th>
+      <th>active_lock_reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>938329819</td>
+      <td>PR_kwDOA-3vB8437cbb</td>
+      <td>https://github.com/probml/pyprobml/pull/841</td>
+      <td>https://github.com/probml/pyprobml/pull/841.diff</td>
+      <td>https://github.com/probml/pyprobml/pull/841.patch</td>
+      <td>https://api.github.com/repos/probml/pyprobml/i...</td>
+      <td>841</td>
+      <td>closed</td>
+      <td>False</td>
+      <td>...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/i...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/s...</td>
+      <td>{'label': 'karm-patel:posrprocessing', 'ref': ...</td>
+      <td>{'label': 'probml:master', 'ref': 'master', 's...</td>
+      <td>{'self': {'href': 'https://api.github.com/repo...</td>
+      <td>CONTRIBUTOR</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>938317389</td>
+      <td>PR_kwDOA-3vB8437ZZN</td>
+      <td>https://github.com/probml/pyprobml/pull/840</td>
+      <td>https://github.com/probml/pyprobml/pull/840.diff</td>
+      <td>https://github.com/probml/pyprobml/pull/840.patch</td>
+      <td>https://api.github.com/repos/probml/pyprobml/i...</td>
+      <td>840</td>
+      <td>closed</td>
+      <td>False</td>
+      <td>...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/p...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/i...</td>
+      <td>https://api.github.com/repos/probml/pyprobml/s...</td>
+      <td>{'label': 'karm-patel:master', 'ref': 'master'...</td>
+      <td>{'label': 'probml:master', 'ref': 'master', 's...</td>
+      <td>{'self': {'href': 'https://api.github.com/repo...</td>
+      <td>CONTRIBUTOR</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
 </table>
-
-
 <p>2 rows × 36 columns</p>
 </div>
       <button class="colab-df-convert" onclick="convertToInteractive('df-0f95f846-d9f9-4693-8c82-09395415ce76')" title="Convert this dataframe to an interactive table." style="display:none;">
@@ -582,47 +605,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sorted_by_pr_count.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="70">
 
+
   <div id="df-377ad5b5-7383-45b8-97fc-c7be218bfc2c">
     <div class="colab-df-container">
       <div>
 
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">Number of PRs</th>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">login</th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Drishttii</td>
-<td>79</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">gerdm</td>
-<td>55</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">karalleyna</td>
-<td>43</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">always-newbie161</td>
-<td>29</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">karm-patel</td>
-<td>29</td>
-</tr>
-</tbody>
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Number of PRs</th>
+    </tr>
+    <tr>
+      <th>login</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Drishttii</th>
+      <td>79</td>
+    </tr>
+    <tr>
+      <th>gerdm</th>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>karalleyna</th>
+      <td>43</td>
+    </tr>
+    <tr>
+      <th>always-newbie161</th>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>karm-patel</th>
+      <td>29</td>
+    </tr>
+  </tbody>
 </table>
-
-
 </div>
       <button class="colab-df-convert" onclick="convertToInteractive('df-377ad5b5-7383-45b8-97fc-c7be218bfc2c')" title="Convert this dataframe to an interactive table." style="display:none;">
         
@@ -752,23 +773,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -833,92 +840,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
