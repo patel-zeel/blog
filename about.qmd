@@ -16,4 +16,4 @@ about:
 
 ---
 
-Hi, I am Zeel. This is my personal acadamic blog where I add coding + other resources related to my research. Head over to [this page](http://patel-zeel.github.io/) for my personal website.
+Hi, I am Zeel. This is my personal academic blog where I add coding + other resources related to my research. Head over to [this page](http://patel-zeel.github.io/) for my personal website.
