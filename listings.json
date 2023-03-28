@@ -1,0 +1,36 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/31-10-2022-stochastic-variational-gp.html",
+      "/posts/post-with-code/index.html",
+      "/posts/2023-03-28-nngp.html",
+      "/posts/welcome/index.html",
+      "/posts/2022-10-27-mogp.html",
+      "/posts/2022-10-21-gaussian-processes.html",
+      "/posts/2022-10-18-kfac-laplace.html",
+      "/posts/2022-08-01-conditional_neural_processes.html",
+      "/posts/2022-06-10-jaxoptimizers.html",
+      "/posts/2022-05-17-contributors_sorted_by_prs.html",
+      "/posts/2022-05-14-iteratively_reweighted_least_squares.html",
+      "/posts/2022-04-09-gcloud.html",
+      "/posts/2022-04-06-github_faqs.html",
+      "/posts/2022-03-08-torch-essentials.html",
+      "/posts/2022-03-06-probabilistic-machine-learning.html",
+      "/posts/2022-03-05-uncertainty-in-deep-learning.html",
+      "/posts/2022-02-25-torch-tips.html",
+      "/posts/2022-01-25-gp_frameworks_comparison.html",
+      "/posts/2022-01-24-query_by_committee.html",
+      "/posts/2022-01-20-kl-divergence.html",
+      "/posts/2022-01-15-py_over_ipynb.html",
+      "/posts/2021-10-26-anonymization-tips.html",
+      "/posts/2021-10-23-warped-gp.html",
+      "/posts/2021-10-12-sparsegps.html",
+      "/posts/2021-09-28-docker_cheatsheet.html",
+      "/posts/2021-09-27-constraints.html",
+      "/posts/2021-03-22-gp_kernels.html",
+      "/posts/2020-09-21-programatically_download_openaq_data.html",
+      "/posts/2020-03-28-active_learning_with_bayesian_linear_regression.html"
+    ]
+  }
+]
