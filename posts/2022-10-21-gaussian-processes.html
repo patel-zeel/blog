@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.290">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -233,7 +233,7 @@ k_{RBF}(\boldsymbol{x}, \boldsymbol{x}') = \sigma^2 \exp \left(-{\frac {\|\bolds
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x'$"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"$k(x,x')$ where $x=</span><span class="sc">{</span>x[<span class="dv">0</span>][<span class="dv">0</span>]<span class="sc">}</span><span class="ss">$ and $x' \in $</span><span class="sc">{</span>plt<span class="sc">.</span>xlim()<span class="sc">}</span><span class="ss">"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-10-21-Gaussian-Processes_files/figure-html/cell-3-output-1.png" class="quarto-discovered-preview-image img-fluid"></p>
+<p><img src="2022-10-21-Gaussian-Processes_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The plot above shows that value of <span class="math inline">\(k(\boldsymbol{x}, \boldsymbol{x}')\)</span> increases as <span class="math inline">\(\boldsymbol{x}'\)</span> approaches <span class="math inline">\(\boldsymbol{x}\)</span> and reduces as it moves far from <span class="math inline">\(\boldsymbol{x}\)</span>. Now, we will connect <span class="math inline">\(X\)</span> with <span class="math inline">\(\boldsymbol{f}\)</span> (and thus with <span class="math inline">\(\boldsymbol{y}\)</span>) through kernel <span class="math inline">\(k\)</span> with two following assumptions:</p>
