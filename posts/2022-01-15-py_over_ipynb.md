@@ -2,7 +2,7 @@
 aliases:
 - /markdown/2022/01/15/py_over_ipynb
 categories:
-- markdown
+- Python
 date: '2022-01-15'
 description: Where .py files are better than .ipynb files?
 layout: post

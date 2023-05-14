@@ -2,7 +2,7 @@
 aliases:
 - /ml/2022/02/25/torch-tips
 categories:
-- ml
+- ML
 date: '2022-02-25'
 description: PyTorch zen tips
 layout: post

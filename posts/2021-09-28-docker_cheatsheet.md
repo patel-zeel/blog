@@ -2,7 +2,7 @@
 aliases:
 - /markdown/2021/09/28/docker_cheatsheet
 categories:
-- markdown
+- Docker
 date: '2021-09-28'
 description: Most used command while working with Docker
 image: homepage-docker-logo.png
