@@ -11,10 +11,10 @@ toc: true
 ---
 
 ## Terminology
-HOST: The computer physically present with you.
-REMOTE: The remote computer that you'd like to access via ssh. 
-REMOTE-IP: Ip address of the REMOTE.
-PORT: The port on which the ssh server is running on REMOTE.
+HOST: The computer physically present with you.    
+REMOTE: The remote computer that you'd like to access via ssh.     
+REMOTE-IP: Ip address of the REMOTE.    
+PORT: The port on which the ssh server is running on REMOTE.    
 
 ## What is the problem?
 Similar to Windows machines, one can run the following commands on a macOS HOST for setting up the passwordless ssh:
