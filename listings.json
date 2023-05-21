@@ -2,10 +2,10 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2023-04-29-sine-combo.html",
-      "/posts/31-10-2022-stochastic-variational-gp.html",
       "/posts/2023-05-14-ssh-macos.html",
+      "/posts/2023-04-29-sine-combination-netowrks.html",
       "/posts/2023-03-28-nngp.html",
+      "/posts/2022-10-31-stochastic-variational-gp.html",
       "/posts/2022-10-27-mogp.html",
       "/posts/2022-10-21-gaussian-processes.html",
       "/posts/2022-10-18-kfac-laplace.html",
