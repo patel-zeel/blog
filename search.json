@@ -326,21 +326,28 @@
     "href": "posts/2023-04-29-sine-combo.html",
     "title": "Sine Combination Networks",
     "section": "",
-    "text": "We know that any continuous signal can be represented as a sum of sinusoids. The question is, how many sinusoids do we need to represent a signal? In this notebook, we will explore this question.\nimport os\nos.environ[\"CUDA_VISIBLE_DEVICES\"] = \"\"\n\nimport jax\nimport jax.numpy as jnp\nimport optax\n\nfrom tinygp import kernels, GaussianProcess\n\nimport matplotlib.pyplot as plt\nfrom matplotlib.animation import FuncAnimation\nplt.rcParams[\"animation.html\"] = \"jshtml\""
+    "text": "We know that any continuous signal can be represented as a sum of sinusoids. The question is, how many sinusoids do we need to represent a signal? In this notebook, we will explore this question.\nimport os\nos.environ[\"CUDA_VISIBLE_DEVICES\"] = \"\"\n\nimport jax\nimport jax.numpy as jnp\nimport optax\n\nimport matplotlib.pyplot as plt\nfrom mpl_toolkits.mplot3d import Axes3D"
   },
   {
     "objectID": "posts/2023-04-29-sine-combo.html#random-combination-of-sinusoids",
     "href": "posts/2023-04-29-sine-combo.html#random-combination-of-sinusoids",
     "title": "Sine Combination Networks",
     "section": "Random Combination of Sinusoids",
-    "text": "Random Combination of Sinusoids\n\nN = 100\nx = jnp.linspace(-10, 10, N).reshape(-1, 1)\ny = jnp.sin(x) + jnp.sin(2*x)\nplt.plot(x, y, \"kx\");\nprint(x.shape, y.shape)\n\n(100, 1) (100, 1)"
+    "text": "Random Combination of Sinusoids\n\nN = 100\nx = jnp.linspace(-10, 10, N).reshape(-1, 1)\ny = jnp.sin(x) + jnp.sin(2*x)\nplt.plot(x, y, \"kx\");\nprint(x.shape, y.shape)\n\n2023-05-21 13:57:38.677096: E external/xla/xla/stream_executor/cuda/cuda_driver.cc:268] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected\nNo GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)\n\n\n(100, 1) (100, 1)"
   },
   {
     "objectID": "posts/2023-04-29-sine-combo.html#recover-the-signal",
     "href": "posts/2023-04-29-sine-combo.html#recover-the-signal",
     "title": "Sine Combination Networks",
     "section": "Recover the Signal",
-    "text": "Recover the Signal\n\ndef get_weights():\n    w1, w2 = 2.0, 4.0\n    return w1, w2\n    \ndef get_sine(weights, x):\n    w1, w2 = weights\n    return jnp.sin(w1*x) + jnp.sin(w2*x)\n\ndef loss_fn(weights, x, y):\n    output = get_sine(weights, x)\n    return jnp.mean((output.ravel() - y.ravel())**2)\n\n\nkey = jax.random.PRNGKey(2)\nepochs = 100\n\nweights = get_weights()\ninitial_loss = loss_fn(weights, x, y)\noptimizer = optax.adam(1e-2)\nstate = optimizer.init(weights)\n\nvalue_and_grad_fn = jax.jit(jax.value_and_grad(loss_fn))\nweights_history = []\nloss_history = []\nloss, grads = value_and_grad_fn(weights, x, y)\nfor epoch in range(epochs):\n    updates, state = optimizer.update(grads, state)\n    weights = optax.apply_updates(weights, updates)\n    loss, grads = value_and_grad_fn(weights, x, y)\n    weights_history.append(weights)\n    loss_history.append(loss)\n    \nplt.plot(loss_history);\n\n\n\n\n\noutput = get_sine(weights, x)\nplt.plot(x, output, \"r\")\nplt.plot(x, y, \"kx\")\nprint(weights)\n\n(Array(1.9798928, dtype=float32), Array(4.3507533, dtype=float32))"
+    "text": "Recover the Signal\n\ndef get_weights():\n    w1, w2 = 0.5, 1.3\n    return w1, w2\n    \ndef get_sine(weights, x):\n    w1, w2 = weights\n    return jnp.sin(w1*x) + jnp.sin(w2*x)\n\ndef loss_fn(weights, x, y):\n    output = get_sine(weights, x)\n    return jnp.mean((output.ravel() - y.ravel())**2)\n\n\nkey = jax.random.PRNGKey(2)\nepochs = 100\n\nweights = get_weights()\ninitial_loss = loss_fn(weights, x, y)\noptimizer = optax.adam(1e-2)\nstate = optimizer.init(weights)\n\nvalue_and_grad_fn = jax.jit(jax.value_and_grad(loss_fn))\nweights_history = []\nloss_history = []\nloss, grads = value_and_grad_fn(weights, x, y)\nfor epoch in range(epochs):\n    updates, state = optimizer.update(grads, state)\n    weights = optax.apply_updates(weights, updates)\n    loss, grads = value_and_grad_fn(weights, x, y)\n    weights_history.append(weights)\n    loss_history.append(loss)\n    \nplt.plot(loss_history);\n\n\n\n\n\noutput = get_sine(weights, x)\nplt.plot(x, output, \"r\")\nplt.plot(x, y, \"kx\")\nprint(weights)\n\n(Array(0.39930025, dtype=float32), Array(0.973186, dtype=float32))"
+  },
+  {
+    "objectID": "posts/2023-04-29-sine-combo.html#plot-loss-surface",
+    "href": "posts/2023-04-29-sine-combo.html#plot-loss-surface",
+    "title": "Sine Combination Networks",
+    "section": "Plot loss surface",
+    "text": "Plot loss surface\n\nw1 = jnp.linspace(0, 3, 100)\nw2 = jnp.linspace(0, 3, 100)\nW1, W2 = jnp.meshgrid(w1, w2)\nloss = jax.vmap(jax.vmap(lambda w1, w2: loss_fn((w1, w2), x, y)))(W1, W2)\n\n# plot the loss surface in 3D\nfig = plt.figure(figsize=(8, 6))\nax = fig.add_subplot(111, projection='3d')\nax.plot_surface(W1, W2, loss, cmap=\"viridis\", alpha=0.9);\nax.set_xlabel(\"w1\");\nax.set_ylabel(\"w2\");\n# top view\nax.view_init(30, 45)"
   },
   {
     "objectID": "posts/2023-05-14-ssh-macos.html",
