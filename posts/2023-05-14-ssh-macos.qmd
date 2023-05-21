@@ -4,6 +4,7 @@ aliases:
 categories:
 - macOS
 date: '2023-05-14'
+author: Zeel B Patel
 layout: post
 title: Passwordless SSH setup for MacOS Hosts
 toc: true
