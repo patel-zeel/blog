@@ -4,6 +4,7 @@ aliases:
 categories:
 - Docker
 date: '2021-09-28'
+author: Zeel B Patel
 description: Most used command while working with Docker
 image: homepage-docker-logo.png
 layout: post

@@ -4,6 +4,7 @@ aliases:
 categories:
 - Academic
 date: '2022-01-29'
+author: Zeel B Patel
 description: Conference Presentation Tips
 layout: post
 title: Conference Presentation Tips

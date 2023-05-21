@@ -4,6 +4,7 @@ aliases:
 categories:
 - Python
 date: '2022-01-15'
+author: Zeel B Patel
 description: Where .py files are better than .ipynb files?
 layout: post
 title: Why .py files are better than .ipynb files for ML codebase

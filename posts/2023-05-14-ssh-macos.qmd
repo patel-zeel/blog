@@ -7,6 +7,8 @@ date: '2023-05-14'
 author: Zeel B Patel
 layout: post
 title: Passwordless SSH setup for MacOS Hosts
+description: A tiny handbook to setup passwordless ssh in MacOS
+image: images/Apple_Mac_OS_Logo.png
 toc: true
 
 ---

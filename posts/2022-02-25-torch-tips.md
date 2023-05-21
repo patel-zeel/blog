@@ -6,6 +6,7 @@ categories:
 date: '2022-02-25'
 description: PyTorch zen tips
 layout: post
+author: Zeel B Patel
 title: PyTorch Tips
 toc: true
 

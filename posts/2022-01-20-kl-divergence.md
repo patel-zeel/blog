@@ -4,6 +4,7 @@ aliases:
 categories:
 - ML
 date: '2022-01-20'
+author: Zeel B Patel
 description: Understanding KL divergence
 layout: post
 title: KL divergence v/s cross-entropy
