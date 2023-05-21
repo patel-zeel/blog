@@ -326,21 +326,21 @@
     "href": "posts/2023-04-29-sine-combo.html",
     "title": "Sine Combination Networks",
     "section": "",
-    "text": "We know that any continuous signal can be represented as a sum of sinusoids. The question is, how many sinusoids do we need to represent a signal? In this notebook, we will explore this question.\nimport os\nos.environ[\"CUDA_VISIBLE_DEVICES\"] = \"\"\n\nimport jax\nimport jax.numpy as jnp\n\nfrom tinygp import kernels, GaussianProcess\n\nimport matplotlib.pyplot as plt"
+    "text": "We know that any continuous signal can be represented as a sum of sinusoids. The question is, how many sinusoids do we need to represent a signal? In this notebook, we will explore this question.\nimport os\nos.environ[\"CUDA_VISIBLE_DEVICES\"] = \"\"\n\nimport jax\nimport jax.numpy as jnp\nimport optax\n\nfrom tinygp import kernels, GaussianProcess\n\nimport matplotlib.pyplot as plt\nfrom matplotlib.animation import FuncAnimation\nplt.rcParams[\"animation.html\"] = \"jshtml\""
   },
   {
     "objectID": "posts/2023-04-29-sine-combo.html#random-combination-of-sinusoids",
     "href": "posts/2023-04-29-sine-combo.html#random-combination-of-sinusoids",
     "title": "Sine Combination Networks",
     "section": "Random Combination of Sinusoids",
-    "text": "Random Combination of Sinusoids\n\nN = 100\nn_sines = 10\nsupport = jnp.linspace(-10, 10, N)\nplt.plot(jnp.sin(support)+jnp.sin(2*support))\n# weights = jax.random.uniform(jax.random.PRNGKey(1), shape=(n_sines, 1))\n# sines = [jnp.sin(w*support+shift) for w, shift in zip(weights, jnp.linspace(0.01, 2*jnp.pi, n_sines))]\n# sines = jnp.stack(sines, axis=1)\n\n# plt.figure(figsize=(15, 3))\n# plt.plot(support, sines);\n\n# plt.figure(figsize=(15, 3))\n# plt.plot(support, sines @ weights);"
+    "text": "Random Combination of Sinusoids\n\nN = 100\nx = jnp.linspace(-10, 10, N).reshape(-1, 1)\ny = jnp.sin(x) + jnp.sin(2*x)\nplt.plot(x, y, \"kx\");\nprint(x.shape, y.shape)\n\n(100, 1) (100, 1)"
   },
   {
-    "objectID": "posts/2023-04-29-sine-combo.html#generate-a-sample-from-gaussian-process",
-    "href": "posts/2023-04-29-sine-combo.html#generate-a-sample-from-gaussian-process",
+    "objectID": "posts/2023-04-29-sine-combo.html#recover-the-signal",
+    "href": "posts/2023-04-29-sine-combo.html#recover-the-signal",
     "title": "Sine Combination Networks",
-    "section": "Generate a sample from Gaussian Process",
-    "text": "Generate a sample from Gaussian Process"
+    "section": "Recover the Signal",
+    "text": "Recover the Signal\n\ndef get_weights():\n    w1, w2 = 2.0, 4.0\n    return w1, w2\n    \ndef get_sine(weights, x):\n    w1, w2 = weights\n    return jnp.sin(w1*x) + jnp.sin(w2*x)\n\ndef loss_fn(weights, x, y):\n    output = get_sine(weights, x)\n    return jnp.mean((output.ravel() - y.ravel())**2)\n\n\nkey = jax.random.PRNGKey(2)\nepochs = 100\n\nweights = get_weights()\ninitial_loss = loss_fn(weights, x, y)\noptimizer = optax.adam(1e-2)\nstate = optimizer.init(weights)\n\nvalue_and_grad_fn = jax.jit(jax.value_and_grad(loss_fn))\nweights_history = []\nloss_history = []\nloss, grads = value_and_grad_fn(weights, x, y)\nfor epoch in range(epochs):\n    updates, state = optimizer.update(grads, state)\n    weights = optax.apply_updates(weights, updates)\n    loss, grads = value_and_grad_fn(weights, x, y)\n    weights_history.append(weights)\n    loss_history.append(loss)\n    \nplt.plot(loss_history);\n\n\n\n\n\noutput = get_sine(weights, x)\nplt.plot(x, output, \"r\")\nplt.plot(x, y, \"kx\")\nprint(weights)\n\n(Array(1.9798928, dtype=float32), Array(4.3507533, dtype=float32))"
   },
   {
     "objectID": "posts/2023-05-14-ssh-macos.html",
