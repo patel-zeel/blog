@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell" data-execution_count="76">
+<div class="cell" data-execution_count="88">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"CUDA_VISIBLE_DEVICES"</span>] <span class="op">=</span> <span class="st">"3"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="create-a-synthetic-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-synthetic-dataset">Create a synthetic dataset</h2>
-<div class="cell" data-execution_count="77">
+<div class="cell" data-execution_count="89">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>torch.random.manual_seed(<span class="dv">4</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -248,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="fit-with-a-simple-mlp" class="level2">
 <h2 class="anchored" data-anchor-id="fit-with-a-simple-mlp">Fit with a simple MLP</h2>
-<div class="cell" data-execution_count="78">
+<div class="cell" data-execution_count="90">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit(model, x, y, A<span class="op">=</span><span class="va">None</span>, lr<span class="op">=</span><span class="fl">0.01</span>, epochs<span class="op">=</span><span class="dv">100</span>):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span>lr)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    loss_fn <span class="op">=</span> nn.MSELoss()</span>
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.layers(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="79">
+<div class="cell" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SimpleMLP([<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>]).to(device)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fit(model, train_x, train_y, lr<span class="op">=</span><span class="fl">0.01</span>, epochs<span class="op">=</span><span class="dv">1000</span>)<span class="op">;</span></span>
@@ -300,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.plot(x_, pred_y_, label<span class="op">=</span><span class="st">'pred'</span>)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 999 Loss: 0.07143261283636093: 100%|██████████| 1000/1000 [00:02&lt;00:00, 448.34it/s]</code></pre>
+<pre><code>Epoch 999 Loss: 0.07143261283636093: 100%|██████████| 1000/1000 [00:02&lt;00:00, 410.79it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
@@ -309,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="create-a-gcn-layer" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-gcn-layer">Create a GCN layer</h2>
-<div class="cell" data-execution_count="80">
+<div class="cell" data-execution_count="92">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> GCNLayer(nn.Module):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_features, out_features):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            layers.append(GCNLayer(in_features, out_features))</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            layers.append(nn.ReLU())</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        layers.append(GCNLayer(features[<span class="op">-</span><span class="dv">1</span>], <span class="dv">1</span>))</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        layers.append(nn.Linear(features[<span class="op">-</span><span class="dv">1</span>], <span class="dv">1</span>))</span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential(<span class="op">*</span>layers)</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x, A):</span>
@@ -375,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="idw-setting" class="level2">
 <h2 class="anchored" data-anchor-id="idw-setting">IDW setting</h2>
-<div class="cell" data-execution_count="81">
+<div class="cell" data-execution_count="93">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>exponent <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_eucledean_A(train_x, exponent).to(device)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_eucledean_A(x, exponent).to(device)</span>
@@ -383,13 +383,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.07731884717941284: 100%|██████████| 3000/3000 [00:07&lt;00:00, 401.90it/s]</code></pre>
+<pre><code>Epoch 2999 Loss: 0.05447980388998985: 100%|██████████| 3000/3000 [00:07&lt;00:00, 390.93it/s] </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="82">
+<div class="cell" data-execution_count="94">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>exponent <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_eucledean_A(train_x, exponent).to(device)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_eucledean_A(x, exponent).to(device)</span>
@@ -397,13 +397,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.0778026208281517: 100%|██████████| 3000/3000 [00:07&lt;00:00, 386.31it/s] </code></pre>
+<pre><code>Epoch 2999 Loss: 0.06475391983985901: 100%|██████████| 3000/3000 [00:07&lt;00:00, 413.49it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="83">
+<div class="cell" data-execution_count="95">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>exponent <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_eucledean_A(train_x, exponent).to(device)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_eucledean_A(x, exponent).to(device)</span>
@@ -411,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.04420239478349686: 100%|██████████| 3000/3000 [00:08&lt;00:00, 369.61it/s] </code></pre>
+<pre><code>Epoch 2999 Loss: 0.043554823845624924: 100%|██████████| 3000/3000 [00:08&lt;00:00, 367.28it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
@@ -420,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="knn-setting" class="level2">
 <h2 class="anchored" data-anchor-id="knn-setting">KNN Setting</h2>
-<div class="cell" data-execution_count="84">
+<div class="cell" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_KNN_A(train_x, K).to(device)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_KNN_A(x, K).to(device)</span>
@@ -428,13 +428,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.04107221961021423: 100%|██████████| 3000/3000 [00:08&lt;00:00, 374.39it/s] </code></pre>
+<pre><code>Epoch 2999 Loss: 0.04107221961021423: 100%|██████████| 3000/3000 [00:07&lt;00:00, 383.88it/s] </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="85">
+<div class="cell" data-execution_count="97">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_KNN_A(train_x, K).to(device)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_KNN_A(x, K).to(device)</span>
@@ -442,13 +442,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.15448586642742157: 100%|██████████| 3000/3000 [00:07&lt;00:00, 386.62it/s]</code></pre>
+<pre><code>Epoch 2999 Loss: 0.14372628927230835: 100%|██████████| 3000/3000 [00:07&lt;00:00, 404.74it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="86">
+<div class="cell" data-execution_count="98">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">7</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_KNN_A(train_x, K).to(device)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_KNN_A(x, K).to(device)</span>
@@ -456,13 +456,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.18613268435001373: 100%|██████████| 3000/3000 [00:08&lt;00:00, 374.51it/s]</code></pre>
+<pre><code>Epoch 2999 Loss: 0.13950258493423462: 100%|██████████| 3000/3000 [00:07&lt;00:00, 381.66it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="87">
+<div class="cell" data-execution_count="99">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">15</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="op">=</span> get_KNN_A(train_x, K).to(device)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>A_all <span class="op">=</span> get_KNN_A(x, K).to(device)</span>
@@ -470,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>fit_and_plot(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch 2999 Loss: 0.797140896320343: 100%|██████████| 3000/3000 [00:07&lt;00:00, 377.66it/s] </code></pre>
+<pre><code>Epoch 2999 Loss: 0.33879855275154114: 100%|██████████| 3000/3000 [00:07&lt;00:00, 376.56it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-06-12-GNN_for_regression_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
