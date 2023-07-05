@@ -199,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="170">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> GPy</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -213,121 +213,303 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="common-functions" class="level2">
 <h2 class="anchored" data-anchor-id="common-functions">Common functions</h2>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="171">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_kernel(ard):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> GPy.kern.RBF(<span class="dv">2</span>, ARD<span class="op">=</span>ard)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_and_fit_model(model_class, X, y, ard, <span class="op">**</span>kwargs):</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model_class(X, y, get_kernel(ard), <span class="op">**</span>kwargs)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    model.optimize()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_predictions(predict_fn, ax, fig, discrete<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    grid1 <span class="op">=</span> np.linspace(X.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>, X.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, <span class="dv">50</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    grid2 <span class="op">=</span> np.linspace(X.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span>, X.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, <span class="dv">50</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    Grid1, Grid2 <span class="op">=</span> np.meshgrid(grid1, grid2)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    X_test <span class="op">=</span> np.vstack([Grid1.ravel(), Grid2.ravel()]).T</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> predict_fn(X_test)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> discrete:</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> y_pred.<span class="bu">round</span>()</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> y_pred.reshape(Grid1.shape)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    ax.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    mappable <span class="op">=</span> ax.contourf(Grid1, Grid2, y_pred, alpha<span class="op">=</span><span class="fl">0.5</span>, levels<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    fig.colorbar(mappable, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="generate-synthetic-data" class="level2">
 <h2 class="anchored" data-anchor-id="generate-synthetic-data">Generate Synthetic Data</h2>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples<span class="op">=</span><span class="dv">200</span>, centers<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<div class="cell" data-execution_count="172">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples<span class="op">=</span><span class="dv">200</span>, centers<span class="op">=</span><span class="dv">9</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># X, y = make_moons(n_samples=200, noise=0.1, random_state=0)</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> y.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OneHotEncoder(sparse<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>encoder.fit(y)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+<div class="cell" data-execution_count="173">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grid1 <span class="op">=</span> np.linspace(X.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]<span class="op">-</span><span class="dv">1</span>, X.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]<span class="op">+</span><span class="dv">1</span>, <span class="dv">50</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>grid2 <span class="op">=</span> np.linspace(X.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span>, X.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>)[<span class="dv">1</span>]<span class="op">+</span><span class="dv">1</span>, <span class="dv">50</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Grid1, Grid2 <span class="op">=</span> np.meshgrid(grid1, grid2)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>X_grid <span class="op">=</span> np.vstack([Grid1.ravel(), Grid2.ravel()]).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="train-test-split" class="level2">
 <h2 class="anchored" data-anchor-id="train-test-split">Train-test split</h2>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_train_one_hot <span class="op">=</span> encoder.transform(y_train)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y_test_one_hot <span class="op">=</span> encoder.transform(y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="174">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y_train_one_hot <span class="op">=</span> encoder.transform(y_train)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y_test_one_hot <span class="op">=</span> encoder.transform(y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="treat-it-as-a-regression-problem" class="level2">
 <h2 class="anchored" data-anchor-id="treat-it-as-a-regression-problem">Treat it as a regression problem</h2>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train, ard<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>non_ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train, ard<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> discrete <span class="kw">in</span> [<span class="va">False</span>, <span class="va">True</span>]:</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        predict_fn <span class="op">=</span> <span class="kw">lambda</span> x: model.predict(x)[<span class="dv">0</span>]</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        plot_predictions(predict_fn, ax[i], fig, discrete<span class="op">=</span>discrete)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span>model<span class="sc">.</span>kern<span class="sc">.</span>ARD<span class="sc">}</span><span class="ss">, discrete=</span><span class="sc">{</span>discrete<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we can regress over the class labels as if they are discrete realizations of a continuous variable. We will round the predictions to the nearest integer to get the class labels.</p>
+<div class="cell" data-execution_count="175">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train, ard<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>non_ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train, ard<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ARD"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> ard_model.predict(X_test)[<span class="dv">0</span>].<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, preds))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Non-ARD"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> non_ard_model.predict(X_test)[<span class="dv">0</span>].<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, preds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ARD
+              precision    recall  f1-score   support
+
+           0       0.67      0.46      0.55        13
+           1       0.33      0.57      0.42         7
+           2       0.57      0.62      0.59        13
+           3       0.71      0.45      0.56        11
+           4       0.71      0.91      0.80        11
+           5       0.67      0.80      0.73        10
+           6       0.33      0.50      0.40         6
+           7       0.85      0.65      0.73        17
+           8       1.00      0.83      0.91        12
+
+    accuracy                           0.65       100
+   macro avg       0.65      0.64      0.63       100
+weighted avg       0.69      0.65      0.66       100
+
+Non-ARD
+              precision    recall  f1-score   support
+
+           0       0.60      0.46      0.52        13
+           1       0.27      0.43      0.33         7
+           2       0.57      0.62      0.59        13
+           3       0.83      0.45      0.59        11
+           4       0.73      1.00      0.85        11
+           5       0.62      0.80      0.70        10
+           6       0.38      0.50      0.43         6
+           7       0.92      0.65      0.76        17
+           8       1.00      0.92      0.96        12
+
+    accuracy                           0.66       100
+   macro avg       0.66      0.65      0.64       100
+weighted avg       0.70      0.66      0.67       100
+</code></pre>
+</div>
+</div>
+<p>We get the raw predictions as below:</p>
+<div class="cell" data-execution_count="176">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>mappables <span class="op">=</span> []</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    y_grid <span class="op">=</span> model.predict(X_grid)[<span class="dv">0</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    mappable <span class="op">=</span> ax[i].contourf(Grid1, Grid2, y_grid.reshape(Grid1.shape), cmap<span class="op">=</span><span class="st">'rainbow'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    mappables.append(mappable)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    ax[i].scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span>model<span class="sc">.</span>kern<span class="sc">.</span>ARD<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># put a common colorbar for both mappables</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>fig.colorbar(mappables[<span class="dv">0</span>], ax<span class="op">=</span>ax, cax<span class="op">=</span>fig.add_axes([<span class="fl">0.92</span>, <span class="fl">0.1</span>, <span class="fl">0.02</span>, <span class="fl">0.8</span>]))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Now, let us see the classification boundary:</p>
+<div class="cell" data-execution_count="177">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    y_grid <span class="op">=</span> model.predict(X_grid)[<span class="dv">0</span>].<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    ax[i].contourf(Grid1, Grid2, y_grid.reshape(Grid1.shape), cmap<span class="op">=</span><span class="st">'rainbow'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ax[i].scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span>model<span class="sc">.</span>kern<span class="sc">.</span>ARD<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="treat-it-as-a-multi-output-regression-problem" class="level2">
 <h2 class="anchored" data-anchor-id="treat-it-as-a-multi-output-regression-problem">Treat it as a multi-output regression problem</h2>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train_one_hot, ard<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>non_ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train_one_hot, ard<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> discrete <span class="kw">in</span> [<span class="va">False</span>, <span class="va">True</span>]:</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        predict_fn <span class="op">=</span> <span class="kw">lambda</span> x: np.<span class="bu">max</span>(model.predict(x)[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">1</span>) <span class="op">+</span> np.argmax(model.predict(x)[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        plot_predictions(predict_fn, ax[i], fig, discrete<span class="op">=</span>discrete)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span>model<span class="sc">.</span>kern<span class="sc">.</span>ARD<span class="sc">}</span><span class="ss">, discrete=</span><span class="sc">{</span>discrete<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this method, we train a jointly learn a GP model for each class in one v/s rest setting. We can get the predictions by taking the argmax of the predictions from each model.</p>
+<div class="cell" data-execution_count="178">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train_one_hot, ard<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>non_ard_model <span class="op">=</span> create_and_fit_model(GPy.models.GPRegression, X_train, y_train_one_hot, ard<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ARD"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> ard_model.predict(X_test)[<span class="dv">0</span>].argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, preds))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Non-ARD"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> non_ard_model.predict(X_test)[<span class="dv">0</span>].argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, preds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ARD
+              precision    recall  f1-score   support
+
+           0       0.80      0.62      0.70        13
+           1       0.67      0.86      0.75         7
+           2       0.85      0.85      0.85        13
+           3       0.92      1.00      0.96        11
+           4       1.00      1.00      1.00        11
+           5       0.90      0.90      0.90        10
+           6       1.00      1.00      1.00         6
+           7       1.00      1.00      1.00        17
+           8       1.00      1.00      1.00        12
+
+    accuracy                           0.91       100
+   macro avg       0.90      0.91      0.91       100
+weighted avg       0.91      0.91      0.91       100
+
+Non-ARD
+              precision    recall  f1-score   support
+
+           0       0.80      0.62      0.70        13
+           1       0.67      0.86      0.75         7
+           2       0.85      0.85      0.85        13
+           3       0.92      1.00      0.96        11
+           4       1.00      1.00      1.00        11
+           5       0.90      0.90      0.90        10
+           6       1.00      1.00      1.00         6
+           7       1.00      1.00      1.00        17
+           8       1.00      1.00      1.00        12
+
+    accuracy                           0.91       100
+   macro avg       0.90      0.91      0.91       100
+weighted avg       0.91      0.91      0.91       100
+</code></pre>
+</div>
+</div>
+<p>What will happen if we ignore the points where the predictions are below 0.5?</p>
+<div class="cell" data-execution_count="179">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ARD"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pred_probas <span class="op">=</span> ard_model.predict(X_test)[<span class="dv">0</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pred_proba <span class="op">=</span> pred_probas.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> pred_proba <span class="op">&gt;</span> <span class="fl">0.5</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> ard_model.predict(X_test)[<span class="dv">0</span>].argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>preds_masked <span class="op">=</span> preds[mask]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ground_truth_masked <span class="op">=</span> y_test[mask]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ground_truth_masked.shape, preds_masked.shape)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(ground_truth_masked, preds_masked))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ARD
+(98, 1) (98,)
+              precision    recall  f1-score   support
+
+           0       0.78      0.64      0.70        11
+           1       0.67      0.86      0.75         7
+           2       0.92      0.85      0.88        13
+           3       0.92      1.00      0.96        11
+           4       1.00      1.00      1.00        11
+           5       0.90      0.90      0.90        10
+           6       1.00      1.00      1.00         6
+           7       1.00      1.00      1.00        17
+           8       1.00      1.00      1.00        12
+
+    accuracy                           0.92        98
+   macro avg       0.91      0.92      0.91        98
+weighted avg       0.92      0.92      0.92        98
+</code></pre>
+</div>
+</div>
+<p>Let’s visualize the uncertain points:</p>
+<div class="cell" data-execution_count="180">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X_test[:, <span class="dv">0</span>], X_test[:, <span class="dv">1</span>], c<span class="op">=</span>y_test, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(X_test[<span class="op">~</span>mask, <span class="dv">0</span>], X_test[<span class="op">~</span>mask, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">150</span>, c<span class="op">=</span>y_test[<span class="op">~</span>mask], cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>, label<span class="op">=</span><span class="st">'uncertain points'</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
+<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We see that some points close to the decision boundary are uncertain. We can now plot the decision boundary:</p>
+<div class="cell" data-execution_count="181">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    y_grid <span class="op">=</span> model.predict(X_grid)[<span class="dv">0</span>].argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ax[i].contourf(Grid1, Grid2, y_grid.reshape(Grid1.shape), cmap<span class="op">=</span><span class="st">'rainbow'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    ax[i].scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span>model<span class="sc">.</span>kern<span class="sc">.</span>ARD<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="treat-it-as-a-one-vs-rest-classification-problem" class="level2">
 <h2 class="anchored" data-anchor-id="treat-it-as-a-one-vs-rest-classification-problem">Treat it as a One v/s Rest classification problem</h2>
-<div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ard_kernel <span class="op">=</span> kernels.ConstantKernel() <span class="op">*</span> kernels.RBF(length_scale<span class="op">=</span>[<span class="fl">1.0</span>, <span class="fl">1.0</span>])</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>non_ard_kernel <span class="op">=</span> kernels.ConstantKernel() <span class="op">*</span> kernels.RBF(length_scale<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> GaussianProcessClassifier(kernel<span class="op">=</span>ard_kernel)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>non_ard_model <span class="op">=</span> GaussianProcessClassifier(kernel<span class="op">=</span>non_ard_kernel)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ard_model.fit(X_train, y_train.ravel())</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>non_ard_model.fit(X_train, y_train.ravel())</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model, non_ard_model]:</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> discrete <span class="kw">in</span> [<span class="va">False</span>, <span class="va">True</span>]:</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        predict_fn <span class="op">=</span> <span class="kw">lambda</span> x: np.<span class="bu">max</span>(model.predict_proba(x), axis<span class="op">=</span><span class="dv">1</span>) <span class="op">+</span> np.argmax(model.predict_proba(x), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        plot_predictions(predict_fn, ax[i], fig, discrete<span class="op">=</span>discrete)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span><span class="bu">bool</span>(<span class="bu">len</span>(np.atleast_1d(model.kernel.k2.length_scale))<span class="op">-</span><span class="dv">1</span>)<span class="sc">}</span><span class="ss">, discrete=</span><span class="sc">{</span>discrete<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here we learn a separate model for each class. We can get the predictions by taking the argmax of the predictions from each model.</p>
+<div class="cell" data-execution_count="186">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ard_kernel <span class="op">=</span> kernels.ConstantKernel() <span class="op">*</span> kernels.RBF(length_scale<span class="op">=</span>[<span class="fl">0.01</span>, <span class="fl">0.01</span>])</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># non_ard_kernel = kernels.ConstantKernel() * kernels.RBF(length_scale=0.1)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>ard_model <span class="op">=</span> GaussianProcessClassifier(kernel<span class="op">=</span>ard_kernel, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># non_ard_model = GaussianProcessClassifier(kernel=non_ard_kernel, random_state=0)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>ard_model.fit(X_train, y_train.ravel())</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># non_ard_model.fit(X_train, y_train.ravel())</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ARD"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> ard_model.predict(X_test)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, preds))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># print("Non-ARD")</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># preds = non_ard_model.predict(X_test)</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># print(classification_report(y_test, preds))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ARD
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        13
+           1       0.00      0.00      0.00         7
+           2       1.00      0.08      0.14        13
+           3       0.00      0.00      0.00        11
+           4       0.00      0.00      0.00        11
+           5       0.00      0.00      0.00        10
+           6       0.00      0.00      0.00         6
+           7       0.00      0.00      0.00        17
+           8       0.12      1.00      0.22        12
+
+    accuracy                           0.13       100
+   macro avg       0.12      0.12      0.04       100
+weighted avg       0.14      0.13      0.04       100
+</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> /home/patel_zeel/miniconda3/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1318: UndefinedMetricWarning:Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+ /home/patel_zeel/miniconda3/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1318: UndefinedMetricWarning:Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+ /home/patel_zeel/miniconda3/lib/python3.9/site-packages/sklearn/metrics/_classification.py:1318: UndefinedMetricWarning:Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.</code></pre>
+</div>
+</div>
+<p>Visualizing the decision boundary:</p>
+<div class="cell" data-execution_count="188">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.ravel()</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> model <span class="kw">in</span> [ard_model]:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    y_grid <span class="op">=</span> model.predict_proba(X_grid).argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    ax[i].contourf(Grid1, Grid2, y_grid.reshape(Grid1.shape), cmap<span class="op">=</span><span class="st">'rainbow'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    ax[i].scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y, s<span class="op">=</span><span class="dv">50</span>, cmap<span class="op">=</span><span class="st">'rainbow'</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    ax[i].set_title(<span class="ss">f"ARD=</span><span class="sc">{</span><span class="bu">bool</span>(i)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<p><img src="2023-07-05-Multiclass_GP_classification_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
