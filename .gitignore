@@ -1,3 +1,9 @@
 /.quarto/
 _site/
 posts/logs
+
+data/
+*.pdf
+*.xlsx
+launch.json
+settings.json
