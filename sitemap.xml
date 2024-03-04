@@ -1,179 +1,215 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-04-06-github_faqs.html</loc>
-    <lastmod>2023-11-28T09:41:01.044Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/docker_cheatsheet.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-03-22-gp_kernels.html</loc>
-    <lastmod>2023-11-28T09:41:00.260Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/ssh-macos.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-04-09-gcloud.html</loc>
-    <lastmod>2023-11-28T09:40:57.056Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/climate-modeling-with-SpecialGP.html</loc>
+    <lastmod>2024-03-04T13:27:59.800Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-06-23-Basis_functions.html</loc>
-    <lastmod>2023-11-28T09:40:56.472Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-08-01-conditional_neural_processes.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-05-14-iteratively_reweighted_least_squares.html</loc>
-    <lastmod>2023-11-28T09:40:55.936Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2023-04-29-sine-combination-netowrks.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-01-15-py_over_ipynb.html</loc>
-    <lastmod>2023-11-28T09:40:55.088Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/numpy-algebra- copy.html</loc>
+    <lastmod>2024-03-04T13:27:59.812Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-03-28-nngp.html</loc>
-    <lastmod>2023-11-28T09:40:54.372Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/Multiclass_GP_classification.html</loc>
+    <lastmod>2024-03-04T13:27:59.664Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-08-31-bayesian-gaussian-basis-regression.html</loc>
-    <lastmod>2023-11-28T09:40:53.800Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2021-10-12-sparsegps.html</loc>
+    <lastmod>2024-03-04T13:27:59.780Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-06-10-jaxoptimizers.html</loc>
-    <lastmod>2023-11-28T09:40:53.176Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/PurpleAir.html</loc>
+    <lastmod>2024-03-04T13:27:59.668Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-10-26-anonymization-tips.html</loc>
-    <lastmod>2023-11-28T09:40:52.508Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2021-10-23-warped-gp.html</loc>
+    <lastmod>2024-03-04T13:27:59.788Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-01-25-gp_frameworks_comparison.html</loc>
-    <lastmod>2023-11-28T09:40:51.704Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/GNN_for_regression.html</loc>
+    <lastmod>2024-03-04T13:27:59.620Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-08-01-conditional_neural_processes.html</loc>
-    <lastmod>2023-11-28T09:40:50.984Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-10-18-kfac-laplace.html</loc>
+    <lastmod>2024-03-04T13:27:59.656Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-11-28-learnings_from_brick_kiln_project.html</loc>
-    <lastmod>2023-11-28T09:40:50.080Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-10-27-mogp.html</loc>
+    <lastmod>2024-03-04T13:27:59.660Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-07-01-climate-modeling-with-SpecialGP.html</loc>
-    <lastmod>2023-11-28T09:40:48.048Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/CNPs_for_Images.html</loc>
+    <lastmod>2024-03-04T13:27:59.616Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-01-24-query_by_committee.html</loc>
-    <lastmod>2023-11-28T09:40:47.376Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-05-14-iteratively_reweighted_least_squares.html</loc>
+    <lastmod>2024-03-04T13:27:59.656Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-03-06-probabilistic-machine-learning.html</loc>
-    <lastmod>2023-11-28T09:40:44.500Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/gcloud.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-11-26-Torch-DataLoaders.html</loc>
-    <lastmod>2023-11-28T09:40:44.040Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-10-31-stochastic-variational-gp.html</loc>
+    <lastmod>2024-03-04T13:27:59.784Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-01-29-presentation_tips.html</loc>
-    <lastmod>2023-11-28T09:40:43.140Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/torch-tips.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-03-08-torch-essentials.html</loc>
-    <lastmod>2023-11-28T09:40:42.600Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-06-10-jaxoptimizers.html</loc>
+    <lastmod>2024-03-04T13:27:59.656Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-05-31-CNPs_for_Images.html</loc>
-    <lastmod>2023-11-28T09:40:41.800Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/wrf-tutorial.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-06-12-GNN_for_regression.html</loc>
-    <lastmod>2023-11-28T09:40:41.176Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2021-03-22-gp_kernels.html</loc>
+    <lastmod>2024-03-04T13:27:59.648Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/about.html</loc>
-    <lastmod>2023-11-28T09:40:40.444Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-01-24-query_by_committee.html</loc>
+    <lastmod>2024-03-04T13:27:59.736Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/index.html</loc>
-    <lastmod>2023-11-28T09:40:39.928Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/air-quality-google-.html</loc>
+    <lastmod>2024-03-04T13:27:59.796Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-07-01-climate-modeling-with-siren.html</loc>
-    <lastmod>2023-11-28T09:40:40.824Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/bayesian-gaussian-basis-regression.html</loc>
+    <lastmod>2024-03-04T13:27:59.800Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-04-29-sine-combination-netowrks.html</loc>
-    <lastmod>2023-11-28T09:40:41.460Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/pruning_vs_uncertainty.html</loc>
+    <lastmod>2024-03-04T13:27:59.816Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-10-31-stochastic-variational-gp.html</loc>
-    <lastmod>2023-11-28T09:40:42.272Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-03-06-probabilistic-machine-learning.html</loc>
+    <lastmod>2024-03-04T13:27:59.812Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-06-23-GNNs_and_GPs.html</loc>
-    <lastmod>2023-11-28T09:40:42.888Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/about.html</loc>
+    <lastmod>2024-03-04T13:27:58.860Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-05-17-contributors_sorted_by_prs.html</loc>
-    <lastmod>2023-11-28T09:40:43.604Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/index.html</loc>
+    <lastmod>2024-03-04T13:27:59.572Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-07-03-Brick_Kilns_identification.html</loc>
-    <lastmod>2023-11-28T09:40:44.260Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/Basis_functions.html</loc>
+    <lastmod>2024-03-04T13:27:59.616Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-01-20-kl-divergence.html</loc>
-    <lastmod>2023-11-28T09:40:44.756Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/AL_with_MNIST.html</loc>
+    <lastmod>2024-03-04T13:27:59.584Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-05-14-ssh-macos.html</loc>
-    <lastmod>2023-11-28T09:40:47.648Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/conformal.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-10-12-sparsegps.html</loc>
-    <lastmod>2023-11-28T09:40:49.796Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2020-03-28-active_learning_with_bayesian_linear_regression.html</loc>
+    <lastmod>2024-03-04T13:27:59.612Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-07-26-PurpleAir.html</loc>
-    <lastmod>2023-11-28T09:40:50.692Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/Generate_Digits_with_GPs.html</loc>
+    <lastmod>2024-03-04T13:27:59.648Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-03-05-uncertainty-in-deep-learning.html</loc>
-    <lastmod>2023-11-28T09:40:51.252Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/climate-modeling-with-siren.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2023-07-05-Multiclass_GP_classification.html</loc>
-    <lastmod>2023-11-28T09:40:52.076Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2021-10-26-anonymization-tips.html</loc>
+    <lastmod>2024-03-04T13:27:59.612Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-10-21-gaussian-processes.html</loc>
-    <lastmod>2023-11-28T09:40:52.884Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2020-09-21-programatically_download_openaq_data.html</loc>
+    <lastmod>2024-03-04T13:27:59.664Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-02-25-torch-tips.html</loc>
-    <lastmod>2023-11-28T09:40:53.460Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-03-08-torch-essentials.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-09-27-constraints.html</loc>
-    <lastmod>2023-11-28T09:40:54.064Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/Brick_Kilns_identification.html</loc>
+    <lastmod>2024-03-04T13:27:59.616Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-10-18-kfac-laplace.html</loc>
-    <lastmod>2023-11-28T09:40:54.804Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/learnings_from_brick_kiln_project.html</loc>
+    <lastmod>2024-03-04T13:27:59.808Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2022-10-27-mogp.html</loc>
-    <lastmod>2023-11-28T09:40:55.412Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-10-21-gaussian-processes.html</loc>
+    <lastmod>2024-03-04T13:27:59.648Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-09-28-docker_cheatsheet.html</loc>
-    <lastmod>2023-11-28T09:40:56.236Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-03-05-uncertainty-in-deep-learning.html</loc>
+    <lastmod>2024-03-04T13:27:59.820Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2020-09-21-programatically_download_openaq_data.html</loc>
-    <lastmod>2023-11-28T09:40:56.732Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2023-03-28-nngp.html</loc>
+    <lastmod>2024-03-04T13:27:59.808Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2020-03-28-active_learning_with_bayesian_linear_regression.html</loc>
-    <lastmod>2023-11-28T09:40:58.712Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/py_over_ipynb.html</loc>
+    <lastmod>2024-03-04T13:27:59.816Z</lastmod>
   </url>
   <url>
-    <loc>https://github.com/patel-zeel/blog/posts/2021-10-23-warped-gp.html</loc>
-    <lastmod>2023-11-28T09:41:00.616Z</lastmod>
+    <loc>https://patel-zeel.github.io/blog/posts/2021-09-27-constraints.html</loc>
+    <lastmod>2024-03-04T13:27:59.616Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/GNNs_and_GPs.html</loc>
+    <lastmod>2024-03-04T13:27:59.620Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/kl-divergence.html</loc>
+    <lastmod>2024-03-04T13:27:59.808Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-05-17-contributors_sorted_by_prs.html</loc>
+    <lastmod>2024-03-04T13:27:59.804Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-04-06-github_faqs.html</loc>
+    <lastmod>2024-03-04T13:27:59.648Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/presentation_tips.html</loc>
+    <lastmod>2024-03-04T13:27:59.812Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/Rank1_GPs.html</loc>
+    <lastmod>2024-03-04T13:27:59.736Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/Torch-DataLoaders.html</loc>
+    <lastmod>2024-03-04T13:27:59.784Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/non-gaussian-likelihood-mlps.html</loc>
+    <lastmod>2024-03-04T13:27:59.812Z</lastmod>
+  </url>
+  <url>
+    <loc>https://patel-zeel.github.io/blog/posts/2022-01-25-gp_frameworks_comparison.html</loc>
+    <lastmod>2024-03-04T13:27:59.620Z</lastmod>
   </url>
 </urlset>

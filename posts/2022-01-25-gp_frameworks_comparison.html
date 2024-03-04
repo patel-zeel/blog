@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,7 +82,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,17 +97,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -109,10 +143,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">blog</span>
     </a>
@@ -124,23 +158,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/patel-zeel" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/patel-zeel"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/patel_zeel_" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/patel_zeel_"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -230,7 +264,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell" data-execution_count="1">
+
+<div id="cell-1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -252,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<div class="cell" data-execution_count="2">
+<div id="cell-3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>) <span class="co"># We don't want surprices in a presentation :)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>train_x <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N)</span>
@@ -261,12 +296,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>test_x <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N<span class="op">*</span><span class="dv">10</span>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>test_y <span class="op">=</span> torch.sin(test_x <span class="op">*</span> (<span class="dv">2</span> <span class="op">*</span> math.pi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-scrolled="true" data-execution_count="3">
+<div id="cell-4" class="cell" data-scrolled="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.plot(train_x, train_y, <span class="st">'ko'</span>, label<span class="op">=</span><span class="st">'train'</span>)<span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.plot(test_x, test_y, label<span class="op">=</span><span class="st">'test'</span>)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -279,10 +318,11 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 \end{equation}\]</span></p>
 <section id="gpy" class="level3">
 <h3 class="anchored" data-anchor-id="gpy">GPy</h3>
-<div class="cell" data-execution_count="4">
+<div id="cell-7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gpy_kernel <span class="op">=</span> GPy.kern.RBF(input_dim<span class="op">=</span><span class="dv">1</span>, variance<span class="op">=</span><span class="fl">1.</span>, lengthscale<span class="op">=</span><span class="fl">1.</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gpy_kernel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <style type="text/css">
 .tg  {font-family:"Courier New", Courier, monospace !important;padding:2px 3px;word-break:normal;border-collapse:collapse;border-spacing:0;border-color:#DCDCDC;margin:0px auto;width:100%;}
 .tg td{font-family:"Courier New", Courier, monospace !important;font-weight:bold;color:#444;background-color:#F7FDFA;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#DCDCDC;}
@@ -316,10 +356,11 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 </table>
 </div>
 </div>
+</div>
 </section>
 <section id="gpytorch" class="level3">
 <h3 class="anchored" data-anchor-id="gpytorch">GPyTorch</h3>
-<div class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gpytorch_kernel <span class="op">=</span> gpytorch.kernels.ScaleKernel(gpytorch.kernels.RBFKernel())</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gpytorch_kernel.outputscale <span class="op">=</span> <span class="fl">1.</span> <span class="co"># variance</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>gpytorch_kernel.base_kernel.lengthscale <span class="op">=</span> <span class="fl">1.</span> <span class="co"># lengthscale</span></span>
@@ -337,7 +378,7 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 </section>
 <section id="tinygp" class="level3">
 <h3 class="anchored" data-anchor-id="tinygp">TinyGP</h3>
-<div class="cell" data-execution_count="6">
+<div id="cell-11" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> RBFKernel(variance, lengthscale):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jnp.exp(variance) <span class="op">*</span> tinygp.kernels.ExpSquared(scale<span class="op">=</span>jnp.exp(lengthscale))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -356,11 +397,12 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 \]</span></p>
 <section id="gpy-1" class="level3">
 <h3 class="anchored" data-anchor-id="gpy-1">GPy</h3>
-<div class="cell" data-outputid="71b20db7-4b2a-488b-b2d2-c625b126e189" data-scrolled="true" data-execution_count="7">
+<div id="cell-14" class="cell" data-outputid="71b20db7-4b2a-488b-b2d2-c625b126e189" data-scrolled="true" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gpy_model <span class="op">=</span> GPy.models.GPRegression(train_x.numpy()[:,<span class="va">None</span>], train_y.numpy()[:,<span class="va">None</span>], gpy_kernel)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>gpy_model.Gaussian_noise.variance <span class="op">=</span> <span class="fl">0.1</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>gpy_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <style type="text/css">
 .pd{
     font-family: "Courier New", Courier, monospace !important;
@@ -415,10 +457,11 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 </table>
 </div>
 </div>
+</div>
 </section>
 <section id="gpytorch-1" class="level3">
 <h3 class="anchored" data-anchor-id="gpytorch-1">GPyTorch</h3>
-<div class="cell" data-scrolled="true" data-execution_count="8">
+<div id="cell-16" class="cell" data-scrolled="true" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExactGPModel(gpytorch.models.ExactGP):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, train_x, train_y, likelihood, kernel):</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(train_x, train_y, likelihood)</span>
@@ -456,7 +499,7 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 </section>
 <section id="tinygp-1" class="level3">
 <h3 class="anchored" data-anchor-id="tinygp-1">TinyGP</h3>
-<div class="cell" data-execution_count="9">
+<div id="cell-18" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_gp(theta, X):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> theta[<span class="dv">0</span>] </span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    variance, lengthscale, noise_variance <span class="op">=</span> jnp.exp(theta[<span class="dv">1</span>:])</span>
@@ -479,10 +522,11 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 <h2 class="anchored" data-anchor-id="train-the-model">Train the model</h2>
 <section id="gpy-2" class="level3">
 <h3 class="anchored" data-anchor-id="gpy-2">GPy</h3>
-<div class="cell" data-execution_count="10">
+<div id="cell-21" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gpy_model.optimize(max_iters<span class="op">=</span><span class="dv">50</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>gpy_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <style type="text/css">
 .pd{
     font-family: "Courier New", Courier, monospace !important;
@@ -537,10 +581,11 @@ k_{RBF}(x_1, x_2) = \sigma_f^2 \exp \left[-\frac{\lVert x_1 - x_2 \rVert^2}{2\el
 </table>
 </div>
 </div>
+</div>
 </section>
 <section id="gpytorch-2" class="level3">
 <h3 class="anchored" data-anchor-id="gpytorch-2">GPyTorch</h3>
-<div class="cell" data-execution_count="11">
+<div id="cell-23" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mll <span class="op">=</span> gpytorch.mlls.ExactMarginalLogLikelihood(gpytorch_likelihood, gpytorch_model)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>botorch.fit_gpytorch_model(mll)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -568,7 +613,7 @@ tensor([0.0923], requires_grad=True)</code></pre>
 </section>
 <section id="tinygp-2" class="level3">
 <h3 class="anchored" data-anchor-id="tinygp-2">TinyGP</h3>
-<div class="cell" data-execution_count="12">
+<div id="cell-25" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(theta, X, y):</span>
@@ -587,7 +632,7 @@ tensor([0.0923], requires_grad=True)</code></pre>
 </section>
 <section id="inference" class="level2">
 <h2 class="anchored" data-anchor-id="inference">Inference</h2>
-<div class="cell" data-execution_count="13">
+<div id="cell-27" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_gp(pred_y, var_y):</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    std_y <span class="op">=</span> var_y <span class="op">**</span> <span class="fl">0.5</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
@@ -600,17 +645,21 @@ tensor([0.0923], requires_grad=True)</code></pre>
 </div>
 <section id="gpy-3" class="level3">
 <h3 class="anchored" data-anchor-id="gpy-3">GPy</h3>
-<div class="cell" data-outputid="cd26a311-2151-4e66-d1bf-7799a31de14f" data-execution_count="14">
+<div id="cell-29" class="cell" data-outputid="cd26a311-2151-4e66-d1bf-7799a31de14f" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_y, var_y <span class="op">=</span> gpy_model.predict(test_x.numpy()[:, <span class="va">None</span>])</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>plot_gp(pred_y, var_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="gpytorch-3" class="level3">
 <h3 class="anchored" data-anchor-id="gpytorch-3">GPyTorch</h3>
-<div class="cell" data-scrolled="true" data-execution_count="15">
+<div id="cell-31" class="cell" data-scrolled="true" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gpytorch_model.<span class="bu">eval</span>()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad(), gpytorch.settings.fast_pred_var():</span>
@@ -618,26 +667,34 @@ tensor([0.0923], requires_grad=True)</code></pre>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    pred_y, var_y <span class="op">=</span> pred_dist.mean, pred_dist.variance</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    plot_gp(pred_y, var_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="tinygp-3" class="level3">
 <h3 class="anchored" data-anchor-id="tinygp-3">TinyGP</h3>
-<div class="cell" data-execution_count="16">
+<div id="cell-33" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tinygp_model <span class="op">=</span> build_gp(result.x, train_x.numpy())</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>pred_y, var_y <span class="op">=</span> tinygp_model.predict(train_y.numpy(), test_x.numpy(), return_var<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>plot_gp(pred_y, var_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 </section>
 <section id="tiny-gp-on-co2-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="tiny-gp-on-co2-dataset">Tiny GP on CO2 dataset</h2>
-<div class="cell" data-outputid="b41e2196-9d7f-4560-e710-6fa40109baea" data-execution_count="17">
+<div id="cell-35" class="cell" data-outputid="b41e2196-9d7f-4560-e710-6fa40109baea" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/co2.csv"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Train test split</span></span>
@@ -655,15 +712,19 @@ tensor([0.0923], requires_grad=True)</code></pre>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> yscaler.fit_transform(y.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)).ravel()</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> yscaler.transform(y_test.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)).ravel()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="18">
+<div id="cell-36" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.plot(X, y, label<span class="op">=</span><span class="st">'train'</span>)<span class="op">;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X_test, y_test, label<span class="op">=</span><span class="st">'test'</span>)<span class="op">;</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-execution_count="19">
+</div>
+<div id="cell-37" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SpectralMixture(tinygp.kernels.Kernel):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, weight, scale, freq):</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.weight <span class="op">=</span> jnp.atleast_1d(weight)</span>
@@ -691,7 +752,7 @@ tensor([0.0923], requires_grad=True)</code></pre>
 <span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>        kernel, X, diag<span class="op">=</span>jnp.exp(theta[<span class="st">"log_diag"</span>]), mean<span class="op">=</span>theta[<span class="st">"mean"</span>]</span>
 <span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="e9d828af-d78b-41c4-9ff2-725f2b7977e0" data-execution_count="20">
+<div id="cell-38" class="cell" data-outputid="e9d828af-d78b-41c4-9ff2-725f2b7977e0" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">4</span> <span class="co"># Number of mixtures</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>div_factor <span class="op">=</span> <span class="fl">0.4</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
@@ -733,13 +794,17 @@ tensor([0.0923], requires_grad=True)</code></pre>
  'mean': DeviceArray(0.38844627, dtype=float32)}</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="21">
+<div id="cell-39" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.plot(losses)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-22-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-outputid="c6c22473-255c-450e-e69b-23784a0ffb58" data-execution_count="22">
+</div>
+<div id="cell-40" class="cell" data-outputid="c6c22473-255c-450e-e69b-23784a0ffb58" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mu, var <span class="op">=</span> opt_gp.predict(y, X_test, return_var<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, y, c<span class="op">=</span><span class="st">'k'</span>)</span>
@@ -752,7 +817,11 @@ tensor([0.0923], requires_grad=True)</code></pre>
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"year"</span>)</span>
 <span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> plt.ylabel(<span class="st">"CO$_2$ in ppm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -771,7 +840,7 @@ tensor([0.0923], requires_grad=True)</code></pre>
 </section>
 <section id="appendix" class="level1">
 <h1>Appendix</h1>
-<div class="cell" data-execution_count="23">
+<div id="cell-43" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>gp_model <span class="op">=</span> ExactGPModel(train_x, train_y, gpytorch.likelihoods.GaussianLikelihood(), </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                        gpytorch.kernels.ScaleKernel(gpytorch.kernels.RBFKernel()))</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>zmll <span class="op">=</span> gpytorch.ExactMarginalLogLikelihood(gp_model.likelihood, gp_model)</span>
@@ -830,20 +899,32 @@ tensor([0.0923], requires_grad=True)</code></pre>
 <pre><code>99</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-24-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-24-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-24-output-3.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-execution_count="24">
+</div>
+<div id="cell-44" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gp_model.<span class="bu">eval</span>()</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad(), gpytorch.settings.fast_pred_var():</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    pdist <span class="op">=</span> gp_model.likelihood(gp_model(test_x))</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    plot_gp(pdist.mean, pdist.variance)<span class="op">;</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2022-01-25-GP_Frameworks_Comparison_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Frameworks_Comparison_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -930,10 +1011,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -943,8 +1023,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -957,6 +1046,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1000,6 +1208,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1025,6 +1234,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1085,6 +1320,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

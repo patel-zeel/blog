@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,7 +82,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,17 +97,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -109,10 +143,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">blog</span>
     </a>
@@ -124,23 +158,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/patel-zeel" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/patel-zeel"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/patel_zeel_" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/patel_zeel_"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -214,7 +248,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell">
+
+<div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qq GPy</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -255,14 +290,14 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 <h4 class="anchored" data-anchor-id="isotropy">Isotropy</h4>
 <p>RBF is also isotropic kernel, which means that <span class="math inline">\(\mathcal{K}(x,x')\)</span> depends only on <span class="math inline">\(|x-x'|\)</span>. Thus, we have <span class="math inline">\(\mathcal{K}(x,x') = \mathcal{K}(x',x)\)</span>.</p>
 <p>Let’s visualize few functions drawn from the RBF kernel</p>
-<div class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_rbf(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(np.exp(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.square(X1<span class="op">-</span>X2.T)<span class="op">/</span>l<span class="op">**</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="helper-functions" class="level4">
 <h4 class="anchored" data-anchor-id="helper-functions">Helper functions</h4>
-<div class="cell">
+<div id="cell-8" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_functions(kernel_func, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">1.1</span>)):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  mean <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> kernel_func(X, X, sigma, l)</span>
@@ -311,12 +346,12 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 <span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> anim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Verifying if our kernel is consistent with GPy kernels.</p>
-<div class="cell">
+<div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">200</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sigma, l <span class="op">=</span> <span class="dv">7</span>, <span class="dv">11</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_rbf(X,X,sigma,l), GPy.kern.RBF(<span class="dv">1</span>, variance<span class="op">=</span>sigma<span class="op">**</span><span class="dv">2</span>, lengthscale<span class="op">=</span>l).K(X,X)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="983765a7-5c04-42df-862e-b1cbd363255a">
+<div id="cell-11" class="cell" data-outputid="983765a7-5c04-42df-862e-b1cbd363255a">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
@@ -324,11 +359,15 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>k_name <span class="op">=</span> <span class="st">'RBF'</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plot_functions(K_rbf, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">3.5</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Let’s see the effect of varying parameters <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(l\)</span> of the RBF kernel function.</p>
-<div class="cell" data-outputid="eafc0914-fe8b-4fb9-9150-a78936cc7223">
+<div id="cell-13" class="cell" data-outputid="eafc0914-fe8b-4fb9-9150-a78936cc7223">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
@@ -7392,7 +7431,7 @@ QICABwAAgIB/ryoDywl2MFEAAAAASUVORK5CYII=\
 </script>
 </div>
 </div>
-<div class="cell" data-outputid="94016d2d-66fc-4448-a41f-1085a9c07faa">
+<div id="cell-14" class="cell" data-outputid="94016d2d-66fc-4448-a41f-1085a9c07faa">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>animate_functions(K_rbf, val_list, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">12</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="dv">26</span>),</span>
@@ -12733,7 +12772,7 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 \end{aligned}
 \]</span> Matern kernels are stationary as well as isotropic. With <span class="math inline">\(\nu \to \infty\)</span> they converge to <span class="math inline">\(RBF\)</span> kernel. <span class="math inline">\(Matern12\)</span> is also known as <span class="math inline">\(Exponential\)</span> kernel in toolkits such as GPy.</p>
 <p>Now, let’s draw few functions from each of these versions and try to get intuition behind each of them.</p>
-<div class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m12(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 0.5</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(np.exp(<span class="op">-</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m32(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 1.5</span></span>
@@ -12743,12 +12782,12 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                    (np.exp(<span class="op">-</span>(<span class="dv">5</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Verifying if our kernels are consistent with GPy kernels.</p>
-<div class="cell">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">50</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_m32(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>), GPy.kern.Matern32(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>).K(X,X))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_m52(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>), GPy.kern.Matern52(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>).K(X,X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="2bc03810-e766-4b24-dc51-1388f5dba035">
+<div id="cell-20" class="cell" data-outputid="2bc03810-e766-4b24-dc51-1388f5dba035">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">3.</span></span>
@@ -12766,12 +12805,16 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ax[k_i,<span class="dv">1</span>].set_xlabel(<span class="st">'X'</span>)<span class="op">;</span>ax[k_i,<span class="dv">1</span>].set_ylabel(<span class="st">'X'</span>)<span class="op">;</span>ax[k_i,<span class="dv">1</span>].set_title(<span class="st">'Covariance matrix'</span>)<span class="op">;</span></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>From the above plot, we can say that smoothness is increasing in functions as we increase <span class="math inline">\(\nu\)</span>. Thus, smoothness of functions in terms of kernels is in the following order: Matern12&lt;Matern32&lt;Matern52.</p>
 <p>Let us see effect of varying <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(l\)</span> on Matern32 which is more popular among the three.</p>
-<div class="cell" data-outputid="f5c10168-c49e-4da4-c99a-37b5d426c7c8">
+<div id="cell-22" class="cell" data-outputid="f5c10168-c49e-4da4-c99a-37b5d426c7c8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
@@ -20250,14 +20293,18 @@ rkJggg==\
 </div>
 </div>
 <p>We can see that Matern32 kernel behaves similar to RBF with varying <span class="math inline">\(l\)</span>. Though, Matern32 is less smoother than RBF. A quick comparison would clarify this.</p>
-<div class="cell" data-outputid="b104803e-0931-4f6a-edd2-05defcfdc0f2">
+<div id="cell-24" class="cell" data-outputid="b104803e-0931-4f6a-edd2-05defcfdc0f2">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_rbf(X,X, l<span class="op">=</span><span class="fl">3.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'RBF'</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_m32(X,X, l<span class="op">=</span><span class="fl">3.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Matern32'</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Covariance (K(0,X))'</span>)<span class="op">;</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,X)'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -20268,7 +20315,7 @@ rkJggg==\
 \mathcal{K}(x_1,x_2)= \sigma^2\exp\left(-\frac{\sin^2(\pi|x_1 - x_2|/p)}{2l^2}\right)
 \end{aligned}
 \]</span> Where <span class="math inline">\(p\)</span> is period. Let’s visualize few functions drawn from this kernel.</p>
-<div class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_periodic(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>, p<span class="op">=</span><span class="fl">3.</span>):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> sigma<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.square(np.sin(np.pi<span class="op">*</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>p))<span class="op">/</span>l<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -20276,7 +20323,7 @@ rkJggg==\
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_periodic(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>,p<span class="op">=</span><span class="fl">3.</span>), </span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                   GPy.kern.StdPeriodic(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>,period<span class="op">=</span><span class="fl">3.</span>).K(X,X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="2b12d04a-75c8-4741-e797-bc89ba1fc96e">
+<div id="cell-28" class="cell" data-outputid="2b12d04a-75c8-4741-e797-bc89ba1fc96e">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="dv">1</span></span>
@@ -20285,11 +20332,15 @@ rkJggg==\
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>k_name <span class="op">=</span> <span class="st">'Periodic'</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plot_functions(K_periodic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We will investigate the effect of varying period <span class="math inline">\(p\)</span> now.</p>
-<div class="cell" data-outputid="1469c892-eb24-4f3d-b3ad-0984506799d4">
+<div id="cell-30" class="cell" data-outputid="1469c892-eb24-4f3d-b3ad-0984506799d4">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">3.</span>, <span class="fl">4.</span>, <span class="fl">5.</span>]</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -25091,7 +25142,7 @@ PAAAAAAAFmCBBwAAAADAAizwAAAAAABY4H8B9Ud/DaasxwgAAAAASUVORK5CYII=\
 </div>
 <p>From the above animation we can see that, all points that are <span class="math inline">\(p\)</span> distance apart from each other have exactly same values because they have correlation of exactly 1 (<span class="math inline">\(\sigma=1 \to covariance=correlation\)</span>).</p>
 <p>Now, we will investigate effect of lenging lengthscale <span class="math inline">\(l\)</span> while other parameters are constant.</p>
-<div class="cell" data-outputid="42e60eb0-2b2b-4178-b10a-5392500e0cbd">
+<div id="cell-32" class="cell" data-outputid="42e60eb0-2b2b-4178-b10a-5392500e0cbd">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">3.</span>, <span class="fl">4.</span>, <span class="fl">5.</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -29332,22 +29383,26 @@ AAAAHMACDwAAAACAA/4fS32ajWE+DJwAAAAASUVORK5CYII=\
 \mathcal{K}(x_1,x_2)= (x_1-c)(x_2-c)+\sigma^2
 \end{aligned}
 \]</span> Let’s visualize few functions drawn from the linear kernel</p>
-<div class="cell">
+<div id="cell-36" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_lin(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, c<span class="op">=</span><span class="fl">1.</span>):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (X1<span class="op">-</span>c)<span class="op">@</span>(X2.T<span class="op">-</span>c) <span class="op">+</span> sigma<span class="op">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="09ea6776-5a7a-4e99-f7c8-8291001dc2fc">
+<div id="cell-37" class="cell" data-outputid="09ea6776-5a7a-4e99-f7c8-8291001dc2fc">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plot_functions(K_lin, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">5</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Let’s see the effect of varying parameters <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(c\)</span> of the linear kernel function.</p>
-<div class="cell" data-outputid="48451695-c0a2-4ad6-ca62-bfa4f30a753a">
+<div id="cell-39" class="cell" data-outputid="48451695-c0a2-4ad6-ca62-bfa4f30a753a">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>animate_functions(K_lin, val_list, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">15</span>,<span class="dv">12</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">23</span>), </span>
@@ -35567,7 +35622,7 @@ AABABgx4AAAAyIABDwAAABkw4AEAACADBjwAAABkwIAHAACADBjwAAAAkAEDHgAAADJgwAMAAEAG\
 </script>
 </div>
 </div>
-<div class="cell" data-outputid="e28dd189-4691-42d3-b8ef-89bd03fcc058">
+<div id="cell-40" class="cell" data-outputid="e28dd189-4691-42d3-b8ef-89bd03fcc058">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> np.square(np.array([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>]))</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -41047,7 +41102,7 @@ AIADWOABAAAAAHDA/wMtm7tHLfwSKgAAAABJRU5ErkJggg==\
 <section id="non-stationary-behaviour-of-linear-kernel" class="level3">
 <h3 class="anchored" data-anchor-id="non-stationary-behaviour-of-linear-kernel">Non-stationary behaviour of Linear kernel</h3>
 <p>Unlike other stationary kernels, Linear kernel is not invariant of translations in the input space. The comparison below, visually supports this claim.</p>
-<div class="cell" data-outputid="92a41257-229d-4c9f-b86d-d9b569899894">
+<div id="cell-44" class="cell" data-outputid="92a41257-229d-4c9f-b86d-d9b569899894">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>,figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kerns <span class="op">=</span> [K_rbf, K_m32, K_periodic, K_lin]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>k_names <span class="op">=</span> [<span class="st">'RBF'</span>, <span class="st">'Matern32'</span>, <span class="st">'Periodic'</span>, <span class="st">'Linear'</span>]</span>
@@ -46828,7 +46883,7 @@ RU5ErkJggg==\
 <p>If a single kernel is having high bias in fitting a dataset, we can use mutiple of these kernels in multiplications and/or summations. First, let us see effect of multiplication of a few kernels.</p>
 <section id="periodic-linear" class="level4">
 <h4 class="anchored" data-anchor-id="periodic-linear">Periodic * Linear</h4>
-<div class="cell" data-outputid="8bff1850-44c4-445f-af28-445c536dbdf4">
+<div id="cell-48" class="cell" data-outputid="8bff1850-44c4-445f-af28-445c536dbdf4">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_periodic(X,X,sigma<span class="op">=</span><span class="fl">2.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Periodic'</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,sigma<span class="op">=</span><span class="fl">0.01</span>,c<span class="op">=</span><span class="dv">0</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear'</span>)</span>
@@ -46836,13 +46891,17 @@ RU5ErkJggg==\
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Covariance'</span>)</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,*)'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="linear-linear" class="level4">
 <h4 class="anchored" data-anchor-id="linear-linear">Linear * Linear</h4>
-<div class="cell" data-outputid="6c0dfa20-d6ab-45ee-ba2d-c25855310739">
+<div id="cell-50" class="cell" data-outputid="6c0dfa20-d6ab-45ee-ba2d-c25855310739">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=-</span><span class="dv">1</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear1'</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear2'</span>)</span>
@@ -46851,13 +46910,17 @@ RU5ErkJggg==\
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=-</span><span class="dv">1</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,c<span class="op">=</span><span class="fl">0.5</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear1*Linear2*Linear3'</span>)</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="matern-linear" class="level4">
 <h4 class="anchored" data-anchor-id="matern-linear">Matern * Linear</h4>
-<div class="cell" data-outputid="25543a95-5543-4014-ffa3-16a19976ff5d">
+<div id="cell-52" class="cell" data-outputid="25543a95-5543-4014-ffa3-16a19976ff5d">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>k1 <span class="op">=</span> K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>]</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> K_m32(X,X)[:,<span class="dv">50</span>]</span>
@@ -46866,7 +46929,11 @@ RU5ErkJggg==\
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>plt.plot(X, k1<span class="op">*</span>k2, label<span class="op">=</span><span class="st">'Matern32*Linear'</span>)</span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -46938,10 +47005,10 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </section>
 <section id="prepering-useful-functions" class="level3">
 <h3 class="anchored" data-anchor-id="prepering-useful-functions">Prepering useful functions</h3>
-<div class="cell">
+<div id="cell-58" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-59" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cov_func(x, x_prime, sigma, c):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (x<span class="op">-</span>c)<span class="op">@</span>(x_prime<span class="op">-</span>c) <span class="op">+</span> sigma<span class="op">**</span><span class="dv">2</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -46967,7 +47034,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </section>
 <section id="observing-more-than-two-points-and-changing-hyperparameters-manually" class="level3">
 <h3 class="anchored" data-anchor-id="observing-more-than-two-points-and-changing-hyperparameters-manually">Observing more than two points and changing hyperparameters manually</h3>
-<div class="cell" data-outputid="946fd26b-4c12-4d88-871d-afc038d66973">
+<div id="cell-61" class="cell" data-outputid="946fd26b-4c12-4d88-871d-afc038d66973">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.array([<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">13</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> np.linspace(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">20</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
@@ -46989,10 +47056,14 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  ax[p_i].legend()<span class="op">;</span>ax[p_i].set_xlabel(<span class="st">'X'</span>)<span class="op">;</span>ax[p_i].set_ylabel(<span class="st">'Y'</span>)<span class="op">;</span></span>
 <span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  ax[p_i].set_title(<span class="st">'sigma='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">0</span>])<span class="op">+</span><span class="st">', c='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">1</span>])<span class="op">+</span><span class="st">', noise='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">2</span>]))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-28-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-outputid="e80774c1-a2b3-4832-aca4-09a8d7cb9a0a">
+</div>
+<div id="cell-62" class="cell" data-outputid="e80774c1-a2b3-4832-aca4-09a8d7cb9a0a">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">0</span>]),<span class="op">\</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">1</span>]),<span class="op">\</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">2</span>]),<span class="op">\</span></span>
@@ -47001,7 +47072,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <pre><code>(True, True, True, False)</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="c3f370ee-10ef-4626-cfd0-ec511f8d0947">
+<div id="cell-63" class="cell" data-outputid="c3f370ee-10ef-4626-cfd0-ec511f8d0947">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> GPy.models.GPRegression(X, Y, GPy.kern.Linear(input_dim<span class="op">=</span><span class="dv">1</span>))</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model['Gaussian_noise'].fix(10**-10)</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># model.kern.variances.fix(10**-10)</span></span>
@@ -47012,6 +47083,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="127">
+<div>
 <style type="text/css">
 .pd{
     font-family: "Courier New", Courier, monospace !important;
@@ -47059,12 +47131,17 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </tbody>
 </table>
 </div>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-30-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-30-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can see that there is no change in fit with change in <span class="math inline">\(c\)</span> and <span class="math inline">\(\sigma\)</span>. 4th fit is not matching with the ideal fit obtained by normal equation because of high noise. Now, let us estimate parameters by minimizing negative log marginal likelihood.</p>
-<div class="cell" data-outputid="85ff0cc1-9028-42c3-d56a-943a7804587d">
+<div id="cell-65" class="cell" data-outputid="85ff0cc1-9028-42c3-d56a-943a7804587d">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">1.</span>, <span class="fl">1.</span>]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(neg_log_likelihood, params, bounds<span class="op">=</span>[(<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">5</span>), (<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">5</span>), (<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>)])</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> result.x</span>
@@ -47083,10 +47160,14 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <pre><code>False</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-31-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-31-output-3.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell">
+</div>
+<div id="cell-66" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(sigma, c, noise_std):</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> cov_func(X, X.T, sigma, c)</span>
@@ -47094,7 +47175,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  nll_ar <span class="op">=</span>  <span class="fl">0.5</span><span class="op">*</span>(Y.T<span class="op">@</span>np.linalg.pinv(cov)<span class="op">@</span>Y) <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>n<span class="op">*</span>np.log(<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>np.log(np.linalg.det(cov))</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> nll_ar[<span class="dv">0</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="86fbf608-203a-49da-e960-922e81de5a7d">
+<div id="cell-67" class="cell" data-outputid="86fbf608-203a-49da-e960-922e81de5a7d">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>grad_func <span class="op">=</span> grad(neg_log_likelihood, argnum<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>])</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.01</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> []</span>
@@ -47116,10 +47197,14 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <pre><code>31.05187173290998</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-33-output-3.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-33-output-3.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-outputid="ebdd7da8-12af-410c-a4a0-0a4f1101635f">
+</div>
+<div id="cell-68" class="cell" data-outputid="ebdd7da8-12af-410c-a4a0-0a4f1101635f">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> sigma, c, noise_std</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>Y_test_mean, Y_test_cov <span class="op">=</span> predict(params)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(X, Y, label<span class="op">=</span><span class="st">'train'</span>)</span>
@@ -47132,7 +47217,11 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <pre><code>False</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2021-03-22-GP_Kernels_files/figure-html/cell-34-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="GP_Kernels_files/figure-html/cell-34-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 
@@ -47220,10 +47309,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -47233,8 +47321,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -47247,6 +47344,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -47290,6 +47506,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -47315,6 +47532,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -47375,6 +47618,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
