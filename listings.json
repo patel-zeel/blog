@@ -2,9 +2,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/conformal.html",
-      "/posts/Generate_Digits_with_GPs.html",
-      "/posts/Brick_Kilns_identification.html",
       "/posts/wrf-tutorial.html",
       "/posts/learnings_from_brick_kiln_project.html",
       "/posts/AL_with_MNIST.html",
