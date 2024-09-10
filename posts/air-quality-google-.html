@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-08-31">
 <meta name="description" content="Google Air Quality API">
 
-<title>blog - Google Air Quality Data</title>
+<title>Google Air Quality Data – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -282,23 +282,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"timestamp"</span>])</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>KeyError: 'concentration'</code></pre>
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[5], line 9</span>
+<span class="ansi-green-fg ansi-bold">      7</span>     ts.append(each["dateTime"])
+<span class="ansi-green-fg ansi-bold">      8</span>     codes.append(each["pollutants"][4]["code"])
+<span class="ansi-green-fg">----&gt; 9</span>     pm25.append(each["pollutants"][4]["concentration"]["value"])
+<span class="ansi-green-fg ansi-bold">     11</span> df["timestamp"] = ts
+<span class="ansi-green-fg ansi-bold">     12</span> df["value"] = pm25
+
+<span class="ansi-red-fg">KeyError</span>: 'concentration'</pre>
+</div>
 </div>
 </div>
 <div id="cell-7" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sensor_data <span class="op">=</span> pd.read_excel(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/home/patel_zeel/blog/posts/site_12220230831125207.xlsx"</span>, skiprows<span class="op">=</span><span class="dv">16</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"From Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    sensor_data[<span class="st">"From Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"To Date"</span>] <span class="op">=</span> pd.to_datetime(sensor_data[<span class="st">"To Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"mean_time"</span>] <span class="op">=</span> sensor_data[[<span class="st">"From Date"</span>, <span class="st">"To Date"</span>]].mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"utc_time"</span>] <span class="op">=</span> sensor_data[<span class="st">"mean_time"</span>] <span class="op">-</span> pd.Timedelta(hours<span class="op">=</span><span class="dv">5</span>, minutes<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>sensor_data.plot(x<span class="op">=</span><span class="st">"utc_time"</span>, y<span class="op">=</span><span class="st">"PM2.5"</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"sensor"</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>df.plot(x<span class="op">=</span><span class="st">"timestamp"</span>, y<span class="op">=</span><span class="st">"value"</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"google"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sensor_data <span class="op">=</span> pd.read_excel(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"/home/patel_zeel/blog/posts/site_12220230831125207.xlsx"</span>, skiprows<span class="op">=</span><span class="dv">16</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"From Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    sensor_data[<span class="st">"From Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"To Date"</span>] <span class="op">=</span> pd.to_datetime(sensor_data[<span class="st">"To Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"mean_time"</span>] <span class="op">=</span> sensor_data[[<span class="st">"From Date"</span>, <span class="st">"To Date"</span>]].mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>sensor_data[<span class="st">"utc_time"</span>] <span class="op">=</span> sensor_data[<span class="st">"mean_time"</span>] <span class="op">-</span> pd.Timedelta(hours<span class="op">=</span><span class="dv">5</span>, minutes<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>sensor_data.plot(x<span class="op">=</span><span class="st">"utc_time"</span>, y<span class="op">=</span><span class="st">"PM2.5"</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"sensor"</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>df.plot(x<span class="op">=</span><span class="st">"timestamp"</span>, y<span class="op">=</span><span class="st">"value"</span>, ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"google"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -310,10 +321,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="request-at-a-grid." class="level2">
 <h2 class="anchored" data-anchor-id="request-at-a-grid.">Request at a grid.</h2>
 <div id="cell-9" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aqmsp_data.data <span class="im">import</span> load_camx</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>camx <span class="op">=</span> load_camx(years<span class="op">=</span><span class="dv">2022</span>, months<span class="op">=</span><span class="dv">1</span>, days<span class="op">=</span><span class="dv">1</span>, variables<span class="op">=</span><span class="st">"P25"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>camx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aqmsp_data.data <span class="im">import</span> load_camx</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>camx <span class="op">=</span> load_camx(years<span class="op">=</span><span class="dv">2022</span>, months<span class="op">=</span><span class="dv">1</span>, days<span class="op">=</span><span class="dv">1</span>, variables<span class="op">=</span><span class="st">"P25"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>camx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/patel_zeel/miniconda3/lib/python3.9/site-packages/xarray/core/indexing.py:1443: PerformanceWarning: Slicing is producing a large chunk. To accept the large
 chunk and silence this warning, set the option
@@ -326,7 +337,6 @@ To avoid creating the large chunks, set the option
   return self.array[key]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<div>
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
 <symbol id="icon-database" viewbox="0 0 32 32">
@@ -738,14 +748,14 @@ Attributes: (12/34)
        '2022-01-01T20:30:00.000000000', '2022-01-01T21:30:00.000000000',
        '2022-01-01T22:30:00.000000000', '2022-01-01T23:30:00.000000000'],
       dtype='datetime64[ns]')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-e47d8c25-20fc-496f-9a3b-a1ab366ab69a" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-e47d8c25-20fc-496f-9a3b-a1ab366ab69a" class="xr-section-summary">Data variables: <span>(1)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>P25</span></div><div class="xr-var-dims">(time, latitude, longitude)</div><div class="xr-var-dtype">float32</div><div class="xr-var-preview xr-preview">dask.array&lt;chunksize=(24, 80, 80), meta=np.ndarray&gt;</div><input id="attrs-8bdde6a9-f91f-4cbe-8c6d-55c3fc4633ef" class="xr-var-attrs-in" type="checkbox"><label for="attrs-8bdde6a9-f91f-4cbe-8c6d-55c3fc4633ef" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ca511f8b-c96b-4f49-a537-0362252471e0" class="xr-var-data-in" type="checkbox"><label for="data-ca511f8b-c96b-4f49-a537-0362252471e0" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>long_name :</span></dt><dd>FPRM            </dd><dt><span>units :</span></dt><dd>micrograms/m**3 </dd><dt><span>var_desc :</span></dt><dd>VARIABLE FPRM                                                                   </dd></dl></div><div class="xr-var-data">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 50%">
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<td><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th></th>
@@ -850,30 +860,29 @@ Attributes: (12/34)
 </dd><dt><span>IOAPI_VERSION :</span></dt><dd>$Id: @(#) ioapi library version 3.0 $                                           </dd><dt><span>NCO :</span></dt><dd>netCDF Operators version 4.9.1 (Homepage = http://nco.sf.net, Code = http://github.com/nco/nco)</dd><dt><span>NCOLS :</span></dt><dd>80</dd><dt><span>NLAYS :</span></dt><dd>1</dd><dt><span>NROWS :</span></dt><dd>80</dd><dt><span>NTHIK :</span></dt><dd>1</dd><dt><span>NVARS :</span></dt><dd>2</dd><dt><span>P_ALP :</span></dt><dd>0.0</dd><dt><span>P_BET :</span></dt><dd>0.0</dd><dt><span>P_GAM :</span></dt><dd>0.0</dd><dt><span>SDATE :</span></dt><dd>2023126</dd><dt><span>STIME :</span></dt><dd>0</dd><dt><span>TSTEP :</span></dt><dd>10000</dd><dt><span>UPNAM :</span></dt><dd>CAMXMETOU       </dd><dt><span>VAR-LIST :</span></dt><dd>P10             P25             </dd><dt><span>VGLVLS :</span></dt><dd>[0. 0.]</dd><dt><span>VGTOP :</span></dt><dd>-9.998999757492232e+36</dd><dt><span>VGTYP :</span></dt><dd>-9999</dd><dt><span>WDATE :</span></dt><dd>2023126</dd><dt><span>WTIME :</span></dt><dd>95909</dd><dt><span>XCELL :</span></dt><dd>0.009999999776482582</dd><dt><span>XCENT :</span></dt><dd>0.0</dd><dt><span>XORIG :</span></dt><dd>76.8499984741211</dd><dt><span>YCELL :</span></dt><dd>0.009999999776482582</dd><dt><span>YCENT :</span></dt><dd>0.0</dd><dt><span>YORIG :</span></dt><dd>28.200000762939453</dd></dl></div></li></ul></div></div>
 </div>
 </div>
-</div>
 <div id="cell-10" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lat_grid, lon_grid <span class="op">=</span> np.meshgrid(camx.latitude, camx.longitude)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>lat_lon_grid <span class="op">=</span> np.vstack([lat_grid.ravel(), lon_grid.ravel()]).T</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lat_lon_grid.shape)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>session <span class="op">=</span> requests.Session()</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>delayed_fn <span class="op">=</span> dask.delayed(session.post)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> []</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lat, lon <span class="kw">in</span> tqdm(lat_lon_grid):</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    payload <span class="op">=</span> {</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hours"</span>: <span class="dv">1</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pageSize"</span>: <span class="dv">200</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pageToken"</span>: <span class="st">""</span>,</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"location"</span>: {<span class="st">"latitude"</span>: lat, <span class="st">"longitude"</span>: lon},</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"extraComputations"</span>: [<span class="st">"POLLUTANT_CONCENTRATION"</span>],</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    headers <span class="op">=</span> {<span class="st">"Content-Type"</span>: <span class="st">"application/json"</span>}</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> delayed_fn(url, json<span class="op">=</span>payload, headers<span class="op">=</span>headers)</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>all_res <span class="op">=</span> dask.compute(<span class="op">*</span>responses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>lat_grid, lon_grid <span class="op">=</span> np.meshgrid(camx.latitude, camx.longitude)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lat_lon_grid <span class="op">=</span> np.vstack([lat_grid.ravel(), lon_grid.ravel()]).T</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lat_lon_grid.shape)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>session <span class="op">=</span> requests.Session()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>delayed_fn <span class="op">=</span> dask.delayed(session.post)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> []</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lat, lon <span class="kw">in</span> tqdm(lat_lon_grid):</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    payload <span class="op">=</span> {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hours"</span>: <span class="dv">1</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pageSize"</span>: <span class="dv">200</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pageToken"</span>: <span class="st">""</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"location"</span>: {<span class="st">"latitude"</span>: lat, <span class="st">"longitude"</span>: lon},</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"extraComputations"</span>: [<span class="st">"POLLUTANT_CONCENTRATION"</span>],</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    headers <span class="op">=</span> {<span class="st">"Content-Type"</span>: <span class="st">"application/json"</span>}</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> delayed_fn(url, json<span class="op">=</span>payload, headers<span class="op">=</span>headers)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>all_res <span class="op">=</span> dask.compute(<span class="op">*</span>responses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(6400, 2)</code></pre>
 </div>
@@ -881,37 +890,93 @@ Attributes: (12/34)
 <pre><code>100%|██████████| 6400/6400 [00:01&lt;00:00, 5981.06it/s]</code></pre>
 </div>
 <div class="cell-output cell-output-error">
-<pre><code>KeyboardInterrupt: </code></pre>
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[7], line 22</span>
+<span class="ansi-green-fg ansi-bold">     19</span>     response = delayed_fn(url, json=payload, headers=headers)
+<span class="ansi-green-fg ansi-bold">     20</span>     responses.append(response)
+<span class="ansi-green-fg">---&gt; 22</span> all_res = dask.compute(*responses)
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/site-packages/dask/base.py:666</span>, in <span class="ansi-cyan-fg">compute</span><span class="ansi-blue-fg">(traverse, optimize_graph, scheduler, get, *args, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">    663</span>     keys.append(x.__dask_keys__())
+<span class="ansi-green-fg ansi-bold">    664</span>     postcomputes.append(x.__dask_postcompute__())
+<span class="ansi-green-fg">--&gt; 666</span> results = schedule(dsk, keys, **kwargs)
+<span class="ansi-green-fg ansi-bold">    667</span> return repack([f(r, *a) for r, (f, a) in zip(results, postcomputes)])
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/site-packages/dask/threaded.py:89</span>, in <span class="ansi-cyan-fg">get</span><span class="ansi-blue-fg">(dsk, keys, cache, num_workers, pool, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">     86</span>     elif isinstance(pool, multiprocessing.pool.Pool):
+<span class="ansi-green-fg ansi-bold">     87</span>         pool = MultiprocessingPoolExecutor(pool)
+<span class="ansi-green-fg">---&gt; 89</span> results = get_async(
+<span class="ansi-green-fg ansi-bold">     90</span>     pool.submit,
+<span class="ansi-green-fg ansi-bold">     91</span>     pool._max_workers,
+<span class="ansi-green-fg ansi-bold">     92</span>     dsk,
+<span class="ansi-green-fg ansi-bold">     93</span>     keys,
+<span class="ansi-green-fg ansi-bold">     94</span>     cache=cache,
+<span class="ansi-green-fg ansi-bold">     95</span>     get_id=_thread_get_id,
+<span class="ansi-green-fg ansi-bold">     96</span>     pack_exception=pack_exception,
+<span class="ansi-green-fg ansi-bold">     97</span>     **kwargs,
+<span class="ansi-green-fg ansi-bold">     98</span> )
+<span class="ansi-green-fg ansi-bold">    100</span> # Cleanup pools associated to dead threads
+<span class="ansi-green-fg ansi-bold">    101</span> with pools_lock:
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/site-packages/dask/local.py:500</span>, in <span class="ansi-cyan-fg">get_async</span><span class="ansi-blue-fg">(submit, num_workers, dsk, result, cache, get_id, rerun_exceptions_locally, pack_exception, raise_exception, callbacks, dumps, loads, chunksize, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">    498</span> while state["waiting"] or state["ready"] or state["running"]:
+<span class="ansi-green-fg ansi-bold">    499</span>     fire_tasks(chunksize)
+<span class="ansi-green-fg">--&gt; 500</span>     for key, res_info, failed in queue_get(queue).result():
+<span class="ansi-green-fg ansi-bold">    501</span>         if failed:
+<span class="ansi-green-fg ansi-bold">    502</span>             exc, tb = loads(res_info)
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/site-packages/dask/local.py:137</span>, in <span class="ansi-cyan-fg">queue_get</span><span class="ansi-blue-fg">(q)</span>
+<span class="ansi-green-fg ansi-bold">    136</span> def queue_get(q):
+<span class="ansi-green-fg">--&gt; 137</span>     return q.get()
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/queue.py:171</span>, in <span class="ansi-cyan-fg">Queue.get</span><span class="ansi-blue-fg">(self, block, timeout)</span>
+<span class="ansi-green-fg ansi-bold">    169</span> elif timeout is None:
+<span class="ansi-green-fg ansi-bold">    170</span>     while not self._qsize():
+<span class="ansi-green-fg">--&gt; 171</span>         self.not_empty.wait()
+<span class="ansi-green-fg ansi-bold">    172</span> elif timeout &lt; 0:
+<span class="ansi-green-fg ansi-bold">    173</span>     raise ValueError("'timeout' must be a non-negative number")
+
+File <span class="ansi-green-fg">~/miniconda3/lib/python3.9/threading.py:312</span>, in <span class="ansi-cyan-fg">Condition.wait</span><span class="ansi-blue-fg">(self, timeout)</span>
+<span class="ansi-green-fg ansi-bold">    310</span> try:    # restore state no matter what (e.g., KeyboardInterrupt)
+<span class="ansi-green-fg ansi-bold">    311</span>     if timeout is None:
+<span class="ansi-green-fg">--&gt; 312</span>         waiter.acquire()
+<span class="ansi-green-fg ansi-bold">    313</span>         gotit = True
+<span class="ansi-green-fg ansi-bold">    314</span>     else:
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+</div>
 </div>
 </div>
 <div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> []</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> res, (lat, lon) <span class="kw">in</span> tqdm(<span class="bu">zip</span>(all_res, lat_lon_grid)):</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> res.json()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"timestamp"</span>, <span class="st">"value"</span>, <span class="st">"code"</span>])</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    ts <span class="op">=</span> []</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    codes <span class="op">=</span> []</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    pm25 <span class="op">=</span> []</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> each <span class="kw">in</span> res[<span class="st">"hoursInfo"</span>]:</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        ts.append(each[<span class="st">"dateTime"</span>])</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        codes.append(each[<span class="st">"pollutants"</span>][<span class="dv">4</span>][<span class="st">"code"</span>])</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            pm25.append(each[<span class="st">"pollutants"</span>][<span class="dv">4</span>][<span class="st">"concentration"</span>][<span class="st">"value"</span>])</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            pm25.append(np.nan)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"timestamp"</span>] <span class="op">=</span> ts</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"value"</span>] <span class="op">=</span> pm25</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"code"</span>] <span class="op">=</span> codes</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"lat"</span>] <span class="op">=</span> lat</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"lon"</span>] <span class="op">=</span> lon</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"timestamp"</span>])</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    dfs.append(df)</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>master_df <span class="op">=</span> pd.concat(dfs)</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> master_df[<span class="st">"code"</span>].nunique() <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> master_df[<span class="st">"code"</span>].unique()[<span class="dv">0</span>] <span class="op">==</span> <span class="st">"pm25"</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> master_df.set_index([<span class="st">"lat"</span>, <span class="st">"lon"</span>, <span class="st">"timestamp"</span>]).to_xarray()</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>ds.isel(timestamp<span class="op">=</span><span class="dv">0</span>)[<span class="st">"value"</span>].plot(x<span class="op">=</span><span class="st">"lon"</span>, y<span class="op">=</span><span class="st">"lat"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dfs <span class="op">=</span> []</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> res, (lat, lon) <span class="kw">in</span> tqdm(<span class="bu">zip</span>(all_res, lat_lon_grid)):</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> res.json()</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"timestamp"</span>, <span class="st">"value"</span>, <span class="st">"code"</span>])</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    ts <span class="op">=</span> []</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    codes <span class="op">=</span> []</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    pm25 <span class="op">=</span> []</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> each <span class="kw">in</span> res[<span class="st">"hoursInfo"</span>]:</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        ts.append(each[<span class="st">"dateTime"</span>])</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        codes.append(each[<span class="st">"pollutants"</span>][<span class="dv">4</span>][<span class="st">"code"</span>])</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>            pm25.append(each[<span class="st">"pollutants"</span>][<span class="dv">4</span>][<span class="st">"concentration"</span>][<span class="st">"value"</span>])</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>            pm25.append(np.nan)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"timestamp"</span>] <span class="op">=</span> ts</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"value"</span>] <span class="op">=</span> pm25</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"code"</span>] <span class="op">=</span> codes</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"lat"</span>] <span class="op">=</span> lat</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"lon"</span>] <span class="op">=</span> lon</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"timestamp"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"timestamp"</span>])</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    dfs.append(df)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>master_df <span class="op">=</span> pd.concat(dfs)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> master_df[<span class="st">"code"</span>].nunique() <span class="op">==</span> <span class="dv">1</span> <span class="kw">and</span> master_df[<span class="st">"code"</span>].unique()[<span class="dv">0</span>] <span class="op">==</span> <span class="st">"pm25"</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> master_df.set_index([<span class="st">"lat"</span>, <span class="st">"lon"</span>, <span class="st">"timestamp"</span>]).to_xarray()</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>ds.isel(timestamp<span class="op">=</span><span class="dv">0</span>)[<span class="st">"value"</span>].plot(x<span class="op">=</span><span class="st">"lon"</span>, y<span class="op">=</span><span class="st">"lat"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>0it [00:00, ?it/s]6400it [00:12, 497.91it/s]</code></pre>
 </div>
@@ -927,17 +992,17 @@ Attributes: (12/34)
 <section id="appendix" class="level2">
 <h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
 <div id="cell-13" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-14" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>global_date <span class="op">=</span> <span class="st">"2023-07-26"</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ds_met <span class="op">=</span> xr.open_dataset(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'../../sarath_auto_download/data/camxmet2d.delhi.</span><span class="sc">{</span>global_date<span class="sc">.</span>replace(<span class="st">"-"</span>,<span class="st">""</span>)<span class="sc">}</span><span class="ss">.96hours.nc'</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ds_aq <span class="op">=</span> xr.open_dataset(</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'../../sarath_auto_download/data/camx120hr_merged_</span><span class="sc">{</span>global_date<span class="sc">.</span>replace(<span class="st">"-"</span>,<span class="st">""</span>)<span class="sc">}</span><span class="ss">.nc'</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>ds_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>global_date <span class="op">=</span> <span class="st">"2023-07-26"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ds_met <span class="op">=</span> xr.open_dataset(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'../../sarath_auto_download/data/camxmet2d.delhi.</span><span class="sc">{</span>global_date<span class="sc">.</span>replace(<span class="st">"-"</span>,<span class="st">""</span>)<span class="sc">}</span><span class="ss">.96hours.nc'</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ds_aq <span class="op">=</span> xr.open_dataset(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'../../sarath_auto_download/data/camx120hr_merged_</span><span class="sc">{</span>global_date<span class="sc">.</span>replace(<span class="st">"-"</span>,<span class="st">""</span>)<span class="sc">}</span><span class="ss">.nc'</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>ds_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -1336,17 +1401,17 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-15" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">3</span>))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ds_met[<span class="st">"PBL_WRF_M"</span>].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).plot()</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>twin_x <span class="op">=</span> plt.gca().twinx()</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>ds_aq[<span class="st">"P25"</span>].isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>)).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).plot(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>twin_x, color<span class="op">=</span><span class="st">"r"</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># set ylabel color as red</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>twin_x.set_ylabel(<span class="st">"PM2.5"</span>, color<span class="op">=</span><span class="st">"r"</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># set yticks color as red</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>twin_x.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, colors<span class="op">=</span><span class="st">"r"</span>)</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>twin_x.set_xlabel(<span class="st">"Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">3</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ds_met[<span class="st">"PBL_WRF_M"</span>].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).plot()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>twin_x <span class="op">=</span> plt.gca().twinx()</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>ds_aq[<span class="st">"P25"</span>].isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>)).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).plot(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>twin_x, color<span class="op">=</span><span class="st">"r"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># set ylabel color as red</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>twin_x.set_ylabel(<span class="st">"PM2.5"</span>, color<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># set yticks color as red</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>twin_x.tick_params(axis<span class="op">=</span><span class="st">"y"</span>, colors<span class="op">=</span><span class="st">"r"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>twin_x.set_xlabel(<span class="st">"Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>Text(0.5, 0, 'Time')</code></pre>
 </div>
@@ -1359,7 +1424,7 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-16" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ds_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ds_met</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
@@ -1758,45 +1823,45 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-17" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])[:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>array([1, 2, 3])</code></pre>
 </div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"lag"</span>], index<span class="op">=</span><span class="bu">list</span>(ds_met.data_vars)[<span class="dv">1</span>:])</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lag <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">24</span>, <span class="dv">24</span>):</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> <span class="bu">list</span>(ds_met.data_vars)[<span class="dv">1</span>:]:</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lag <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                .values</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> lag <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values[lag:]</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                .values[:<span class="op">-</span>lag]</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values[:lag]</span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>                .values[<span class="op">-</span>lag:]</span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(f"{var}: {np.corrcoef(met_series, aq_series)[0, 1]}")</span></span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>        df.loc[var, lag] <span class="op">=</span> np.corrcoef(met_series, aq_series)[<span class="dv">0</span>, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"lag"</span>], index<span class="op">=</span><span class="bu">list</span>(ds_met.data_vars)[<span class="dv">1</span>:])</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lag <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">24</span>, <span class="dv">24</span>):</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> <span class="bu">list</span>(ds_met.data_vars)[<span class="dv">1</span>:]:</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lag <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                .values</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> lag <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values[lag:]</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>                .values[:<span class="op">-</span>lag]</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>            met_series <span class="op">=</span> ds_met[var].isel(LAY<span class="op">=</span><span class="dv">0</span>).mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>]).values[:lag]</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>            aq_series <span class="op">=</span> (</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>                ds_aq[<span class="st">"P25"</span>]</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>                .isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">120</span>))</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>                .mean(dim<span class="op">=</span>[<span class="st">"ROW"</span>, <span class="st">"COL"</span>])</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>                .values[<span class="op">-</span>lag:]</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(f"{var}: {np.corrcoef(met_series, aq_series)[0, 1]}")</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        df.loc[var, lag] <span class="op">=</span> np.corrcoef(met_series, aq_series)[<span class="dv">0</span>, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/patel_zeel/miniconda3/lib/python3.9/site-packages/numpy/lib/function_base.py:2897: RuntimeWarning: invalid value encountered in divide
   c /= stddev[:, None]
@@ -2185,7 +2250,7 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-19" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df.index.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df.index.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>array(['TSURF_K', 'SNOWEW_M', 'SNOWAGE_HR', 'PRATE_MMpH', 'CLOUD_OD',
        'U10_MpS', 'V10_MpS', 'T2_K', 'SWSFC_WpM2', 'SOLM_M3pM3',
@@ -2193,19 +2258,19 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-20" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.animation <span class="im">import</span> FuncAnimation</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"TSURF_K"</span>, <span class="st">"T2_K"</span>, <span class="st">"SWSFC_WpM2"</span>, <span class="st">"PBL_WRF_M"</span>, <span class="st">"PBL_YSU_M"</span>]:</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    df.loc[var].plot(label<span class="op">=</span>var)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"CLOUD_OD"</span>, <span class="st">"V10_MpS"</span>]:</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    df.loc[var].plot(label<span class="op">=</span>var, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Correlation with P25 from CAMx"</span>)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"lag.pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.animation <span class="im">import</span> FuncAnimation</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"TSURF_K"</span>, <span class="st">"T2_K"</span>, <span class="st">"SWSFC_WpM2"</span>, <span class="st">"PBL_WRF_M"</span>, <span class="st">"PBL_YSU_M"</span>]:</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    df.loc[var].plot(label<span class="op">=</span>var)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"CLOUD_OD"</span>, <span class="st">"V10_MpS"</span>]:</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    df.loc[var].plot(label<span class="op">=</span>var, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Correlation with P25 from CAMx"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"lag.pdf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2215,32 +2280,32 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-21" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"animation.html"</span>] <span class="op">=</span> <span class="st">"jshtml"</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>mappable <span class="op">=</span> (</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    ds_met[<span class="st">"PBL_WRF_M"</span>]</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    .isel(TSTEP<span class="op">=</span><span class="dv">1</span>, LAY<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    .plot(</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"COL"</span>, y<span class="op">=</span><span class="st">"ROW"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>, ax<span class="op">=</span>ax, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">2000</span>, add_colorbar<span class="op">=</span><span class="va">False</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>fig.colorbar(mappable)</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_it(t):</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    ax.cla()</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    tmp <span class="op">=</span> ds_met[<span class="st">"PBL_WRF_M"</span>].isel(TSTEP<span class="op">=</span>t, LAY<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    tmp.plot(</span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"COL"</span>, y<span class="op">=</span><span class="st">"ROW"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>, ax<span class="op">=</span>ax, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">2000</span>, add_colorbar<span class="op">=</span><span class="va">False</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Longitude"</span>)</span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Latitude"</span>)</span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Mean PBLH: </span><span class="sc">{</span>tmp<span class="sc">.</span>mean()<span class="sc">.</span>values<span class="sc">:.2f}</span><span class="ss"> m"</span>)</span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> FuncAnimation(fig, plot_it, frames<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>), interval<span class="op">=</span><span class="dv">500</span>)</span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>plt.close()</span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>anim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"animation.html"</span>] <span class="op">=</span> <span class="st">"jshtml"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>mappable <span class="op">=</span> (</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    ds_met[<span class="st">"PBL_WRF_M"</span>]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    .isel(TSTEP<span class="op">=</span><span class="dv">1</span>, LAY<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    .plot(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"COL"</span>, y<span class="op">=</span><span class="st">"ROW"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>, ax<span class="op">=</span>ax, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">2000</span>, add_colorbar<span class="op">=</span><span class="va">False</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>fig.colorbar(mappable)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_it(t):</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    ax.cla()</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    tmp <span class="op">=</span> ds_met[<span class="st">"PBL_WRF_M"</span>].isel(TSTEP<span class="op">=</span>t, LAY<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    tmp.plot(</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"COL"</span>, y<span class="op">=</span><span class="st">"ROW"</span>, cmap<span class="op">=</span><span class="st">"RdYlGn_r"</span>, ax<span class="op">=</span>ax, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">2000</span>, add_colorbar<span class="op">=</span><span class="va">False</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Longitude"</span>)</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Latitude"</span>)</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"Mean PBLH: </span><span class="sc">{</span>tmp<span class="sc">.</span>mean()<span class="sc">.</span>values<span class="sc">:.2f}</span><span class="ss"> m"</span>)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> FuncAnimation(fig, plot_it, frames<span class="op">=</span><span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>), interval<span class="op">=</span><span class="dv">500</span>)</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>plt.close()</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>anim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -10740,43 +10805,42 @@ AAAAAAAAAAiBvwDo2TH88BdtZgAAAABJRU5ErkJggg==\
 </div>
 </div>
 <div id="cell-22" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aqmsp_data.data <span class="im">import</span> load_caaqm</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>caaqm <span class="op">=</span> load_caaqm(years<span class="op">=</span><span class="dv">2022</span>, months<span class="op">=</span><span class="dv">1</span>, days<span class="op">=</span><span class="dv">1</span>, variables<span class="op">=</span><span class="st">"PM2.5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aqmsp_data.data <span class="im">import</span> load_caaqm</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>caaqm <span class="op">=</span> load_caaqm(years<span class="op">=</span><span class="dv">2022</span>, months<span class="op">=</span><span class="dv">1</span>, days<span class="op">=</span><span class="dv">1</span>, variables<span class="op">=</span><span class="st">"PM2.5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-23" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(<span class="st">"/home/patel_zeel/aqmsp/aqmsp_data/data/caaqm/raw_2023/*.xlsx"</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    files[<span class="op">-</span><span class="dv">3</span>],</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print(df.head(7))</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>station <span class="op">=</span> df.iloc[<span class="dv">6</span>, <span class="dv">1</span>]</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>lat <span class="op">=</span> caaqm.sel(station<span class="op">=</span>station).latitude.values.item()</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>lon <span class="op">=</span> caaqm.sel(station<span class="op">=</span>station).longitude.values.item()</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[<span class="dv">16</span>:, :]</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co"># assign first row as column names</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.iloc[<span class="dv">0</span>].values</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co"># drop first row</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[<span class="dv">1</span>:, :]</span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(station)</span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"time"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"From Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span>) <span class="op">+</span> pd.Timedelta(</span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    minutes<span class="op">=</span><span class="dv">30</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(<span class="st">"/home/patel_zeel/aqmsp/aqmsp_data/data/caaqm/raw_2023/*.xlsx"</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    files[<span class="op">-</span><span class="dv">3</span>],</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    header<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print(df.head(7))</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>station <span class="op">=</span> df.iloc[<span class="dv">6</span>, <span class="dv">1</span>]</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>lat <span class="op">=</span> caaqm.sel(station<span class="op">=</span>station).latitude.values.item()</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>lon <span class="op">=</span> caaqm.sel(station<span class="op">=</span>station).longitude.values.item()</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[<span class="dv">16</span>:, :]</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co"># assign first row as column names</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.iloc[<span class="dv">0</span>].values</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co"># drop first row</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.iloc[<span class="dv">1</span>:, :]</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(station)</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"time"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"From Date"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"</span><span class="sc">%d</span><span class="st">-%m-%Y %H:%M"</span>) <span class="op">+</span> pd.Timedelta(</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    minutes<span class="op">=</span><span class="dv">30</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Vivek Vihar, Delhi - DPCC</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -10919,26 +10983,25 @@ AAAAAAAAAAiBvwDo2TH88BdtZgAAAABJRU5ErkJggg==\
 </div>
 </div>
 </div>
-</div>
 <div id="cell-24" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_it(ds, date):</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ds.TSTEP.size <span class="op">==</span> <span class="dv">120</span>:</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"120"</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> ds.isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">48</span>))</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"96"</span>)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> ds.isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>))</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    ds1 <span class="op">=</span> ds.assign(time<span class="op">=</span>(<span class="st">"TSTEP"</span>, pd.date_range(date, periods<span class="op">=</span><span class="dv">24</span>, freq<span class="op">=</span><span class="st">"H"</span>)))</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    lats <span class="op">=</span> np.arange(<span class="dv">80</span>) <span class="op">*</span> ds1.YCELL <span class="op">+</span> ds1.YORIG</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    lons <span class="op">=</span> np.arange(<span class="dv">80</span>) <span class="op">*</span> ds1.XCELL <span class="op">+</span> ds1.XORIG</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    ds2 <span class="op">=</span> ds1.assign_coords(lat<span class="op">=</span>(<span class="st">"ROW"</span>, lats), lon<span class="op">=</span>(<span class="st">"COL"</span>, lons))</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    ds3 <span class="op">=</span> ds2.swap_dims({<span class="st">"TSTEP"</span>: <span class="st">"time"</span>, <span class="st">"ROW"</span>: <span class="st">"lat"</span>, <span class="st">"COL"</span>: <span class="st">"lon"</span>})</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    ds3[<span class="st">"time"</span>] <span class="op">=</span> ds3[<span class="st">"time"</span>] <span class="op">+</span> pd.Timedelta(hours<span class="op">=</span><span class="dv">5</span>, minutes<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ds3</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>ds_met_processed <span class="op">=</span> process_it(ds_met, global_date)</span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>ds_met_processed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_it(ds, date):</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ds.TSTEP.size <span class="op">==</span> <span class="dv">120</span>:</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"120"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> ds.isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>, <span class="dv">48</span>))</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"96"</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> ds.isel(LAY<span class="op">=</span><span class="dv">0</span>, TSTEP<span class="op">=</span><span class="bu">range</span>(<span class="dv">24</span>))</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    ds1 <span class="op">=</span> ds.assign(time<span class="op">=</span>(<span class="st">"TSTEP"</span>, pd.date_range(date, periods<span class="op">=</span><span class="dv">24</span>, freq<span class="op">=</span><span class="st">"H"</span>)))</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    lats <span class="op">=</span> np.arange(<span class="dv">80</span>) <span class="op">*</span> ds1.YCELL <span class="op">+</span> ds1.YORIG</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    lons <span class="op">=</span> np.arange(<span class="dv">80</span>) <span class="op">*</span> ds1.XCELL <span class="op">+</span> ds1.XORIG</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    ds2 <span class="op">=</span> ds1.assign_coords(lat<span class="op">=</span>(<span class="st">"ROW"</span>, lats), lon<span class="op">=</span>(<span class="st">"COL"</span>, lons))</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    ds3 <span class="op">=</span> ds2.swap_dims({<span class="st">"TSTEP"</span>: <span class="st">"time"</span>, <span class="st">"ROW"</span>: <span class="st">"lat"</span>, <span class="st">"COL"</span>: <span class="st">"lon"</span>})</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    ds3[<span class="st">"time"</span>] <span class="op">=</span> ds3[<span class="st">"time"</span>] <span class="op">+</span> pd.Timedelta(hours<span class="op">=</span><span class="dv">5</span>, minutes<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ds3</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>ds_met_processed <span class="op">=</span> process_it(ds_met, global_date)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>ds_met_processed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>96</code></pre>
 </div>
@@ -11448,19 +11511,19 @@ Attributes: (12/33)
 </div>
 </div>
 <div id="cell-25" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>closest_ds <span class="op">=</span> ds_met_processed.sel(lat<span class="op">=</span>lat, lon<span class="op">=</span>lon, method<span class="op">=</span><span class="st">"nearest"</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lat, lon)</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>closest_ds[<span class="st">"TSURF_K"</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"TSURF_K"</span>)</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>closest_ds[<span class="st">"T2_K"</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"T2_K"</span>)</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> df.set_index(<span class="st">"time"</span>)</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co"># select data from global_data</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> tmp_df.loc[closest_ds[<span class="st">"time"</span>].values[<span class="dv">0</span>] : closest_ds[<span class="st">"time"</span>].values[<span class="op">-</span><span class="dv">1</span>]]</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>tmp_df[<span class="st">"AT_K"</span>] <span class="op">=</span> tmp_df[<span class="st">"AT"</span>] <span class="op">+</span> <span class="fl">273.15</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>tmp_df.plot(ax<span class="op">=</span>ax, y<span class="op">=</span><span class="st">"AT_K"</span>)</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># tmp_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>closest_ds <span class="op">=</span> ds_met_processed.sel(lat<span class="op">=</span>lat, lon<span class="op">=</span>lon, method<span class="op">=</span><span class="st">"nearest"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">4</span>))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lat, lon)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>closest_ds[<span class="st">"TSURF_K"</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"TSURF_K"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>closest_ds[<span class="st">"T2_K"</span>].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"T2_K"</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> df.set_index(<span class="st">"time"</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># select data from global_data</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>tmp_df <span class="op">=</span> tmp_df.loc[closest_ds[<span class="st">"time"</span>].values[<span class="dv">0</span>] : closest_ds[<span class="st">"time"</span>].values[<span class="op">-</span><span class="dv">1</span>]]</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>tmp_df[<span class="st">"AT_K"</span>] <span class="op">=</span> tmp_df[<span class="st">"AT"</span>] <span class="op">+</span> <span class="fl">273.15</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>tmp_df.plot(ax<span class="op">=</span>ax, y<span class="op">=</span><span class="st">"AT_K"</span>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># tmp_df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>28.672342 77.31526</code></pre>
 </div>
@@ -11512,18 +11575,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -11555,7 +11607,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -11590,7 +11682,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-09-14">
 <meta name="description" content="Pruning vs Uncertainty">
 
-<title>blog - Pruning vs Uncertainty</title>
+<title>Pruning vs Uncertainty – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -141,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -362,182 +362,382 @@ Test size 10000</code></pre>
 <pre><code>/home/patel_zeel/miniconda3/envs/torch_dt/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
   warnings.warn(
 /home/patel_zeel/miniconda3/envs/torch_dt/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet18_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet18_Weights.DEFAULT` to get the most up-to-date weights.
-  warnings.warn(msg)
-100%|██████████| 938/938 [00:03&lt;00:00, 242.75it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 262.53it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 270.43it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 265.38it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 265.51it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 266.62it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 268.49it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 266.33it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 268.52it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 269.38it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 264.77it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 266.07it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 262.19it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 214.62it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 219.31it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 226.53it/s]
-100%|██████████| 938/938 [00:05&lt;00:00, 171.25it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 278.59it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 248.82it/s]
-100%|██████████| 938/938 [00:05&lt;00:00, 175.56it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 277.18it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 273.71it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 242.18it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 279.42it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 269.21it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 227.36it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 222.91it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 223.68it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 261.50it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 246.52it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 281.60it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 278.41it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 275.60it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 250.04it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 280.53it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 279.26it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 207.71it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 265.92it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 279.79it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 276.73it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 278.32it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 243.70it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 240.48it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 274.70it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 276.08it/s]
-100%|██████████| 938/938 [00:04&lt;00:00, 215.18it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 244.20it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 267.56it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 267.91it/s]
-100%|██████████| 938/938 [00:03&lt;00:00, 266.04it/s]</code></pre>
+  warnings.warn(msg)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded pre-trained ResNet18 model
 512
 Training on device cuda
-Training ResNet18 model
-Epoch [1/50] Loss: 1.0877
-Accuracy on the test set: 75.42%
-Epoch [2/50] Loss: 0.8051
-Accuracy on the test set: 76.74%
-Epoch [3/50] Loss: 0.7578
-Accuracy on the test set: 78.27%
-Epoch [4/50] Loss: 0.7290
-Accuracy on the test set: 78.71%
-Epoch [5/50] Loss: 0.7083
-Accuracy on the test set: 79.62%
-Epoch [6/50] Loss: 0.6761
-Accuracy on the test set: 79.82%
-Epoch [7/50] Loss: 0.6627
-Accuracy on the test set: 80.47%
-Epoch [8/50] Loss: 0.6423
-Accuracy on the test set: 80.24%
-Epoch [9/50] Loss: 0.6257
-Accuracy on the test set: 81.11%
-Epoch [10/50] Loss: 0.6131
-Accuracy on the test set: 81.42%
-Epoch [11/50] Loss: 0.5911
-Accuracy on the test set: 82.02%
-Epoch [12/50] Loss: 0.5765
-Accuracy on the test set: 82.32%
-Epoch [13/50] Loss: 0.5611
-Accuracy on the test set: 82.30%
-Epoch [14/50] Loss: 0.5466
-Accuracy on the test set: 82.49%
-Epoch [15/50] Loss: 0.5358
-Accuracy on the test set: 82.81%
-Epoch [16/50] Loss: 0.5266
-Accuracy on the test set: 83.30%
-Epoch [17/50] Loss: 0.5137
-Accuracy on the test set: 83.37%
-Epoch [18/50] Loss: 0.5051
-Accuracy on the test set: 83.17%
-Epoch [19/50] Loss: 0.4969
-Accuracy on the test set: 83.46%
-Epoch [20/50] Loss: 0.4811
-Accuracy on the test set: 83.76%
-Epoch [21/50] Loss: 0.4714
-Accuracy on the test set: 83.57%
-Epoch [22/50] Loss: 0.4624
-Accuracy on the test set: 84.25%
-Epoch [23/50] Loss: 0.4553
-Accuracy on the test set: 84.27%
-Epoch [24/50] Loss: 0.4506
-Accuracy on the test set: 84.62%
-Epoch [25/50] Loss: 0.4394
-Accuracy on the test set: 83.97%
-Epoch [26/50] Loss: 0.4346
-Accuracy on the test set: 84.16%
-Epoch [27/50] Loss: 0.4271
-Accuracy on the test set: 84.38%
-Epoch [28/50] Loss: 0.4193
-Accuracy on the test set: 84.84%
-Epoch [29/50] Loss: 0.4148
-Accuracy on the test set: 85.05%
-Epoch [30/50] Loss: 0.4040
-Accuracy on the test set: 84.49%
-Epoch [31/50] Loss: 0.3990
-Accuracy on the test set: 84.59%
-Epoch [32/50] Loss: 0.4016
-Accuracy on the test set: 84.92%
-Epoch [33/50] Loss: 0.3979
-Accuracy on the test set: 85.01%
-Epoch [34/50] Loss: 0.3844
-Accuracy on the test set: 84.82%
-Epoch [35/50] Loss: 0.3789
-Accuracy on the test set: 85.49%
-Epoch [36/50] Loss: 0.3760
-Accuracy on the test set: 85.26%
-Epoch [37/50] Loss: 0.3733
-Accuracy on the test set: 85.36%
-Epoch [38/50] Loss: 0.3655
-Accuracy on the test set: 84.98%
-Epoch [39/50] Loss: 0.3627
-Accuracy on the test set: 85.19%
-Epoch [40/50] Loss: 0.3517
-Accuracy on the test set: 84.78%
-Epoch [41/50] Loss: 0.3526
-Accuracy on the test set: 85.43%
-Epoch [42/50] Loss: 0.3523
-Accuracy on the test set: 85.55%
-Epoch [43/50] Loss: 0.3457
-Accuracy on the test set: 85.02%
-Epoch [44/50] Loss: 0.3447
-Accuracy on the test set: 85.20%
-Epoch [45/50] Loss: 0.3411
-Accuracy on the test set: 85.47%
-Epoch [46/50] Loss: 0.3312
-Accuracy on the test set: 85.55%
-Epoch [47/50] Loss: 0.3290
-Accuracy on the test set: 85.52%
-Epoch [48/50] Loss: 0.3277
-Accuracy on the test set: 85.35%
-Epoch [49/50] Loss: 0.3241
-Accuracy on the test set: 85.80%
-Epoch [50/50] Loss: 0.3217
+Training ResNet18 model</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 242.75it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [1/50] Loss: 1.0877
+Accuracy on the test set: 75.42%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 262.53it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [2/50] Loss: 0.8051
+Accuracy on the test set: 76.74%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 270.43it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [3/50] Loss: 0.7578
+Accuracy on the test set: 78.27%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 265.38it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [4/50] Loss: 0.7290
+Accuracy on the test set: 78.71%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 265.51it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [5/50] Loss: 0.7083
+Accuracy on the test set: 79.62%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 266.62it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [6/50] Loss: 0.6761
+Accuracy on the test set: 79.82%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 268.49it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [7/50] Loss: 0.6627
+Accuracy on the test set: 80.47%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 266.33it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [8/50] Loss: 0.6423
+Accuracy on the test set: 80.24%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 268.52it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [9/50] Loss: 0.6257
+Accuracy on the test set: 81.11%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 269.38it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [10/50] Loss: 0.6131
+Accuracy on the test set: 81.42%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 264.77it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [11/50] Loss: 0.5911
+Accuracy on the test set: 82.02%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 266.07it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [12/50] Loss: 0.5765
+Accuracy on the test set: 82.32%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 262.19it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [13/50] Loss: 0.5611
+Accuracy on the test set: 82.30%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 214.62it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [14/50] Loss: 0.5466
+Accuracy on the test set: 82.49%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 219.31it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [15/50] Loss: 0.5358
+Accuracy on the test set: 82.81%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 226.53it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [16/50] Loss: 0.5266
+Accuracy on the test set: 83.30%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:05&lt;00:00, 171.25it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [17/50] Loss: 0.5137
+Accuracy on the test set: 83.37%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 278.59it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [18/50] Loss: 0.5051
+Accuracy on the test set: 83.17%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 248.82it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [19/50] Loss: 0.4969
+Accuracy on the test set: 83.46%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:05&lt;00:00, 175.56it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [20/50] Loss: 0.4811
+Accuracy on the test set: 83.76%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 277.18it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [21/50] Loss: 0.4714
+Accuracy on the test set: 83.57%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 273.71it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [22/50] Loss: 0.4624
+Accuracy on the test set: 84.25%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 242.18it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [23/50] Loss: 0.4553
+Accuracy on the test set: 84.27%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 279.42it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [24/50] Loss: 0.4506
+Accuracy on the test set: 84.62%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 269.21it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [25/50] Loss: 0.4394
+Accuracy on the test set: 83.97%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 227.36it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [26/50] Loss: 0.4346
+Accuracy on the test set: 84.16%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 222.91it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [27/50] Loss: 0.4271
+Accuracy on the test set: 84.38%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 223.68it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [28/50] Loss: 0.4193
+Accuracy on the test set: 84.84%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 261.50it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [29/50] Loss: 0.4148
+Accuracy on the test set: 85.05%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 246.52it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [30/50] Loss: 0.4040
+Accuracy on the test set: 84.49%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 281.60it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [31/50] Loss: 0.3990
+Accuracy on the test set: 84.59%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 278.41it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [32/50] Loss: 0.4016
+Accuracy on the test set: 84.92%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 275.60it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [33/50] Loss: 0.3979
+Accuracy on the test set: 85.01%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 250.04it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [34/50] Loss: 0.3844
+Accuracy on the test set: 84.82%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 280.53it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [35/50] Loss: 0.3789
+Accuracy on the test set: 85.49%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 279.26it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [36/50] Loss: 0.3760
+Accuracy on the test set: 85.26%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 207.71it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [37/50] Loss: 0.3733
+Accuracy on the test set: 85.36%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 265.92it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [38/50] Loss: 0.3655
+Accuracy on the test set: 84.98%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 279.79it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [39/50] Loss: 0.3627
+Accuracy on the test set: 85.19%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 276.73it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [40/50] Loss: 0.3517
+Accuracy on the test set: 84.78%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 278.32it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [41/50] Loss: 0.3526
+Accuracy on the test set: 85.43%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 243.70it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [42/50] Loss: 0.3523
+Accuracy on the test set: 85.55%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 240.48it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [43/50] Loss: 0.3457
+Accuracy on the test set: 85.02%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 274.70it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [44/50] Loss: 0.3447
+Accuracy on the test set: 85.20%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 276.08it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [45/50] Loss: 0.3411
+Accuracy on the test set: 85.47%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:04&lt;00:00, 215.18it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [46/50] Loss: 0.3312
+Accuracy on the test set: 85.55%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 244.20it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [47/50] Loss: 0.3290
+Accuracy on the test set: 85.52%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 267.56it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [48/50] Loss: 0.3277
+Accuracy on the test set: 85.35%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 267.91it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [49/50] Loss: 0.3241
+Accuracy on the test set: 85.80%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 938/938 [00:03&lt;00:00, 266.04it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch [50/50] Loss: 0.3217
 Accuracy on the test set: 84.93%</code></pre>
 </div>
 </div>
 <div id="cell-8" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>resnet.<span class="bu">eval</span>()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>correct <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    predicted_list <span class="op">=</span> []</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> images, labels <span class="kw">in</span> test_loader:</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> resnet(images)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(outputs.data, <span class="dv">1</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">+=</span> (predicted <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        softmax_outputs <span class="op">=</span> nn.Softmax(dim<span class="op">=</span><span class="dv">1</span>)(outputs)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        predicted_list.append(softmax_outputs.data.cpu().numpy())</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>all_predicted <span class="op">=</span> np.concatenate(predicted_list, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy on the test set: </span><span class="sc">{</span>(<span class="dv">100</span> <span class="op">*</span> correct <span class="op">/</span> total)<span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>resnet.<span class="bu">eval</span>()</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>correct <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>    predicted_list <span class="op">=</span> []</span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> images, labels <span class="kw">in</span> test_loader:</span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> resnet(images)</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>        _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(outputs.data, <span class="dv">1</span>)</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">+=</span> (predicted <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>        softmax_outputs <span class="op">=</span> nn.Softmax(dim<span class="op">=</span><span class="dv">1</span>)(outputs)</span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>        predicted_list.append(softmax_outputs.data.cpu().numpy())</span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>all_predicted <span class="op">=</span> np.concatenate(predicted_list, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy on the test set: </span><span class="sc">{</span>(<span class="dv">100</span> <span class="op">*</span> correct <span class="op">/</span> total)<span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy on the test set: 84.93%</code></pre>
 </div>
@@ -546,41 +746,41 @@ Accuracy on the test set: 84.93%</code></pre>
 <section id="check-calibration" class="level2">
 <h2 class="anchored" data-anchor-id="check-calibration">Check calibration</h2>
 <div id="cell-10" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>test_dataset.tensors[<span class="dv">1</span>].cpu().numpy().shape, all_predicted.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>test_dataset.tensors[<span class="dv">1</span>].cpu().numpy().shape, all_predicted.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>((10000,), (10000, 10))</code></pre>
 </div>
 </div>
 <div id="cell-11" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute calibration curve</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> target_class <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> test_dataset.tensors[<span class="dv">1</span>].cpu().numpy() <span class="op">==</span> target_class</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    predicted_probabilities <span class="op">=</span> all_predicted[:, target_class]</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    prob_true, prob_pred <span class="op">=</span> calibration_curve(</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        true_labels, predicted_probabilities, n_bins<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot calibration curve</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(prob_pred, prob_true, marker<span class="op">=</span><span class="st">"o"</span>, label<span class="op">=</span><span class="st">"Calibration Curve"</span>)</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Perfectly Calibrated"</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_xlabel(<span class="st">"Mean Predicted Probability"</span>)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_ylabel(<span class="st">"Observed Accuracy"</span>)</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ece_score = compute_ece(predicted_probabilities, true_labels, num_bins=10)</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Expected Calibration Error (ECE): {ece_score:.4f}")</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_title(<span class="ss">f"Class </span><span class="sc">{</span>target_class<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute expected calibration error (ECE)</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>ece <span class="op">=</span> compute_ece(all_predicted, test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), <span class="dv">10</span>)</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute calibration curve</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> target_class <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> test_dataset.tensors[<span class="dv">1</span>].cpu().numpy() <span class="op">==</span> target_class</span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>    predicted_probabilities <span class="op">=</span> all_predicted[:, target_class]</span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>    prob_true, prob_pred <span class="op">=</span> calibration_curve(</span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>        true_labels, predicted_probabilities, n_bins<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb116-13"><a href="#cb116-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-14"><a href="#cb116-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot calibration curve</span></span>
+<span id="cb116-15"><a href="#cb116-15" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(prob_pred, prob_true, marker<span class="op">=</span><span class="st">"o"</span>, label<span class="op">=</span><span class="st">"Calibration Curve"</span>)</span>
+<span id="cb116-16"><a href="#cb116-16" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(</span>
+<span id="cb116-17"><a href="#cb116-17" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Perfectly Calibrated"</span></span>
+<span id="cb116-18"><a href="#cb116-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb116-19"><a href="#cb116-19" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_xlabel(<span class="st">"Mean Predicted Probability"</span>)</span>
+<span id="cb116-20"><a href="#cb116-20" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_ylabel(<span class="st">"Observed Accuracy"</span>)</span>
+<span id="cb116-21"><a href="#cb116-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ece_score = compute_ece(predicted_probabilities, true_labels, num_bins=10)</span></span>
+<span id="cb116-22"><a href="#cb116-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(f"Expected Calibration Error (ECE): {ece_score:.4f}")</span></span>
+<span id="cb116-23"><a href="#cb116-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-24"><a href="#cb116-24" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_title(<span class="ss">f"Class </span><span class="sc">{</span>target_class<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb116-25"><a href="#cb116-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb116-26"><a href="#cb116-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-27"><a href="#cb116-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute expected calibration error (ECE)</span></span>
+<span id="cb116-28"><a href="#cb116-28" aria-hidden="true" tabindex="-1"></a>ece <span class="op">=</span> compute_ece(all_predicted, test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), <span class="dv">10</span>)</span>
+<span id="cb116-29"><a href="#cb116-29" aria-hidden="true" tabindex="-1"></a>ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>0.021885250088572478</code></pre>
 </div>
@@ -593,11 +793,11 @@ Accuracy on the test set: 84.93%</code></pre>
 </div>
 </div>
 <div id="cell-12" class="cell" data-execution_count="104">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    classification_report(</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), all_predicted.argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>    classification_report(</span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>        test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), all_predicted.argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
@@ -619,43 +819,43 @@ weighted avg       0.80      0.81      0.80     10000
 </div>
 </div>
 <div id="cell-13" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_ece(predicted_probs, true_labels, num_bins<span class="op">=</span><span class="dv">10</span>):</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure predicted_probs is a NumPy array</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    predicted_probs <span class="op">=</span> np.array(predicted_probs)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> np.array(true_labels)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate predicted class labels</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    predicted_labels <span class="op">=</span> np.argmax(predicted_probs, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate confidence scores (maximum predicted probability)</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    confidence_scores <span class="op">=</span> np.<span class="bu">max</span>(predicted_probs, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create bins for confidence scores</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    bin_edges <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, num_bins <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    ece <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    total_samples <span class="op">=</span> <span class="bu">len</span>(true_labels)</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bin_idx <span class="kw">in</span> <span class="bu">range</span>(num_bins):</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find examples whose confidence scores fall into the current bin</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        bin_mask <span class="op">=</span> (confidence_scores <span class="op">&gt;=</span> bin_edges[bin_idx]) <span class="op">&amp;</span> (</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>            confidence_scores <span class="op">&lt;</span> bin_edges[bin_idx <span class="op">+</span> <span class="dv">1</span>]</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.<span class="bu">any</span>(bin_mask):</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the accuracy of predictions in this bin</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>            bin_accuracy <span class="op">=</span> np.mean(predicted_labels[bin_mask] <span class="op">==</span> true_labels[bin_mask])</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the fraction of examples in this bin</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>            bin_fraction <span class="op">=</span> np.<span class="bu">sum</span>(bin_mask) <span class="op">/</span> total_samples</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the calibration error in this bin</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>            bin_error <span class="op">=</span> np.<span class="bu">abs</span>(bin_accuracy <span class="op">-</span> np.mean(confidence_scores[bin_mask]))</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Weighted contribution to ECE</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>            ece <span class="op">+=</span> bin_fraction <span class="op">*</span> bin_error</span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_ece(predicted_probs, true_labels, num_bins<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure predicted_probs is a NumPy array</span></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>    predicted_probs <span class="op">=</span> np.array(predicted_probs)</span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> np.array(true_labels)</span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-6"><a href="#cb120-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate predicted class labels</span></span>
+<span id="cb120-7"><a href="#cb120-7" aria-hidden="true" tabindex="-1"></a>    predicted_labels <span class="op">=</span> np.argmax(predicted_probs, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb120-8"><a href="#cb120-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-9"><a href="#cb120-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate confidence scores (maximum predicted probability)</span></span>
+<span id="cb120-10"><a href="#cb120-10" aria-hidden="true" tabindex="-1"></a>    confidence_scores <span class="op">=</span> np.<span class="bu">max</span>(predicted_probs, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb120-11"><a href="#cb120-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-12"><a href="#cb120-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create bins for confidence scores</span></span>
+<span id="cb120-13"><a href="#cb120-13" aria-hidden="true" tabindex="-1"></a>    bin_edges <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, num_bins <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb120-14"><a href="#cb120-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-15"><a href="#cb120-15" aria-hidden="true" tabindex="-1"></a>    ece <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb120-16"><a href="#cb120-16" aria-hidden="true" tabindex="-1"></a>    total_samples <span class="op">=</span> <span class="bu">len</span>(true_labels)</span>
+<span id="cb120-17"><a href="#cb120-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-18"><a href="#cb120-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bin_idx <span class="kw">in</span> <span class="bu">range</span>(num_bins):</span>
+<span id="cb120-19"><a href="#cb120-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find examples whose confidence scores fall into the current bin</span></span>
+<span id="cb120-20"><a href="#cb120-20" aria-hidden="true" tabindex="-1"></a>        bin_mask <span class="op">=</span> (confidence_scores <span class="op">&gt;=</span> bin_edges[bin_idx]) <span class="op">&amp;</span> (</span>
+<span id="cb120-21"><a href="#cb120-21" aria-hidden="true" tabindex="-1"></a>            confidence_scores <span class="op">&lt;</span> bin_edges[bin_idx <span class="op">+</span> <span class="dv">1</span>]</span>
+<span id="cb120-22"><a href="#cb120-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb120-23"><a href="#cb120-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-24"><a href="#cb120-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.<span class="bu">any</span>(bin_mask):</span>
+<span id="cb120-25"><a href="#cb120-25" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the accuracy of predictions in this bin</span></span>
+<span id="cb120-26"><a href="#cb120-26" aria-hidden="true" tabindex="-1"></a>            bin_accuracy <span class="op">=</span> np.mean(predicted_labels[bin_mask] <span class="op">==</span> true_labels[bin_mask])</span>
+<span id="cb120-27"><a href="#cb120-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-28"><a href="#cb120-28" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the fraction of examples in this bin</span></span>
+<span id="cb120-29"><a href="#cb120-29" aria-hidden="true" tabindex="-1"></a>            bin_fraction <span class="op">=</span> np.<span class="bu">sum</span>(bin_mask) <span class="op">/</span> total_samples</span>
+<span id="cb120-30"><a href="#cb120-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-31"><a href="#cb120-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the calibration error in this bin</span></span>
+<span id="cb120-32"><a href="#cb120-32" aria-hidden="true" tabindex="-1"></a>            bin_error <span class="op">=</span> np.<span class="bu">abs</span>(bin_accuracy <span class="op">-</span> np.mean(confidence_scores[bin_mask]))</span>
+<span id="cb120-33"><a href="#cb120-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-34"><a href="#cb120-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Weighted contribution to ECE</span></span>
+<span id="cb120-35"><a href="#cb120-35" aria-hidden="true" tabindex="-1"></a>            ece <span class="op">+=</span> bin_fraction <span class="op">*</span> bin_error</span>
+<span id="cb120-36"><a href="#cb120-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-37"><a href="#cb120-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="does-mc-dropout-help-with-calibration" class="level2">
@@ -664,76 +864,76 @@ weighted avg       0.80      0.81      0.80     10000
 <section id="last-layer-only" class="level2">
 <h2 class="anchored" data-anchor-id="last-layer-only">Last layer only</h2>
 <div id="cell-16" class="cell" data-execution_count="111">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MCDropout(nn.Module):</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, p):</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.p <span class="op">=</span> p</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="va">self</span>.p)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train()</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.dropout(x)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout <span class="op">=</span> torchvision.models.resnet18(pretrained<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.fc <span class="op">=</span> nn.Sequential(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    nn.Linear(</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        resnet_with_dropout.fc.in_features, resnet_with_dropout.fc.in_features <span class="op">//</span> <span class="dv">2</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    nn.GELU(),</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    MCDropout(p<span class="op">=</span><span class="fl">0.33</span>),</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    nn.Linear(resnet_with_dropout.fc.in_features <span class="op">//</span> <span class="dv">2</span>, num_classes),</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.load_state_dict(resnet.state_dict())</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.to(device)</span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>mc_samples <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> []</span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> tqdm(<span class="bu">range</span>(mc_samples)):</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> resnet_with_dropout(test_dataset.tensors[<span class="dv">0</span>])</span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    softmax_output <span class="op">=</span> nn.Softmax(dim<span class="op">=</span><span class="dv">1</span>)(output)</span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    outputs.append(softmax_output.data.cpu().numpy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MCDropout(nn.Module):</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, p):</span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb121-4"><a href="#cb121-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.p <span class="op">=</span> p</span>
+<span id="cb121-5"><a href="#cb121-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout <span class="op">=</span> nn.Dropout(p<span class="op">=</span><span class="va">self</span>.p)</span>
+<span id="cb121-6"><a href="#cb121-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-7"><a href="#cb121-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb121-8"><a href="#cb121-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.train()</span>
+<span id="cb121-9"><a href="#cb121-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.dropout(x)</span>
+<span id="cb121-10"><a href="#cb121-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-11"><a href="#cb121-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-12"><a href="#cb121-12" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout <span class="op">=</span> torchvision.models.resnet18(pretrained<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb121-13"><a href="#cb121-13" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.fc <span class="op">=</span> nn.Sequential(</span>
+<span id="cb121-14"><a href="#cb121-14" aria-hidden="true" tabindex="-1"></a>    nn.Linear(</span>
+<span id="cb121-15"><a href="#cb121-15" aria-hidden="true" tabindex="-1"></a>        resnet_with_dropout.fc.in_features, resnet_with_dropout.fc.in_features <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb121-16"><a href="#cb121-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb121-17"><a href="#cb121-17" aria-hidden="true" tabindex="-1"></a>    nn.GELU(),</span>
+<span id="cb121-18"><a href="#cb121-18" aria-hidden="true" tabindex="-1"></a>    MCDropout(p<span class="op">=</span><span class="fl">0.33</span>),</span>
+<span id="cb121-19"><a href="#cb121-19" aria-hidden="true" tabindex="-1"></a>    nn.Linear(resnet_with_dropout.fc.in_features <span class="op">//</span> <span class="dv">2</span>, num_classes),</span>
+<span id="cb121-20"><a href="#cb121-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb121-21"><a href="#cb121-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-22"><a href="#cb121-22" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.load_state_dict(resnet.state_dict())</span>
+<span id="cb121-23"><a href="#cb121-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-24"><a href="#cb121-24" aria-hidden="true" tabindex="-1"></a>resnet_with_dropout.to(device)</span>
+<span id="cb121-25"><a href="#cb121-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-26"><a href="#cb121-26" aria-hidden="true" tabindex="-1"></a>mc_samples <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb121-27"><a href="#cb121-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-28"><a href="#cb121-28" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> []</span>
+<span id="cb121-29"><a href="#cb121-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> tqdm(<span class="bu">range</span>(mc_samples)):</span>
+<span id="cb121-30"><a href="#cb121-30" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> resnet_with_dropout(test_dataset.tensors[<span class="dv">0</span>])</span>
+<span id="cb121-31"><a href="#cb121-31" aria-hidden="true" tabindex="-1"></a>    softmax_output <span class="op">=</span> nn.Softmax(dim<span class="op">=</span><span class="dv">1</span>)(output)</span>
+<span id="cb121-32"><a href="#cb121-32" aria-hidden="true" tabindex="-1"></a>    outputs.append(softmax_output.data.cpu().numpy())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|██████████| 1000/1000 [00:18&lt;00:00, 55.50it/s]</code></pre>
 </div>
 </div>
 <div id="cell-17" class="cell" data-execution_count="112">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mc_mean <span class="op">=</span> np.mean(outputs, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mc_std <span class="op">=</span> np.std(outputs, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>mc_mean.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>mc_mean <span class="op">=</span> np.mean(outputs, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>mc_std <span class="op">=</span> np.std(outputs, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a>mc_mean.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="112">
 <pre><code>(10000, 10)</code></pre>
 </div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="113">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute calibration curve</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> target_class <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> test_dataset.tensors[<span class="dv">1</span>].cpu().numpy() <span class="op">==</span> target_class</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    predicted_probabilities <span class="op">=</span> mc_mean[:, target_class]</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    prob_true, prob_pred <span class="op">=</span> calibration_curve(</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>        true_labels, predicted_probabilities, n_bins<span class="op">=</span><span class="dv">10</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot calibration curve</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(prob_pred, prob_true, marker<span class="op">=</span><span class="st">"o"</span>, label<span class="op">=</span><span class="st">"Calibration Curve"</span>)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Perfectly Calibrated"</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_xlabel(<span class="st">"Mean Predicted Probability"</span>)</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_ylabel(<span class="st">"Observed Accuracy"</span>)</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_title(<span class="ss">f"Class </span><span class="sc">{</span>target_class<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>ece <span class="op">=</span> compute_ece(mc_mean, test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), <span class="dv">10</span>)</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute calibration curve</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">5</span>))</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> target_class <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a>    true_labels <span class="op">=</span> test_dataset.tensors[<span class="dv">1</span>].cpu().numpy() <span class="op">==</span> target_class</span>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a>    predicted_probabilities <span class="op">=</span> mc_mean[:, target_class]</span>
+<span id="cb125-9"><a href="#cb125-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-10"><a href="#cb125-10" aria-hidden="true" tabindex="-1"></a>    prob_true, prob_pred <span class="op">=</span> calibration_curve(</span>
+<span id="cb125-11"><a href="#cb125-11" aria-hidden="true" tabindex="-1"></a>        true_labels, predicted_probabilities, n_bins<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb125-12"><a href="#cb125-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb125-13"><a href="#cb125-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-14"><a href="#cb125-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot calibration curve</span></span>
+<span id="cb125-15"><a href="#cb125-15" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(prob_pred, prob_true, marker<span class="op">=</span><span class="st">"o"</span>, label<span class="op">=</span><span class="st">"Calibration Curve"</span>)</span>
+<span id="cb125-16"><a href="#cb125-16" aria-hidden="true" tabindex="-1"></a>    axes[target_class].plot(</span>
+<span id="cb125-17"><a href="#cb125-17" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Perfectly Calibrated"</span></span>
+<span id="cb125-18"><a href="#cb125-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb125-19"><a href="#cb125-19" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_xlabel(<span class="st">"Mean Predicted Probability"</span>)</span>
+<span id="cb125-20"><a href="#cb125-20" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_ylabel(<span class="st">"Observed Accuracy"</span>)</span>
+<span id="cb125-21"><a href="#cb125-21" aria-hidden="true" tabindex="-1"></a>    axes[target_class].set_title(<span class="ss">f"Class </span><span class="sc">{</span>target_class<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb125-22"><a href="#cb125-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb125-23"><a href="#cb125-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-24"><a href="#cb125-24" aria-hidden="true" tabindex="-1"></a>ece <span class="op">=</span> compute_ece(mc_mean, test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), <span class="dv">10</span>)</span>
+<span id="cb125-25"><a href="#cb125-25" aria-hidden="true" tabindex="-1"></a>ece</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="113">
 <pre><code>0.04250686831623317</code></pre>
 </div>
@@ -746,9 +946,9 @@ weighted avg       0.80      0.81      0.80     10000
 </div>
 </div>
 <div id="cell-19" class="cell" data-execution_count="114">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    classification_report(test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), mc_mean.argmax(axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>    classification_report(test_dataset.tensors[<span class="dv">1</span>].cpu().numpy(), mc_mean.argmax(axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
@@ -809,18 +1009,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -852,7 +1041,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -887,7 +1116,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

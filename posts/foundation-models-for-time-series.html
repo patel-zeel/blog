@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zeel B Patel">
+<meta name="dcterms.date" content="2024-07-06">
+<meta name="description" content="Exploring the foundation models for time series forecasting">
+
+<title>Foundation Models for Time Series Forecasting – blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/patel-zeel"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/patel_zeel_"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Foundation Models for Time Series Forecasting</h1>
+                  <div>
+        <div class="description">
+          Exploring the foundation models for time series forecasting
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">ML</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Zeel B Patel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 6, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div id="cell-1" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Config</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitoring</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># IO</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os.path <span class="im">import</span> join, exists, basename, dirname</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallel processing</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.open_zarr(<span class="st">"zip:///::https://huggingface.co/datasets/Zeel/P1/resolve/main/all_in_one.zarr.zip"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.Dataset&gt; Size: 25GB
+Dimensions:      (Timestamp: 245376, station: 537)
+Coordinates:
+  * Timestamp    (Timestamp) datetime64[ns] 2MB 2017-01-01 ... 2023-12-31T23:...
+    address      (station) &lt;U187 402kB ...
+    city         (station) &lt;U18 39kB ...
+    latitude     (station) float64 4kB ...
+    longitude    (station) float64 4kB ...
+    state        (station) &lt;U17 37kB ...
+  * station      (station) &lt;U64 137kB '32Bungalows, Bhilai - CECB' ... 'Ward-...
+Data variables: (12/24)
+    AT           (Timestamp, station) float64 1GB ...
+    BP           (Timestamp, station) float64 1GB ...
+    Benzene      (Timestamp, station) float64 1GB ...
+    CO           (Timestamp, station) float64 1GB ...
+    Eth-Benzene  (Timestamp, station) float64 1GB ...
+    MP-Xylene    (Timestamp, station) float64 1GB ...
+    ...           ...
+    TOT-RF       (Timestamp, station) float64 1GB ...
+    Toluene      (Timestamp, station) float64 1GB ...
+    VWS          (Timestamp, station) float64 1GB ...
+    WD           (Timestamp, station) float64 1GB ...
+    WS           (Timestamp, station) float64 1GB ...
+    Xylene       (Timestamp, station) float64 1GB ...</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-abe09459-d132-477c-b71c-72e9449bc48a" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-abe09459-d132-477c-b71c-72e9449bc48a" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">Timestamp</span>: 245376</li><li><span class="xr-has-index">station</span>: 537</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-9953d373-7066-4d64-ac7f-c6c75fc4f8b0" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-9953d373-7066-4d64-ac7f-c6c75fc4f8b0" class="xr-section-summary">Coordinates: <span>(7)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">Timestamp</span></div><div class="xr-var-dims">(Timestamp)</div><div class="xr-var-dtype">datetime64[ns]</div><div class="xr-var-preview xr-preview">2017-01-01 ... 2023-12-31T23:45:00</div><input id="attrs-625fcada-eb06-4929-a569-11c655df79c1" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-625fcada-eb06-4929-a569-11c655df79c1" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-25faf41a-bd62-4c29-aff5-2e1270a4b0d2" class="xr-var-data-in" type="checkbox"><label for="data-25faf41a-bd62-4c29-aff5-2e1270a4b0d2" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['2017-01-01T00:00:00.000000000', '2017-01-01T00:15:00.000000000',
+       '2017-01-01T00:30:00.000000000', ..., '2023-12-31T23:15:00.000000000',
+       '2023-12-31T23:30:00.000000000', '2023-12-31T23:45:00.000000000'],
+      dtype='datetime64[ns]')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>address</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">&lt;U187</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-f749d308-4d98-4f5f-adf9-e63d5e511cb6" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-f749d308-4d98-4f5f-adf9-e63d5e511cb6" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-35555f5d-dd11-443a-8c61-f6bf7ffe9bc2" class="xr-var-data-in" type="checkbox"><label for="data-35555f5d-dd11-443a-8c61-f6bf7ffe9bc2" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[537 values with dtype=&lt;U187]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>city</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">&lt;U18</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-96453720-3c56-41e3-a39b-845047672d56" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-96453720-3c56-41e3-a39b-845047672d56" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-57612005-dfa4-45e3-9d29-35a4b650360f" class="xr-var-data-in" type="checkbox"><label for="data-57612005-dfa4-45e3-9d29-35a4b650360f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[537 values with dtype=&lt;U18]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>latitude</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-6bdc8fb4-9bb1-45a4-9bd8-1d64e89aa5b6" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-6bdc8fb4-9bb1-45a4-9bd8-1d64e89aa5b6" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-c50516e4-39cc-48c4-901e-1e20c0b83f33" class="xr-var-data-in" type="checkbox"><label for="data-c50516e4-39cc-48c4-901e-1e20c0b83f33" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[537 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>longitude</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-8fcd2fbc-9a13-4dca-87b2-b2d328681a7a" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8fcd2fbc-9a13-4dca-87b2-b2d328681a7a" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-21890222-5d0a-4e39-8911-bf4a2a29cb9f" class="xr-var-data-in" type="checkbox"><label for="data-21890222-5d0a-4e39-8911-bf4a2a29cb9f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[537 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>state</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">&lt;U17</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-8252891f-9167-46f5-bba4-28b9b041101b" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-8252891f-9167-46f5-bba4-28b9b041101b" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-141fce58-ec7c-4781-8980-e67402e06430" class="xr-var-data-in" type="checkbox"><label for="data-141fce58-ec7c-4781-8980-e67402e06430" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[537 values with dtype=&lt;U17]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">station</span></div><div class="xr-var-dims">(station)</div><div class="xr-var-dtype">&lt;U64</div><div class="xr-var-preview xr-preview">'32Bungalows, Bhilai - CECB' ......</div><input id="attrs-73eddbee-082b-47e2-afb5-8e81fa8adc53" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-73eddbee-082b-47e2-afb5-8e81fa8adc53" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-5c64fec3-9a66-4a98-bb1f-0771ca6bc3be" class="xr-var-data-in" type="checkbox"><label for="data-5c64fec3-9a66-4a98-bb1f-0771ca6bc3be" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['32Bungalows, Bhilai - CECB', 'AIIMS, Raipur - CECB',
+       'Bhatagaon New ISBT, Raipur - CECB', ...,
+       'Sidhu Kanhu Indoor Stadium, Durgapur - WBPCB',
+       'Victoria, Kolkata - WBPCB', 'Ward-32 Bapupara, Siliguri - WBPCB'],
+      dtype='&lt;U64')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-4455337e-dd39-43a7-84c9-c63fc25d48f0" class="xr-section-summary-in" type="checkbox"><label for="section-4455337e-dd39-43a7-84c9-c63fc25d48f0" class="xr-section-summary">Data variables: <span>(24)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>AT</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-f58098eb-38a9-43a2-90e4-10dc0d0a94d0" class="xr-var-attrs-in" type="checkbox"><label for="attrs-f58098eb-38a9-43a2-90e4-10dc0d0a94d0" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ab02f8e8-521f-440f-9cd7-9e2af6e18c59" class="xr-var-data-in" type="checkbox"><label for="data-ab02f8e8-521f-440f-9cd7-9e2af6e18c59" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>°C</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>BP</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-eb9e217c-ee3e-4d21-bdcc-9bc79afb1211" class="xr-var-attrs-in" type="checkbox"><label for="attrs-eb9e217c-ee3e-4d21-bdcc-9bc79afb1211" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-d0ca9e03-164f-4b63-802c-b41730b0ceae" class="xr-var-data-in" type="checkbox"><label for="data-d0ca9e03-164f-4b63-802c-b41730b0ceae" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>mmHg</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>Benzene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-0b7c820c-87ab-4305-a907-a337ed144f86" class="xr-var-attrs-in" type="checkbox"><label for="attrs-0b7c820c-87ab-4305-a907-a337ed144f86" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-286caf19-7e8c-496f-baaa-ff00c778fdc5" class="xr-var-data-in" type="checkbox"><label for="data-286caf19-7e8c-496f-baaa-ff00c778fdc5" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>CO</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-04534bb0-27cc-48f1-bf13-65da9adfd323" class="xr-var-attrs-in" type="checkbox"><label for="attrs-04534bb0-27cc-48f1-bf13-65da9adfd323" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-304cc179-8059-4d39-82ec-2c2772ded5a5" class="xr-var-data-in" type="checkbox"><label for="data-304cc179-8059-4d39-82ec-2c2772ded5a5" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>mg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>Eth-Benzene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-6f0aa780-64d5-4f2d-a627-d262c90229e2" class="xr-var-attrs-in" type="checkbox"><label for="attrs-6f0aa780-64d5-4f2d-a627-d262c90229e2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-1abdd872-6ee1-47e0-a4c2-4288aadbe28f" class="xr-var-data-in" type="checkbox"><label for="data-1abdd872-6ee1-47e0-a4c2-4288aadbe28f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>MP-Xylene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-286db34e-7686-4dd9-b7cc-566d80c763ff" class="xr-var-attrs-in" type="checkbox"><label for="attrs-286db34e-7686-4dd9-b7cc-566d80c763ff" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-398e1df6-77dd-4cce-a19b-7516b6055c06" class="xr-var-data-in" type="checkbox"><label for="data-398e1df6-77dd-4cce-a19b-7516b6055c06" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>NH3</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-9489d2d6-b771-4611-82f2-aa8de579b85c" class="xr-var-attrs-in" type="checkbox"><label for="attrs-9489d2d6-b771-4611-82f2-aa8de579b85c" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f278f5be-2b40-4774-987f-f74db422bfa8" class="xr-var-data-in" type="checkbox"><label for="data-f278f5be-2b40-4774-987f-f74db422bfa8" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>NO</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-3022d293-1406-43da-83d3-42c235bbef64" class="xr-var-attrs-in" type="checkbox"><label for="attrs-3022d293-1406-43da-83d3-42c235bbef64" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-fee76199-7cee-4c2d-977a-c46ada649721" class="xr-var-data-in" type="checkbox"><label for="data-fee76199-7cee-4c2d-977a-c46ada649721" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>NO2</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-3950bfb0-66ca-4990-872c-d843cf6229d1" class="xr-var-attrs-in" type="checkbox"><label for="attrs-3950bfb0-66ca-4990-872c-d843cf6229d1" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ed82cf69-54e9-4011-9e36-ff94d32c6fc1" class="xr-var-data-in" type="checkbox"><label for="data-ed82cf69-54e9-4011-9e36-ff94d32c6fc1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>NOx</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-d3676530-e953-4cf0-a586-df03885d6029" class="xr-var-attrs-in" type="checkbox"><label for="attrs-d3676530-e953-4cf0-a586-df03885d6029" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-8477e1bb-51a7-4d0e-a1f1-0453db20f88d" class="xr-var-data-in" type="checkbox"><label for="data-8477e1bb-51a7-4d0e-a1f1-0453db20f88d" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>ppb</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>O Xylene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-08629eac-57c6-4118-9f30-097be8ef3964" class="xr-var-attrs-in" type="checkbox"><label for="attrs-08629eac-57c6-4118-9f30-097be8ef3964" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ff202c05-e346-4394-9169-f47bddbf4b52" class="xr-var-data-in" type="checkbox"><label for="data-ff202c05-e346-4394-9169-f47bddbf4b52" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>Ozone</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-62463bf5-93e9-4e6d-8514-e4cec66f9fa4" class="xr-var-attrs-in" type="checkbox"><label for="attrs-62463bf5-93e9-4e6d-8514-e4cec66f9fa4" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-70c07401-433a-489d-8ffb-60e77f4b8073" class="xr-var-data-in" type="checkbox"><label for="data-70c07401-433a-489d-8ffb-60e77f4b8073" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>PM10</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-027959dd-9154-4c42-88b7-c63131f8005a" class="xr-var-attrs-in" type="checkbox"><label for="attrs-027959dd-9154-4c42-88b7-c63131f8005a" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-69b40e4e-fff6-4a9a-867d-9fffeba4e232" class="xr-var-data-in" type="checkbox"><label for="data-69b40e4e-fff6-4a9a-867d-9fffeba4e232" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>PM2.5</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-b1ea4650-89e5-4b3f-86a9-1945dc00e91f" class="xr-var-attrs-in" type="checkbox"><label for="attrs-b1ea4650-89e5-4b3f-86a9-1945dc00e91f" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-2ecde886-ff9c-418e-856a-db2de8f74e0f" class="xr-var-data-in" type="checkbox"><label for="data-2ecde886-ff9c-418e-856a-db2de8f74e0f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>RF</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-6363b118-04ac-4ca3-a78c-9c2e7dfd70ef" class="xr-var-attrs-in" type="checkbox"><label for="attrs-6363b118-04ac-4ca3-a78c-9c2e7dfd70ef" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-d3003cb8-8aa7-4326-b69b-8d7588618f09" class="xr-var-data-in" type="checkbox"><label for="data-d3003cb8-8aa7-4326-b69b-8d7588618f09" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>mm</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>RH</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-f4f9582f-47e5-4efe-849b-2c2ea6f39d09" class="xr-var-attrs-in" type="checkbox"><label for="attrs-f4f9582f-47e5-4efe-849b-2c2ea6f39d09" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-1e61d465-897c-4e16-9d7f-c3a0c0aa795e" class="xr-var-data-in" type="checkbox"><label for="data-1e61d465-897c-4e16-9d7f-c3a0c0aa795e" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>%</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>SO2</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-54ce98e5-f8d1-4ef9-8043-077e1d562e26" class="xr-var-attrs-in" type="checkbox"><label for="attrs-54ce98e5-f8d1-4ef9-8043-077e1d562e26" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-4d473f0c-c682-4aae-8a9a-8d9846767597" class="xr-var-data-in" type="checkbox"><label for="data-4d473f0c-c682-4aae-8a9a-8d9846767597" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>SR</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-f46cd3fd-9fb7-44bd-b4ad-df099ade8ead" class="xr-var-attrs-in" type="checkbox"><label for="attrs-f46cd3fd-9fb7-44bd-b4ad-df099ade8ead" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7813ea82-febe-47c9-8e6b-1e67558c33fa" class="xr-var-data-in" type="checkbox"><label for="data-7813ea82-febe-47c9-8e6b-1e67558c33fa" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>W/mt2</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>TOT-RF</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-a3e07c4d-808a-4661-b991-55aec4b19c0e" class="xr-var-attrs-in" type="checkbox"><label for="attrs-a3e07c4d-808a-4661-b991-55aec4b19c0e" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-eecedd61-5d05-49c3-90e2-8370d9bc8c38" class="xr-var-data-in" type="checkbox"><label for="data-eecedd61-5d05-49c3-90e2-8370d9bc8c38" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>mm</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>Toluene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-dc0ad3b0-7c70-40b0-bcba-59db53b26bc6" class="xr-var-attrs-in" type="checkbox"><label for="attrs-dc0ad3b0-7c70-40b0-bcba-59db53b26bc6" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-1112ace2-b0ca-4caa-b149-2db1e0308113" class="xr-var-data-in" type="checkbox"><label for="data-1112ace2-b0ca-4caa-b149-2db1e0308113" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>VWS</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-9a6f9ea7-ea30-471b-9b9a-074b32dc9add" class="xr-var-attrs-in" type="checkbox"><label for="attrs-9a6f9ea7-ea30-471b-9b9a-074b32dc9add" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-ed827370-1b37-42c5-96f6-884c87c9b1b5" class="xr-var-data-in" type="checkbox"><label for="data-ed827370-1b37-42c5-96f6-884c87c9b1b5" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>m/s</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>WD</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-8b4d045a-24ed-4c30-8567-ed1c609d1a7f" class="xr-var-attrs-in" type="checkbox"><label for="attrs-8b4d045a-24ed-4c30-8567-ed1c609d1a7f" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-f8b9eb6b-3591-4b33-a7eb-e94e2aff5940" class="xr-var-data-in" type="checkbox"><label for="data-f8b9eb6b-3591-4b33-a7eb-e94e2aff5940" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>deg</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>WS</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-65df7a14-1402-4fc2-9913-9a03aff631a3" class="xr-var-attrs-in" type="checkbox"><label for="attrs-65df7a14-1402-4fc2-9913-9a03aff631a3" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-3f7a36b3-8307-4014-8c94-b6d4c3e347f4" class="xr-var-data-in" type="checkbox"><label for="data-3f7a36b3-8307-4014-8c94-b6d4c3e347f4" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>m/s</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>Xylene</span></div><div class="xr-var-dims">(Timestamp, station)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-98b8f63a-518e-4c81-b081-88f6252ea720" class="xr-var-attrs-in" type="checkbox"><label for="attrs-98b8f63a-518e-4c81-b081-88f6252ea720" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-3c7d0f7f-c0ae-4355-a0d0-5e268b5196c9" class="xr-var-data-in" type="checkbox"><label for="data-3c7d0f7f-c0ae-4355-a0d0-5e268b5196c9" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[131766912 values with dtype=float64]</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-df595595-349e-409b-ab1e-f6692233f73b" class="xr-section-summary-in" type="checkbox"><label for="section-df595595-349e-409b-ab1e-f6692233f73b" class="xr-section-summary">Indexes: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>Timestamp</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-f83db741-3547-4cf6-b2df-43b665ec7c29" class="xr-index-data-in" type="checkbox"><label for="index-f83db741-3547-4cf6-b2df-43b665ec7c29" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(DatetimeIndex(['2017-01-01 00:00:00', '2017-01-01 00:15:00',
+               '2017-01-01 00:30:00', '2017-01-01 00:45:00',
+               '2017-01-01 01:00:00', '2017-01-01 01:15:00',
+               '2017-01-01 01:30:00', '2017-01-01 01:45:00',
+               '2017-01-01 02:00:00', '2017-01-01 02:15:00',
+               ...
+               '2023-12-31 21:30:00', '2023-12-31 21:45:00',
+               '2023-12-31 22:00:00', '2023-12-31 22:15:00',
+               '2023-12-31 22:30:00', '2023-12-31 22:45:00',
+               '2023-12-31 23:00:00', '2023-12-31 23:15:00',
+               '2023-12-31 23:30:00', '2023-12-31 23:45:00'],
+              dtype='datetime64[ns]', name='Timestamp', length=245376, freq=None))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>station</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-aa34246a-6689-42b9-af8d-556ea660cb2d" class="xr-index-data-in" type="checkbox"><label for="index-aa34246a-6689-42b9-af8d-556ea660cb2d" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index(['32Bungalows, Bhilai - CECB', 'AIIMS, Raipur - CECB',
+       'Bhatagaon New ISBT, Raipur - CECB',
+       'Civic Center, Bhilai - Bhilai Steel Plant',
+       'Govt. Higher Secondary School, Milupara - CECB',
+       'Hathkhoj, Bhilai - CECB', 'Krishak Nagar, Raipur - CECB',
+       'Mangala, Bilaspur - NTPC', 'Nawapara SECL Colony, Chhal - CECB',
+       'OP Jindal Industrial Park, Tumidih - CECB',
+       ...
+       'Ghusuri, Howrah - WBPCB', 'Jadavpur, Kolkata - WBPCB',
+       'Padmapukur, Howrah - WBPCB',
+       'Priyambada Housing Estate, Haldia - WBPCB',
+       'Rabindra Bharati University, Kolkata - WBPCB',
+       'Rabindra Sarobar, Kolkata - WBPCB',
+       'SVSPA Campus, Barrackpore - WBPCB',
+       'Sidhu Kanhu Indoor Stadium, Durgapur - WBPCB',
+       'Victoria, Kolkata - WBPCB', 'Ward-32 Bapupara, Siliguri - WBPCB'],
+      dtype='object', name='station', length=537))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-241aa2c8-4e99-415c-be74-4733017811e4" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-241aa2c8-4e99-415c-be74-4733017811e4" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+</div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>one_station_ds <span class="op">=</span> ds.sel(station<span class="op">=</span><span class="st">"IGI Airport (T3), Delhi - IMD"</span>, Timestamp<span class="op">=</span><span class="bu">slice</span>(<span class="st">"2022"</span>, <span class="st">"2023"</span>))[[<span class="st">"PM2.5"</span>]]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>one_station_ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewbox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewbox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class="xr-text-repr-fallback">&lt;xarray.Dataset&gt; Size: 1MB
+Dimensions:    (Timestamp: 70080)
+Coordinates:
+  * Timestamp  (Timestamp) datetime64[ns] 561kB 2022-01-01 ... 2023-12-31T23:...
+    address    &lt;U187 748B ...
+    city       &lt;U18 72B ...
+    latitude   float64 8B ...
+    longitude  float64 8B ...
+    state      &lt;U17 68B ...
+    station    &lt;U64 256B 'IGI Airport (T3), Delhi - IMD'
+Data variables:
+    PM2.5      (Timestamp) float64 561kB ...</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-55b50533-26e2-4b45-8bfc-3c4374aaa1ad" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-55b50533-26e2-4b45-8bfc-3c4374aaa1ad" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">Timestamp</span>: 70080</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-e57bb9ce-442b-41ca-b676-5ce6f141a7dc" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-e57bb9ce-442b-41ca-b676-5ce6f141a7dc" class="xr-section-summary">Coordinates: <span>(7)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">Timestamp</span></div><div class="xr-var-dims">(Timestamp)</div><div class="xr-var-dtype">datetime64[ns]</div><div class="xr-var-preview xr-preview">2022-01-01 ... 2023-12-31T23:45:00</div><input id="attrs-54f036bf-1297-43be-8900-9d10fd873488" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-54f036bf-1297-43be-8900-9d10fd873488" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-cdb08649-00b6-47c5-9e80-f3a54c6e9443" class="xr-var-data-in" type="checkbox"><label for="data-cdb08649-00b6-47c5-9e80-f3a54c6e9443" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array(['2022-01-01T00:00:00.000000000', '2022-01-01T00:15:00.000000000',
+       '2022-01-01T00:30:00.000000000', ..., '2023-12-31T23:15:00.000000000',
+       '2023-12-31T23:30:00.000000000', '2023-12-31T23:45:00.000000000'],
+      dtype='datetime64[ns]')</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>address</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U187</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-7a89df66-a054-48bd-983c-7c7938590f76" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-7a89df66-a054-48bd-983c-7c7938590f76" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-bf5774d6-38f4-48aa-9c38-6d79fd06a191" class="xr-var-data-in" type="checkbox"><label for="data-bf5774d6-38f4-48aa-9c38-6d79fd06a191" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=&lt;U187]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>city</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U18</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-7de41fa4-f520-4062-a9a8-cc78b3e9eaa4" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-7de41fa4-f520-4062-a9a8-cc78b3e9eaa4" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7d42b99a-462f-4fb9-960c-d0d8050b8f52" class="xr-var-data-in" type="checkbox"><label for="data-7d42b99a-462f-4fb9-960c-d0d8050b8f52" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=&lt;U18]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>latitude</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-7b5e1343-9ba4-4c12-ba00-9e2e3712b303" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-7b5e1343-9ba4-4c12-ba00-9e2e3712b303" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-8ae63f5f-dcdb-4d42-914a-aab89c11b79d" class="xr-var-data-in" type="checkbox"><label for="data-8ae63f5f-dcdb-4d42-914a-aab89c11b79d" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>longitude</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-b1e0d017-30f7-4f9e-8829-895e9299b92a" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-b1e0d017-30f7-4f9e-8829-895e9299b92a" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7cd862d3-3105-4539-8408-5baf511baab0" class="xr-var-data-in" type="checkbox"><label for="data-7cd862d3-3105-4539-8408-5baf511baab0" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>state</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U17</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-fb1b76ef-fe36-4fec-971d-486c5806cd58" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-fb1b76ef-fe36-4fec-971d-486c5806cd58" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-cfd3f91b-6d2a-4f50-802c-d44902878551" class="xr-var-data-in" type="checkbox"><label for="data-cfd3f91b-6d2a-4f50-802c-d44902878551" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=&lt;U17]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>station</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">&lt;U64</div><div class="xr-var-preview xr-preview">'IGI Airport (T3), Delhi - IMD'</div><input id="attrs-7efec4f7-b262-47ab-942b-7dc446a01c7e" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-7efec4f7-b262-47ab-942b-7dc446a01c7e" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-b3fa2b12-f917-442e-b8a6-964dc9abf812" class="xr-var-data-in" type="checkbox"><label for="data-b3fa2b12-f917-442e-b8a6-964dc9abf812" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array('IGI Airport (T3), Delhi - IMD', dtype='&lt;U64')</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-dab00367-7f12-4b91-802b-7e64c5a9c72c" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-dab00367-7f12-4b91-802b-7e64c5a9c72c" class="xr-section-summary">Data variables: <span>(1)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>PM2.5</span></div><div class="xr-var-dims">(Timestamp)</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-a74bf569-66ae-4355-9dd2-34d9b91aa096" class="xr-var-attrs-in" type="checkbox"><label for="attrs-a74bf569-66ae-4355-9dd2-34d9b91aa096" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-7c2cd853-9753-4ff9-a24f-b086ca7f1024" class="xr-var-data-in" type="checkbox"><label for="data-7c2cd853-9753-4ff9-a24f-b086ca7f1024" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"><dt><span>unit :</span></dt><dd>µg/m³</dd></dl></div><div class="xr-var-data"><pre>[70080 values with dtype=float64]</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-9cdeca34-7f61-4f9d-80ad-e2fc74150840" class="xr-section-summary-in" type="checkbox"><label for="section-9cdeca34-7f61-4f9d-80ad-e2fc74150840" class="xr-section-summary">Indexes: <span>(1)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>Timestamp</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-5f6545e4-4503-403a-ada0-32d4a3f9ff99" class="xr-index-data-in" type="checkbox"><label for="index-5f6545e4-4503-403a-ada0-32d4a3f9ff99" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(DatetimeIndex(['2022-01-01 00:00:00', '2022-01-01 00:15:00',
+               '2022-01-01 00:30:00', '2022-01-01 00:45:00',
+               '2022-01-01 01:00:00', '2022-01-01 01:15:00',
+               '2022-01-01 01:30:00', '2022-01-01 01:45:00',
+               '2022-01-01 02:00:00', '2022-01-01 02:15:00',
+               ...
+               '2023-12-31 21:30:00', '2023-12-31 21:45:00',
+               '2023-12-31 22:00:00', '2023-12-31 22:15:00',
+               '2023-12-31 22:30:00', '2023-12-31 22:45:00',
+               '2023-12-31 23:00:00', '2023-12-31 23:15:00',
+               '2023-12-31 23:30:00', '2023-12-31 23:45:00'],
+              dtype='datetime64[ns]', name='Timestamp', length=70080, freq=None))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-8e8905cf-2557-4062-bae7-3607f2d0e4e7" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-8e8905cf-2557-4062-bae7-3607f2d0e4e7" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
+</div>
+</div>
+<div id="cell-5" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> one_station_ds[<span class="st">'PM2.5'</span>].to_dataframe()[[<span class="st">'PM2.5'</span>]]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to hourly data</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.resample(<span class="st">'h'</span>).mean()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># how much missing data</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Missing data: </span><span class="sc">{</span>data<span class="sc">.</span>isna()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>values[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># fill missing data</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.interpolate(method<span class="op">=</span><span class="st">'linear'</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Missing data after interpolation: </span><span class="sc">{</span>data<span class="sc">.</span>isna()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>values[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Missing data: 298
+Missing data after interpolation: 0</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PM2.5</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Timestamp</th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2022-01-01 00:00:00</td>
+<td>273.5475</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2022-01-01 01:00:00</td>
+<td>268.8675</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2022-01-01 02:00:00</td>
+<td>258.0225</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2022-01-01 03:00:00</td>
+<td>194.9100</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2022-01-01 04:00:00</td>
+<td>197.9975</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-6" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timesfm</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tfm <span class="op">=</span> timesfm.TimesFm(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    context_len<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    horizon_len<span class="op">=</span><span class="dv">24</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    input_patch_len<span class="op">=</span><span class="dv">32</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    output_patch_len<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    num_layers<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    model_dims<span class="op">=</span><span class="dv">1280</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    backend<span class="op">=</span><span class="st">"gpu"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>tfm.load_from_checkpoint(repo_id<span class="op">=</span><span class="st">"google/timesfm-1.0-200m"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multiprocessing context has already been set.
+Constructing model weights.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:absl:No registered CheckpointArgs found for handler type: &lt;class 'paxml.checkpoints.FlaxCheckpointHandler'&gt;
+WARNING:absl:Configured `CheckpointManager` using deprecated legacy API. Please follow the instructions at https://orbax.readthedocs.io/en/latest/api_refactor.html to migrate by May 1st, 2024.
+WARNING:absl:train_state_unpadded_shape_dtype_struct is not provided. We assume `train_state` is unpadded.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Constructed model weights in 3.76 seconds.
+Restoring checkpoint from /home/patel_zeel/.cache/huggingface/hub/models--google--timesfm-1.0-200m/snapshots/8775f7531211ac864b739fe776b0b255c277e2be/checkpoints.</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">MemoryError</span>                               Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[6], line 12</span>
+<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">timesfm</span>
+<span class="ansi-green-fg ansi-bold">      3</span> tfm <span style="color:rgb(98,98,98)">=</span> timesfm<span style="color:rgb(98,98,98)">.</span>TimesFm(
+<span class="ansi-green-fg ansi-bold">      4</span>     context_len<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(98,98,98)">32</span>,
+<span class="ansi-green-fg ansi-bold">      5</span>     horizon_len<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(98,98,98)">24</span>,
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-fg ansi-bold">     10</span>     backend<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">gpu</span><span style="color:rgb(175,0,0)">"</span>,
+<span class="ansi-green-fg ansi-bold">     11</span> )
+<span class="ansi-green-fg">---&gt; 12</span> <span class="ansi-yellow-bg">tfm</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">load_from_checkpoint</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">repo_id</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">google/timesfm-1.0-200m</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/timesfm/src/timesfm.py:270</span>, in <span class="ansi-cyan-fg">TimesFm.load_from_checkpoint</span><span class="ansi-blue-fg">(self, checkpoint_path, repo_id, checkpoint_type, step)</span>
+<span class="ansi-green-fg ansi-bold">    268</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_logging(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Restoring checkpoint from </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>checkpoint_path<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">.</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg ansi-bold">    269</span> start_time <span style="color:rgb(98,98,98)">=</span> time<span style="color:rgb(98,98,98)">.</span>time()
+<span class="ansi-green-fg">--&gt; 270</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_train_state <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">checkpoints</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore_checkpoint</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">    271</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">train_state_local_shapes</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    272</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">checkpoint_dir</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">checkpoint_path</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    273</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">checkpoint_type</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">checkpoint_type</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    274</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">state_specs</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">train_state_partition_specs</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    275</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">step</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">step</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    276</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    277</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_logging(
+<span class="ansi-green-fg ansi-bold">    278</span>     <span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Restored checkpoint in </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>time<span style="color:rgb(98,98,98)">.</span>time()<span style="color:rgb(188,188,188)"> </span><span style="color:rgb(98,98,98)">-</span><span style="color:rgb(188,188,188)"> </span>start_time<span style="font-weight:bold;color:rgb(175,95,135)">:</span><span style="color:rgb(175,0,0)">.2f</span><span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)"> seconds.</span><span style="color:rgb(175,0,0)">"</span>
+<span class="ansi-green-fg ansi-bold">    279</span> )
+<span class="ansi-green-fg ansi-bold">    281</span> <span style="font-style:italic;color:rgb(95,135,135)"># Initialize and jit the decode fn.</span>
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/paxml/checkpoints.py:246</span>, in <span class="ansi-cyan-fg">restore_checkpoint</span><span class="ansi-blue-fg">(state_global_shapes, checkpoint_dir, global_mesh, checkpoint_type, state_specs, step, enforce_restore_shape_check, state_unpadded_shape_dtype_struct, tensorstore_use_ocdbt, restore_transformations)</span>
+<span class="ansi-green-fg ansi-bold">    240</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> checkpoint_type <span style="color:rgb(98,98,98)">==</span> CheckpointType<span style="color:rgb(98,98,98)">.</span>GDA:
+<span class="ansi-green-fg ansi-bold">    241</span>   restore_args <span style="color:rgb(98,98,98)">=</span> {
+<span class="ansi-green-fg ansi-bold">    242</span>       <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">specs</span><span style="color:rgb(175,0,0)">'</span>: state_specs,
+<span class="ansi-green-fg ansi-bold">    243</span>       <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">mesh</span><span style="color:rgb(175,0,0)">'</span>: global_mesh,
+<span class="ansi-green-fg ansi-bold">    244</span>       <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">transforms</span><span style="color:rgb(175,0,0)">'</span>: restore_transformations,
+<span class="ansi-green-fg ansi-bold">    245</span>   }
+<span class="ansi-green-fg">--&gt; 246</span> output <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">checkpoint_manager</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">    247</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">step</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    248</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">state_global_shapes</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    249</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">state_unpadded_shape_dtype_struct</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    250</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">restore_kwargs</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">restore_args</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg ansi-bold">    251</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    252</span> <span style="font-style:italic;color:rgb(95,135,135)"># Note: `aux_items` argument wasn't passed to checkpoint_manager.restore()</span>
+<span class="ansi-green-fg ansi-bold">    253</span> <span style="font-style:italic;color:rgb(95,135,135)"># so this returns a TrainState instance.</span>
+<span class="ansi-green-fg ansi-bold">    254</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> cast(train_states<span style="color:rgb(98,98,98)">.</span>TrainState, output)
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/paxml/checkpoint_managers.py:568</span>, in <span class="ansi-cyan-fg">OrbaxCheckpointManager.restore</span><span class="ansi-blue-fg">(self, step, train_state, train_state_unpadded_shape_dtype_struct, train_input_pipeline, restore_kwargs, aux_items, aux_restore_kwargs)</span>
+<span class="ansi-green-fg ansi-bold">    565</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> train_input_pipeline <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_train_checkpoint_exists(step):
+<span class="ansi-green-fg ansi-bold">    566</span>   items[INPUT_ITEM_NAME] <span style="color:rgb(98,98,98)">=</span> train_input_pipeline
+<span class="ansi-green-fg">--&gt; 568</span> restored <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_manager</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">    569</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">step</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">items</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">items</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">restore_kwargs</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">restore_kwargs</span>
+<span class="ansi-green-fg ansi-bold">    570</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    572</span> <span style="font-style:italic;color:rgb(95,135,135)"># Skip metadata checks if using transformations, since the TrainState may be</span>
+<span class="ansi-green-fg ansi-bold">    573</span> <span style="font-style:italic;color:rgb(95,135,135)"># completely altered.</span>
+<span class="ansi-green-fg ansi-bold">    574</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>version <span style="color:rgb(98,98,98)">&gt;</span> <span style="color:rgb(98,98,98)">1.0</span> <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> uses_transformations:
+<span class="ansi-green-fg ansi-bold">    575</span>   <span style="font-style:italic;color:rgb(95,135,135)"># If unpadded shapes were not provided, skip the shape check for now, as</span>
+<span class="ansi-green-fg ansi-bold">    576</span>   <span style="font-style:italic;color:rgb(95,135,135)"># there are many callers that need to be changed.</span>
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/checkpoint_manager.py:1055</span>, in <span class="ansi-cyan-fg">CheckpointManager.restore</span><span class="ansi-blue-fg">(self, step, items, restore_kwargs, directory, args)</span>
+<span class="ansi-green-fg ansi-bold">   1052</span>     args <span style="color:rgb(98,98,98)">=</span> typing<span style="color:rgb(98,98,98)">.</span>cast(args_lib<span style="color:rgb(98,98,98)">.</span>Composite, args)
+<span class="ansi-green-fg ansi-bold">   1054</span> restore_directory <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_get_read_step_directory(step, directory)
+<span class="ansi-green-fg">-&gt; 1055</span> restored <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_checkpointer</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">restore_directory</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">args</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">   1056</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_single_item:
+<span class="ansi-green-fg ansi-bold">   1057</span>   <span style="font-weight:bold;color:rgb(0,135,0)">return</span> restored[DEFAULT_ITEM_NAME]
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/checkpointer.py:170</span>, in <span class="ansi-cyan-fg">Checkpointer.restore</span><span class="ansi-blue-fg">(self, directory, *args, **kwargs)</span>
+<span class="ansi-green-fg ansi-bold">    168</span> logging<span style="color:rgb(98,98,98)">.</span>info(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Restoring item from </span><span style="font-weight:bold;color:rgb(175,95,135)">%s</span><span style="color:rgb(175,0,0)">.</span><span style="color:rgb(175,0,0)">'</span>, directory)
+<span class="ansi-green-fg ansi-bold">    169</span> ckpt_args <span style="color:rgb(98,98,98)">=</span> construct_checkpoint_args(<span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_handler, <span style="font-weight:bold;color:rgb(0,135,0)">False</span>, <span style="color:rgb(98,98,98)">*</span>args, <span style="color:rgb(98,98,98)">*</span><span style="color:rgb(98,98,98)">*</span>kwargs)
+<span class="ansi-green-fg">--&gt; 170</span> restored <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_handler</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">args</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">ckpt_args</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    171</span> logging<span style="color:rgb(98,98,98)">.</span>info(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Finished restoring checkpoint from </span><span style="font-weight:bold;color:rgb(175,95,135)">%s</span><span style="color:rgb(175,0,0)">.</span><span style="color:rgb(175,0,0)">'</span>, directory)
+<span class="ansi-green-fg ansi-bold">    172</span> utils<span style="color:rgb(98,98,98)">.</span>sync_global_processes(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Checkpointer:restore</span><span style="color:rgb(175,0,0)">'</span>, <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_active_processes)
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/composite_checkpoint_handler.py:470</span>, in <span class="ansi-cyan-fg">CompositeCheckpointHandler.restore</span><span class="ansi-blue-fg">(self, directory, args)</span>
+<span class="ansi-green-fg ansi-bold">    468</span>     <span style="font-weight:bold;color:rgb(0,135,0)">continue</span>
+<span class="ansi-green-fg ansi-bold">    469</span>   handler <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_get_or_set_handler(item_name, arg)
+<span class="ansi-green-fg">--&gt; 470</span>   restored[item_name] <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">handler</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">    471</span> <span class="ansi-yellow-bg">      </span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_item_directory</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">item_name</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">args</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">arg</span>
+<span class="ansi-green-fg ansi-bold">    472</span> <span class="ansi-yellow-bg">  </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    473</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> CompositeResults(<span style="color:rgb(98,98,98)">*</span><span style="color:rgb(98,98,98)">*</span>restored)
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/composite_checkpoint_handler.py:138</span>, in <span class="ansi-cyan-fg">_AsyncLegacyCheckpointHandlerWrapper.restore</span><span class="ansi-blue-fg">(self, directory, args)</span>
+<span class="ansi-green-fg ansi-bold">    137</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> <span style="color:rgb(0,0,255)">restore</span>(<span style="color:rgb(0,135,0)">self</span>, directory: epath<span style="color:rgb(98,98,98)">.</span>Path, args: <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">_AsyncWrapperArgs</span><span style="color:rgb(175,0,0)">'</span>):
+<span class="ansi-green-fg">--&gt; 138</span>   <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_handler</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">args</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">args</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/paxml/checkpoints.py:685</span>, in <span class="ansi-cyan-fg">FlaxCheckpointHandler.restore</span><span class="ansi-blue-fg">(self, directory, item, restore_args, transforms, transforms_default_to_original, version)</span>
+<span class="ansi-green-fg ansi-bold">    680</span> str_pytree_state <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">str</span>(pytree_state)
+<span class="ansi-green-fg ansi-bold">    681</span> input_target <span style="color:rgb(98,98,98)">=</span> {
+<span class="ansi-green-fg ansi-bold">    682</span>     <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">flattened_state</span><span style="color:rgb(175,0,0)">'</span>: flattened_state,
+<span class="ansi-green-fg ansi-bold">    683</span>     <span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">str_pytree_state</span><span style="color:rgb(175,0,0)">'</span>: str_pytree_state,
+<span class="ansi-green-fg ansi-bold">    684</span> }
+<span class="ansi-green-fg">--&gt; 685</span> restored_target <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">super</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">restore</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">input_target</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    686</span> <span style="font-style:italic;color:rgb(95,135,135)"># Flax restore_checkpoint returned input_target unchanged if</span>
+<span class="ansi-green-fg ansi-bold">    687</span> <span style="font-style:italic;color:rgb(95,135,135)"># no step specified and no checkpoint files present.</span>
+<span class="ansi-green-fg ansi-bold">    688</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> restored_target <span style="font-weight:bold;color:rgb(175,0,255)">is</span> input_target:
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/pytree_checkpoint_handler.py:1089</span>, in <span class="ansi-cyan-fg">PyTreeCheckpointHandler.restore</span><span class="ansi-blue-fg">(self, directory, item, restore_args, transforms, transforms_default_to_original, legacy_transform_fn, args)</span>
+<span class="ansi-green-fg ansi-bold">   1085</span>   <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">FileNotFoundError</span>(
+<span class="ansi-green-fg ansi-bold">   1086</span>       <span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Requested directory for restore does not exist at </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>directory<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">'</span>
+<span class="ansi-green-fg ansi-bold">   1087</span>   )
+<span class="ansi-green-fg ansi-bold">   1088</span> byte_limiter <span style="color:rgb(98,98,98)">=</span> get_byte_limiter(<span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_concurrent_gb)
+<span class="ansi-green-fg">-&gt; 1089</span> structure, use_zarr3_metadata <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_internal_metadata</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">   1090</span> <span style="font-style:italic;color:rgb(95,135,135)"># `checkpoint_restore_args` has a structure relative to the checkpoint,</span>
+<span class="ansi-green-fg ansi-bold">   1091</span> <span style="font-style:italic;color:rgb(95,135,135)"># while `restore_args` remains structured relative to the output.</span>
+<span class="ansi-green-fg ansi-bold">   1092</span> param_infos, checkpoint_restore_args <span style="color:rgb(98,98,98)">=</span> _get_restore_parameters(
+<span class="ansi-green-fg ansi-bold">   1093</span>     directory,
+<span class="ansi-green-fg ansi-bold">   1094</span>     item,
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-fg ansi-bold">   1102</span>     <span style="font-weight:bold;color:rgb(0,135,0)">else</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_use_zarr3,
+<span class="ansi-green-fg ansi-bold">   1103</span> )
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/pytree_checkpoint_handler.py:1312</span>, in <span class="ansi-cyan-fg">PyTreeCheckpointHandler._get_internal_metadata</span><span class="ansi-blue-fg">(self, directory)</span>
+<span class="ansi-green-fg ansi-bold">   1296</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span> <span style="color:rgb(0,0,255)">_get_internal_metadata</span>(
+<span class="ansi-green-fg ansi-bold">   1297</span>     <span style="color:rgb(0,135,0)">self</span>, directory: epath<span style="color:rgb(98,98,98)">.</span>Path
+<span class="ansi-green-fg ansi-bold">   1298</span> ) <span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">&gt;</span> Tuple[PyTree, Optional[<span style="color:rgb(0,135,0)">bool</span>]]:
+<span class="ansi-green-fg ansi-bold">   1299</span> <span style="color:rgb(188,188,188)">  </span><span style="font-style:italic;color:rgb(175,0,0)">"""Gets limited information needed to fully restore the checkpoint.</span>
+<span class="ansi-green-fg ansi-bold">   1300</span> 
+<span class="ansi-green-fg ansi-bold">   1301</span> <span style="font-style:italic;color:rgb(175,0,0)">  This information just consists of the restore type for each leaf, as well</span>
+<span class="ansi-green-fg">   (...)</span>
+<span class="ansi-green-fg ansi-bold">   1310</span> <span style="font-style:italic;color:rgb(175,0,0)">    checkpoint.</span>
+<span class="ansi-green-fg ansi-bold">   1311</span> <span style="font-style:italic;color:rgb(175,0,0)">  """</span>
+<span class="ansi-green-fg">-&gt; 1312</span>   aggregate_tree <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_read_aggregate_file</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">directory</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">   1313</span>   flat_aggregate <span style="color:rgb(98,98,98)">=</span> utils<span style="color:rgb(98,98,98)">.</span>to_flat_dict(aggregate_tree, keep_empty_nodes<span style="color:rgb(98,98,98)">=</span><span style="font-weight:bold;color:rgb(0,135,0)">True</span>)
+<span class="ansi-green-fg ansi-bold">   1314</span>   <span style="font-weight:bold;color:rgb(0,135,0)">try</span>:
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/pytree_checkpoint_handler.py:1172</span>, in <span class="ansi-cyan-fg">PyTreeCheckpointHandler._read_aggregate_file</span><span class="ansi-blue-fg">(self, directory)</span>
+<span class="ansi-green-fg ansi-bold">   1170</span> checkpoint_path <span style="color:rgb(98,98,98)">=</span> directory <span style="color:rgb(98,98,98)">/</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_aggregate_filename
+<span class="ansi-green-fg ansi-bold">   1171</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> checkpoint_path<span style="color:rgb(98,98,98)">.</span>exists():
+<span class="ansi-green-fg">-&gt; 1172</span>   <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_aggregate_handler</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">deserialize</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">checkpoint_path</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">   1173</span> <span style="font-weight:bold;color:rgb(0,135,0)">elif</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_use_ocdbt:
+<span class="ansi-green-fg ansi-bold">   1174</span>   <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">FileNotFoundError</span>(
+<span class="ansi-green-fg ansi-bold">   1175</span>       <span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">Checkpoint structure file does not exist at </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>directory<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span style="color:rgb(175,0,0)">.</span><span style="color:rgb(175,0,0)">'</span>
+<span class="ansi-green-fg ansi-bold">   1176</span>   )
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/orbax/checkpoint/aggregate_handlers.py:86</span>, in <span class="ansi-cyan-fg">MsgpackHandler.deserialize</span><span class="ansi-blue-fg">(self, path)</span>
+<span class="ansi-green-fg ansi-bold">     84</span> <span style="font-style:italic;color:rgb(175,0,0)">"""See superclass documentation."""</span>
+<span class="ansi-green-fg ansi-bold">     85</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> path<span style="color:rgb(98,98,98)">.</span>exists():
+<span class="ansi-green-fg">---&gt; 86</span>   msgpack <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">path</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read_bytes</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">     87</span>   <span style="font-weight:bold;color:rgb(0,135,0)">return</span> msgpack_utils<span style="color:rgb(98,98,98)">.</span>msgpack_restore(msgpack)
+<span class="ansi-green-fg ansi-bold">     88</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
+
+File <span class="ansi-green-fg">/opt/anaconda3/envs/tfm_env/lib/python3.10/site-packages/etils/epath/abstract_path.py:152</span>, in <span class="ansi-cyan-fg">Path.read_bytes</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-fg ansi-bold">    150</span> <span style="font-style:italic;color:rgb(175,0,0)">"""Reads contents of self as bytes."""</span>
+<span class="ansi-green-fg ansi-bold">    151</span> <span style="font-weight:bold;color:rgb(0,135,0)">with</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>open(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">rb</span><span style="color:rgb(175,0,0)">'</span>) <span style="font-weight:bold;color:rgb(0,135,0)">as</span> f:
+<span class="ansi-green-fg">--&gt; 152</span>   <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">f</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-red-fg">MemoryError</span>: </pre>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

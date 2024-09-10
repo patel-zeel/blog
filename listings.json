@@ -2,10 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/foundation-models-for-time-series.html",
+      "/posts/GPT-from-scratch.html",
+      "/posts/fundamentals_across_domains.html",
+      "/posts/seq_to_seq.html",
       "/posts/wrf-tutorial.html",
       "/posts/learnings_from_brick_kiln_project.html",
-      "/posts/AL_with_MNIST.html",
       "/posts/Torch-DataLoaders.html",
+      "/posts/AL_with_MNIST.html",
       "/posts/non-gaussian-likelihood-mlps.html",
       "/posts/pruning_vs_uncertainty.html",
       "/posts/bayesian-gaussian-basis-regression.html",

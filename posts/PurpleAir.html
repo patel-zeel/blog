@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-07-26">
 <meta name="description" content="A guide to download low-cost sensor data from OpenAQ">
 
-<title>blog - Download low-cost data from OpenAQ</title>
+<title>Download low-cost data from OpenAQ – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
     </div>
 <!-- main -->
@@ -215,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Scenario 1: We want to download PurpleAir sensors data for Delhi for entire 2022. I am taking Delhi’s example since there are far lesser sensors in Delhi than in the US. So, it will be easier for this demo.</p>
 <p>Some statistics that I have calculated for PurpleAir sensors in US are as follows:</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Country</th>
@@ -305,32 +305,39 @@ PRE locationid=218336/</code></pre>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data[<span class="st">'results'</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>NameError: name 'data' is not defined</code></pre>
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[10], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> df = pd.DataFrame(data['results'])
+<span class="ansi-green-fg ansi-bold">      2</span> df.shape
+
+<span class="ansi-red-fg">NameError</span>: name 'data' is not defined</pre>
+</div>
 </div>
 </div>
 <p>The following method works but takes too much time since it is online:</p>
 <div id="cell-21" class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_city_name(coords):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    latitude <span class="op">=</span> coords[<span class="st">"latitude"</span>]</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    longitude <span class="op">=</span> coords[<span class="st">"longitude"</span>]</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"myGeocoder"</span>)  <span class="co"># Replace "myGeocoder" with your desired user agent</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    location <span class="op">=</span> geolocator.reverse((latitude, longitude), exactly_one<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> location:</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        address <span class="op">=</span> location.raw.get(<span class="st">'address'</span>, {})</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        city <span class="op">=</span> address.get(<span class="st">'city'</span>, <span class="st">''</span>)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> city</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"city"</span>] <span class="op">=</span> df[<span class="st">"coordinates"</span>].<span class="bu">apply</span>(get_city_name)</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_city_name(coords):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    latitude <span class="op">=</span> coords[<span class="st">"latitude"</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    longitude <span class="op">=</span> coords[<span class="st">"longitude"</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"myGeocoder"</span>)  <span class="co"># Replace "myGeocoder" with your desired user agent</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    location <span class="op">=</span> geolocator.reverse((latitude, longitude), exactly_one<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> location:</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        address <span class="op">=</span> location.raw.get(<span class="st">'address'</span>, {})</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        city <span class="op">=</span> address.get(<span class="st">'city'</span>, <span class="st">''</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> city</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"city"</span>] <span class="op">=</span> df[<span class="st">"coordinates"</span>].<span class="bu">apply</span>(get_city_name)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -569,11 +576,10 @@ PRE locationid=218336/</code></pre>
 </div>
 </div>
 </div>
-</div>
 <p>Now, we use another method of shapefile to do this:</p>
 <div id="cell-23" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">--</span>no<span class="op">-</span>check<span class="op">-</span>certificate <span class="st">"https://groups.google.com/group/datameet/attach/29b74b1aef5f2f13/Delhi.zip?part=0.1"</span> <span class="op">-</span>O <span class="op">/</span>tmp<span class="op">/</span>delhi.<span class="bu">zip</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>unzip <span class="op">-</span>o <span class="op">/</span>tmp<span class="op">/</span>delhi.<span class="bu">zip</span> <span class="op">-</span>d <span class="op">/</span>tmp<span class="op">/</span>delhi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">--</span>no<span class="op">-</span>check<span class="op">-</span>certificate <span class="st">"https://groups.google.com/group/datameet/attach/29b74b1aef5f2f13/Delhi.zip?part=0.1"</span> <span class="op">-</span>O <span class="op">/</span>tmp<span class="op">/</span>delhi.<span class="bu">zip</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>unzip <span class="op">-</span>o <span class="op">/</span>tmp<span class="op">/</span>delhi.<span class="bu">zip</span> <span class="op">-</span>d <span class="op">/</span>tmp<span class="op">/</span>delhi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>--2023-07-26 08:37:34--  https://groups.google.com/group/datameet/attach/29b74b1aef5f2f13/Delhi.zip?part=0.1
 Resolving groups.google.com (groups.google.com)... 216.239.32.177, 216.239.36.177, 216.239.38.177, ...
@@ -601,8 +607,8 @@ Archive:  /tmp/delhi.zip
 </div>
 </div>
 <div id="cell-24" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(<span class="st">'/tmp/delhi/Districts.shp'</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gdf.plot(color<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(<span class="st">'/tmp/delhi/Districts.shp'</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>gdf.plot(color<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -612,25 +618,25 @@ Archive:  /tmp/delhi.zip
 </div>
 </div>
 <div id="cell-25" class="cell" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check if a point is within Delhi</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_within_delhi(coords):</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    point <span class="op">=</span> Point(coords[<span class="st">"longitude"</span>], coords[<span class="st">"latitude"</span>])</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, row <span class="kw">in</span> gdf.iterrows():</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.geometry.contains(point):</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"is_within_delhi"</span>] <span class="op">=</span> df[<span class="st">"coordinates"</span>].<span class="bu">apply</span>(is_within_delhi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check if a point is within Delhi</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_within_delhi(coords):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    point <span class="op">=</span> Point(coords[<span class="st">"longitude"</span>], coords[<span class="st">"latitude"</span>])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, row <span class="kw">in</span> gdf.iterrows():</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.geometry.contains(point):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"is_within_delhi"</span>] <span class="op">=</span> df[<span class="st">"coordinates"</span>].<span class="bu">apply</span>(is_within_delhi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-26" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>delhi_df <span class="op">=</span> df[df[<span class="st">"is_within_delhi"</span>]]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>delhi_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>delhi_df <span class="op">=</span> df[df[<span class="st">"is_within_delhi"</span>]]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>delhi_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="64">
 <pre><code>(311, 17)</code></pre>
 </div>
 </div>
 <div id="cell-27" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>delhi_df.city.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>delhi_df.city.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>                      194
 New Delhi District    112
@@ -642,9 +648,9 @@ Name: city, dtype: int64</code></pre>
 <p>Seems like many points were not detected by the online geopy encoder.</p>
 <p>Now, we know that out of 623, 311 sensors belong to Delhi. Let’s download the data for these sensors. For illustration, I will download data for 3 sensors for year 2022 and month of Jan.</p>
 <div id="cell-30" class="cell" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dump delhi_df.id to a file</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>delhi_df.<span class="bu">id</span>.to_csv(<span class="st">'/tmp/delhi_locations.txt'</span>, index<span class="op">=</span><span class="va">False</span>, header<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n3 <span class="op">/</span>tmp<span class="op">/</span>delhi_locations.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dump delhi_df.id to a file</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>delhi_df.<span class="bu">id</span>.to_csv(<span class="st">'/tmp/delhi_locations.txt'</span>, index<span class="op">=</span><span class="va">False</span>, header<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n3 <span class="op">/</span>tmp<span class="op">/</span>delhi_locations.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>274208
 221227
@@ -652,8 +658,8 @@ Name: city, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-31" class="cell" data-execution_count="80">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n3 <span class="op">/</span>tmp<span class="op">/</span>delhi_locations.txt <span class="op">&gt;</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_locations_3.txt</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span><span class="cf">while</span> read <span class="op">-</span>r sensor_id<span class="op">;</span> do aws s3 <span class="op">--</span>no<span class="op">-</span>sign<span class="op">-</span>request cp s3:<span class="op">//</span>openaq<span class="op">-</span>data<span class="op">-</span>archive<span class="op">/</span>records<span class="op">/</span>csv.gz<span class="op">/</span>provider<span class="op">=</span>purpleair<span class="op">/</span>country<span class="op">=</span><span class="kw">in</span><span class="op">/</span>locationid<span class="op">=</span>$sensor_id<span class="op">/</span>year<span class="op">=</span><span class="dv">2022</span><span class="op">/</span>month<span class="op">=</span><span class="dv">0</span><span class="er">1</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_data <span class="op">--</span>recursive<span class="op">;</span> done <span class="op">&lt;</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_locations_3.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>head <span class="op">-</span>n3 <span class="op">/</span>tmp<span class="op">/</span>delhi_locations.txt <span class="op">&gt;</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_locations_3.txt</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span><span class="cf">while</span> read <span class="op">-</span>r sensor_id<span class="op">;</span> do aws s3 <span class="op">--</span>no<span class="op">-</span>sign<span class="op">-</span>request cp s3:<span class="op">//</span>openaq<span class="op">-</span>data<span class="op">-</span>archive<span class="op">/</span>records<span class="op">/</span>csv.gz<span class="op">/</span>provider<span class="op">=</span>purpleair<span class="op">/</span>country<span class="op">=</span><span class="kw">in</span><span class="op">/</span>locationid<span class="op">=</span>$sensor_id<span class="op">/</span>year<span class="op">=</span><span class="dv">2022</span><span class="op">/</span>month<span class="op">=</span><span class="dv">0</span><span class="er">1</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_data <span class="op">--</span>recursive<span class="op">;</span> done <span class="op">&lt;</span> <span class="op">/</span>tmp<span class="op">/</span>delhi_locations_3.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>download: s3://openaq-data-archive/records/csv.gz/provider=purpleair/country=in/locationid=274208/year=2022/month=01/location-274208-20220107.csv.gz to ../../../../tmp/delhi_data/location-274208-20220107.csv.gz
 download: s3://openaq-data-archive/records/csv.gz/provider=purpleair/country=in/locationid=274208/year=2022/month=01/location-274208-20220120.csv.gz to ../../../../tmp/delhi_data/location-274208-20220120.csv.gz
@@ -711,9 +717,9 @@ download: s3://openaq-data-archive/records/csv.gz/provider=purpleair/country=in/
 </div>
 <p>Verify if we got all the sensors data as we needed.</p>
 <div id="cell-33" class="cell" data-execution_count="94">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">221227</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">274208</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">273205</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">221227</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">274208</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">/</span>tmp<span class="op">/</span>delhi_data<span class="op">/</span>location<span class="op">-</span><span class="dv">273205</span><span class="op">*</span> <span class="op">|</span> wc <span class="op">-</span>l</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>27
 10
@@ -721,8 +727,8 @@ download: s3://openaq-data-archive/records/csv.gz/provider=purpleair/country=in/
 </div>
 </div>
 <div id="cell-34" class="cell" data-execution_count="97">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sensor_df <span class="op">=</span> pd.read_csv(<span class="st">'/tmp/delhi_data/location-274208-20220107.csv.gz'</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sensor_df.parameter.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sensor_df <span class="op">=</span> pd.read_csv(<span class="st">'/tmp/delhi_data/location-274208-20220107.csv.gz'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sensor_df.parameter.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="97">
 <pre><code>pm10     64
 pm25     64
@@ -772,18 +778,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -815,7 +810,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -850,7 +885,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

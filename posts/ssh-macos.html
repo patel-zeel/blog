@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-05-14">
 <meta name="description" content="A tiny handbook to setup passwordless ssh in MacOS">
 
-<title>blog - Passwordless SSH setup for MacOS Hosts</title>
+<title>Passwordless SSH setup for MacOS Hosts – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -141,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -192,8 +192,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#terminology" id="toc-terminology" class="nav-link active" data-scroll-target="#terminology">Terminology</a></li>
-  <li><a href="#what-is-the-problem" id="toc-what-is-the-problem" class="nav-link" data-scroll-target="#what-is-the-problem">What is the problem?</a></li>
-  <li><a href="#permenant-solution" id="toc-permenant-solution" class="nav-link" data-scroll-target="#permenant-solution">Permenant solution</a></li>
   </ul>
 </nav>
     </div>
@@ -210,28 +208,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 REMOTE: The remote computer that you’d like to access via ssh.<br>
 REMOTE-IP: Ip address of the REMOTE.<br>
 PORT: The port on which the ssh server is running on REMOTE.</p>
-</section>
-<section id="what-is-the-problem" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-the-problem">What is the problem?</h2>
-<p>Similar to Windows machines, one can run the following commands on a macOS HOST for setting up the passwordless ssh:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ssh-copy-id</span> <span class="at">-i</span> ~/.ssh/id_rsa.pub <span class="at">-p</span> PORT USERANAME@REMOTE-IP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>But this does not work out of the box without the following command which lets your HOST know about the private key.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> ~/.ssh/id_rsa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>After this, connection works fine from macOS CLI. However, if you are trying to connect to REMOTE from VS code, make sure you restart VS code before attempting to connect (quit from the Dock as well).</p>
-<p>So far so good. But this setup fails when you reboot your HOST since <code>ssh-add</code> is not perstistently adding the pirvate key to HOST.</p>
-<p>So, what to do now?</p>
-</section>
-<section id="permenant-solution" class="level2">
-<h2 class="anchored" data-anchor-id="permenant-solution">Permenant solution</h2>
-<p>I found a permenant and full-proof solution <a href="https://apple.stackexchange.com/a/250572">here</a>. For each REMOTE you add in your HOST’s <code>~/.ssh/config</code>, after generating a key pair and copying it to REMOTE with <code>ssh-copy-id</code> command, modify its entry in <code>~/.ssh/config</code> like the following and the issue should be permenently resolved.</p>
-<pre><code>Host REMOTE
-  UseKeychain yes
-  AddKeysToAgent yes
-  IdentityFile ~/.ssh/id_rsa
-  HostName REMOTE-IP
-  Port PORT
-  User USERNAME</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="co"># this will generate a public and private key pair. Rename it if you want.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ssh-copy-id</span> <span class="at">-i</span> ~/.ssh/id_rsa.pub <span class="at">-p</span> PORT USERANAME@REMOTE-IP <span class="co"># this will copy the public key to REMOTE</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-add</span> ~/.ssh/id_rsa <span class="co"># this command tells the HOST to use the private key for ssh connections</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That’s it! You should now be able to ssh into the REMOTE without a password. After rebooting the HOST, if VSCode or CLI asks for a password, run <code>ssh-add ~/.ssh/id_rsa</code> again.</p>
 
 
 </section>
@@ -272,18 +252,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -315,7 +284,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -350,7 +359,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

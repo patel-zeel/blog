@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-09-30">
 <meta name="description" content="An exploratory analysis of various dataset handling processes to optimize memory, diskspace and speed.">
 
-<title>blog - Data Handling for Large Scale ML</title>
+<title>Data Handling for Large Scale ML – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -242,7 +242,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>base_path <span class="op">=</span> <span class="st">"/home/patel_zeel/bkdb/bangladesh_pnas_pred/team1"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>xr.open_zarr(join(base_path, <span class="st">"21.11,92.18.zarr"</span>), consolidated<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<div>
 <div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
 <symbol id="icon-database" viewbox="0 0 32 32">
@@ -619,14 +618,14 @@ Coordinates:
 Data variables:
     data     (lat_lag, lon_lag, row, col, channel) uint8 dask.array&lt;chunksize=(3, 3, 112, 112, 3), meta=np.ndarray&gt;
     label    (lat_lag, lon_lag) int8 dask.array&lt;chunksize=(5, 5), meta=np.ndarray&gt;</pre><div class="xr-wrap" style="display:none"><div class="xr-header"><div class="xr-obj-type">xarray.Dataset</div></div><ul class="xr-sections"><li class="xr-section-item"><input id="section-1a921640-d933-4774-95f9-8a57d8d04227" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-1a921640-d933-4774-95f9-8a57d8d04227" class="xr-section-summary" title="Expand/collapse section">Dimensions:</label><div class="xr-section-inline-details"><ul class="xr-dim-list"><li><span class="xr-has-index">channel</span>: 3</li><li><span class="xr-has-index">col</span>: 224</li><li><span class="xr-has-index">lat_lag</span>: 5</li><li><span class="xr-has-index">lon_lag</span>: 5</li><li><span class="xr-has-index">row</span>: 224</li></ul></div><div class="xr-section-details"></div></li><li class="xr-section-item"><input id="section-1b4788fc-473e-470f-9b8c-5fc78d71d312" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-1b4788fc-473e-470f-9b8c-5fc78d71d312" class="xr-section-summary">Coordinates: <span>(7)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">channel</span></div><div class="xr-var-dims">(channel)</div><div class="xr-var-dtype">uint8</div><div class="xr-var-preview xr-preview">0 1 2</div><input id="attrs-a8bd0e3d-296f-42b8-8983-904e3682973d" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-a8bd0e3d-296f-42b8-8983-904e3682973d" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-31680c0b-b379-4d2f-a927-c078c55a53d9" class="xr-var-data-in" type="checkbox"><label for="data-31680c0b-b379-4d2f-a927-c078c55a53d9" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([0, 1, 2], dtype=uint8)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">col</span></div><div class="xr-var-dims">(col)</div><div class="xr-var-dtype">uint8</div><div class="xr-var-preview xr-preview">0 1 2 3 4 5 ... 219 220 221 222 223</div><input id="attrs-13cbbcba-e688-4132-8f8f-4608acab98da" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-13cbbcba-e688-4132-8f8f-4608acab98da" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-13276982-0a2e-4712-bd56-c749816efd69" class="xr-var-data-in" type="checkbox"><label for="data-13276982-0a2e-4712-bd56-c749816efd69" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([  0,   1,   2, ..., 221, 222, 223], dtype=uint8)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>lat</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-d2436d65-6f66-43ed-a2e7-0c0dfc318026" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-d2436d65-6f66-43ed-a2e7-0c0dfc318026" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-76c60d5c-818c-462b-a5f0-d3ae48ec9a7d" class="xr-var-data-in" type="checkbox"><label for="data-76c60d5c-818c-462b-a5f0-d3ae48ec9a7d" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">lat_lag</span></div><div class="xr-var-dims">(lat_lag)</div><div class="xr-var-dtype">int8</div><div class="xr-var-preview xr-preview">-2 -1 0 1 2</div><input id="attrs-0bdc381f-5697-4676-b773-d9d07d2f11c7" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-0bdc381f-5697-4676-b773-d9d07d2f11c7" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-43b58e89-1ed9-4c37-ba50-ddd5fc8d4f91" class="xr-var-data-in" type="checkbox"><label for="data-43b58e89-1ed9-4c37-ba50-ddd5fc8d4f91" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([-2, -1,  0,  1,  2], dtype=int8)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span>lon</span></div><div class="xr-var-dims">()</div><div class="xr-var-dtype">float64</div><div class="xr-var-preview xr-preview">...</div><input id="attrs-e12190cc-9227-4b7f-8a1e-55fa75410cfa" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-e12190cc-9227-4b7f-8a1e-55fa75410cfa" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-edcfd0f1-ef5f-4d1c-a585-f4b8735e2db1" class="xr-var-data-in" type="checkbox"><label for="data-edcfd0f1-ef5f-4d1c-a585-f4b8735e2db1" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>[1 values with dtype=float64]</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">lon_lag</span></div><div class="xr-var-dims">(lon_lag)</div><div class="xr-var-dtype">int8</div><div class="xr-var-preview xr-preview">-2 -1 0 1 2</div><input id="attrs-23d7f053-cf4a-4717-a13c-415ab32b3a49" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-23d7f053-cf4a-4717-a13c-415ab32b3a49" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-737a0996-b867-4d4b-94da-311c6a9e2d78" class="xr-var-data-in" type="checkbox"><label for="data-737a0996-b867-4d4b-94da-311c6a9e2d78" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([-2, -1,  0,  1,  2], dtype=int8)</pre></div></li><li class="xr-var-item"><div class="xr-var-name"><span class="xr-has-index">row</span></div><div class="xr-var-dims">(row)</div><div class="xr-var-dtype">uint8</div><div class="xr-var-preview xr-preview">0 1 2 3 4 5 ... 219 220 221 222 223</div><input id="attrs-61c19c22-631f-4d43-a426-bb1cc799393b" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-61c19c22-631f-4d43-a426-bb1cc799393b" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-5ee1e193-c2e8-4da2-92fa-239bfe75a03f" class="xr-var-data-in" type="checkbox"><label for="data-5ee1e193-c2e8-4da2-92fa-239bfe75a03f" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data"><pre>array([  0,   1,   2, ..., 221, 222, 223], dtype=uint8)</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-9bf62116-9d81-4152-bbb0-4ce8c64e6256" class="xr-section-summary-in" type="checkbox" checked=""><label for="section-9bf62116-9d81-4152-bbb0-4ce8c64e6256" class="xr-section-summary">Data variables: <span>(2)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-var-name"><span>data</span></div><div class="xr-var-dims">(lat_lag, lon_lag, row, col, channel)</div><div class="xr-var-dtype">uint8</div><div class="xr-var-preview xr-preview">dask.array&lt;chunksize=(3, 3, 112, 112, 3), meta=np.ndarray&gt;</div><input id="attrs-94c0b5a4-fa43-4b1f-9259-3e67720d24a2" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-94c0b5a4-fa43-4b1f-9259-3e67720d24a2" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-088f095c-48ef-42cb-ab7b-fc9393a2a492" class="xr-var-data-in" type="checkbox"><label for="data-088f095c-48ef-42cb-ab7b-fc9393a2a492" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 50%">
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<td><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th></th>
@@ -661,46 +660,15 @@ Data variables:
 </tr>
 </tbody>
 </table>
-</div>
-</li>
-<li class="xr-var-item">
-<div class="xr-var-name">
-<span>label</span>
-</div>
-<div class="xr-var-dims">
-(lat_lag, lon_lag)
-</div>
-<div class="xr-var-dtype">
-int8
-</div>
-<div class="xr-var-preview xr-preview">
-dask.array&lt;chunksize=(5, 5), meta=np.ndarray&gt;
-</div>
-<input id="attrs-918b7b2e-0f34-4380-9d34-cd7c60f198bf" class="xr-var-attrs-in" type="checkbox" disabled="">
-<label for="attrs-918b7b2e-0f34-4380-9d34-cd7c60f198bf" title="Show/Hide attributes">
-<svg class="icon xr-icon-file-text2">
-<use href="#icon-file-text2"></use>
-</svg>
-</label>
-<input id="data-8e555474-8832-419f-84b9-a369c361b166" class="xr-var-data-in" type="checkbox">
-<label for="data-8e555474-8832-419f-84b9-a369c361b166" title="Show/Hide data repr">
-<svg class="icon xr-icon-database">
-<use href="#icon-database"></use>
-</svg>
-</label>
-<div class="xr-var-attrs">
-<dl>
-</dl>
-</div>
-<div class="xr-var-data">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+</div></li><li class="xr-var-item"><div class="xr-var-name"><span>label</span></div><div class="xr-var-dims">(lat_lag, lon_lag)</div><div class="xr-var-dtype">int8</div><div class="xr-var-preview xr-preview">dask.array&lt;chunksize=(5, 5), meta=np.ndarray&gt;</div><input id="attrs-918b7b2e-0f34-4380-9d34-cd7c60f198bf" class="xr-var-attrs-in" type="checkbox" disabled=""><label for="attrs-918b7b2e-0f34-4380-9d34-cd7c60f198bf" title="Show/Hide attributes"><svg class="icon xr-icon-file-text2"><use href="#icon-file-text2"></use></svg></label><input id="data-8e555474-8832-419f-84b9-a369c361b166" class="xr-var-data-in" type="checkbox"><label for="data-8e555474-8832-419f-84b9-a369c361b166" title="Show/Hide data repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-var-attrs"><dl class="xr-attrs"></dl></div><div class="xr-var-data">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 50%">
 <col style="width: 50%">
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<td><table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th></th>
@@ -735,17 +703,15 @@ dask.array&lt;chunksize=(5, 5), meta=np.ndarray&gt;
 </tr>
 </tbody>
 </table>
-</div>
-</li></ul></div></li></ul></div><li class="xr-section-item"><input id="section-c057ed3e-fe45-4c87-bf69-59ca33515c7b" class="xr-section-summary-in" type="checkbox"><label for="section-c057ed3e-fe45-4c87-bf69-59ca33515c7b" class="xr-section-summary">Indexes: <span>(5)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>channel</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-3774ca2d-2027-4bf1-bc6d-ffb02b09f1d4" class="xr-index-data-in" type="checkbox"><label for="index-3774ca2d-2027-4bf1-bc6d-ffb02b09f1d4" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0, 1, 2], dtype='uint8', name='channel'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>col</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-932d38c1-1f2b-4883-a525-5e8d7940b032" class="xr-index-data-in" type="checkbox"><label for="index-932d38c1-1f2b-4883-a525-5e8d7940b032" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
+</div></li></ul></div></li><li class="xr-section-item"><input id="section-c057ed3e-fe45-4c87-bf69-59ca33515c7b" class="xr-section-summary-in" type="checkbox"><label for="section-c057ed3e-fe45-4c87-bf69-59ca33515c7b" class="xr-section-summary">Indexes: <span>(5)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><ul class="xr-var-list"><li class="xr-var-item"><div class="xr-index-name"><div>channel</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-3774ca2d-2027-4bf1-bc6d-ffb02b09f1d4" class="xr-index-data-in" type="checkbox"><label for="index-3774ca2d-2027-4bf1-bc6d-ffb02b09f1d4" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([0, 1, 2], dtype='uint8', name='channel'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>col</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-932d38c1-1f2b-4883-a525-5e8d7940b032" class="xr-index-data-in" type="checkbox"><label for="index-932d38c1-1f2b-4883-a525-5e8d7940b032" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
        ...
        214, 215, 216, 217, 218, 219, 220, 221, 222, 223],
       dtype='uint8', name='col', length=224))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>lat_lag</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-e37519a4-6f5b-41fd-aeb8-1de104526072" class="xr-index-data-in" type="checkbox"><label for="index-e37519a4-6f5b-41fd-aeb8-1de104526072" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([-2, -1, 0, 1, 2], dtype='int8', name='lat_lag'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>lon_lag</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-23305f57-40de-4ccf-ba44-ca850e0a2613" class="xr-index-data-in" type="checkbox"><label for="index-23305f57-40de-4ccf-ba44-ca850e0a2613" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([-2, -1, 0, 1, 2], dtype='int8', name='lon_lag'))</pre></div></li><li class="xr-var-item"><div class="xr-index-name"><div>row</div></div><div class="xr-index-preview">PandasIndex</div><div></div><input id="index-35fad5d4-6756-4140-8662-293459812367" class="xr-index-data-in" type="checkbox"><label for="index-35fad5d4-6756-4140-8662-293459812367" title="Show/Hide index repr"><svg class="icon xr-icon-database"><use href="#icon-database"></use></svg></label><div class="xr-index-data"><pre>PandasIndex(Index([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,
        ...
        214, 215, 216, 217, 218, 219, 220, 221, 222, 223],
-      dtype='uint8', name='row', length=224))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-6f36e9f3-7670-46b8-8d4b-436911524035" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-6f36e9f3-7670-46b8-8d4b-436911524035" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></div></div>
+      dtype='uint8', name='row', length=224))</pre></div></li></ul></div></li><li class="xr-section-item"><input id="section-6f36e9f3-7670-46b8-8d4b-436911524035" class="xr-section-summary-in" type="checkbox" disabled=""><label for="section-6f36e9f3-7670-46b8-8d4b-436911524035" class="xr-section-summary" title="Expand/collapse section">Attributes: <span>(0)</span></label><div class="xr-section-inline-details"></div><div class="xr-section-details"><dl class="xr-attrs"></dl></div></li></ul></div></div>
 </div>
 </div>
-</section></main></div>
 <div id="cell-5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> XarrayDataset(Dataset):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path, max_files):</span>
@@ -798,7 +764,7 @@ dask.array&lt;chunksize=(5, 5), meta=np.ndarray&gt;
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Total Wall Time per iteration: </span><span class="sc">{</span>total_time <span class="op">/</span> <span class="bu">len</span>(dataloader)<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Total Wall Time: </span><span class="sc">{</span>total_time<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-
+</section>
 <section id="global-config" class="level1">
 <h1>Global config</h1>
 <div id="cell-8" class="cell" data-execution_count="5">
@@ -819,13 +785,16 @@ Total time for all iterations: 80.7246
 Total Wall Time per iteration: 1.7799
 Total Wall Time: 87.2134</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
 </div>
 <div id="cell-10" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Time: 2.6731: 100%|██████████| 25/25 [01:32&lt;00:00,  3.69s/it]</code></pre>
 </div>
@@ -835,13 +804,16 @@ Total time for all iterations: 79.8897
 Total Wall Time per iteration: 3.6910
 Total Wall Time: 92.2762</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
 </div>
 <div id="cell-11" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">512</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Time: 2.6726: 100%|██████████| 25/25 [01:32&lt;00:00,  3.69s/it]</code></pre>
 </div>
@@ -851,13 +823,16 @@ Total time for all iterations: 79.8451
 Total Wall Time per iteration: 3.6908
 Total Wall Time: 92.2689</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
 </div>
 <div id="cell-12" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDataset(base_path, max_files<span class="op">=</span>max_files)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Time: 0.8377:   9%|▉         | 9/98 [00:11&lt;01:19,  1.12it/s]Time: 0.7455: 100%|██████████| 98/98 [01:25&lt;00:00,  1.15it/s]</code></pre>
 </div>
@@ -867,11 +842,14 @@ Total time for all iterations: 81.0315
 Total Wall Time per iteration: 0.8716
 Total Wall Time: 85.4156</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
 </div>
 <section id="is-.nc-better-than-zarr" class="level2">
-<h2 data-anchor-id="is-.nc-better-than-zarr">Is .nc better than zarr?</h2>
+<h2 class="anchored" data-anchor-id="is-.nc-better-than-zarr">Is .nc better than zarr?</h2>
 <div id="cell-14" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>base_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>base_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1.8G    /home/patel_zeel/bkdb/bangladesh_pnas_pred/team1</code></pre>
 </div>
@@ -880,16 +858,16 @@ Total Wall Time: 85.4156</code></pre>
 </div>
 </div>
 <div id="cell-15" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> <span class="st">"/tmp/nc_check_uncompressed"</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(save_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> []</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> zarr_to_nc(<span class="bu">file</span>):</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        ds.to_netcdf(join(save_path, <span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>].replace(<span class="st">".zarr"</span>, <span class="st">".nc"</span>)))</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> Parallel(n_jobs<span class="op">=</span><span class="dv">32</span>)(delayed(zarr_to_nc)(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(glob(join(base_path, <span class="st">"*.zarr"</span>))))</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> <span class="st">"/tmp/nc_check_uncompressed"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(save_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> []</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> zarr_to_nc(<span class="bu">file</span>):</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        ds.to_netcdf(join(save_path, <span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>].replace(<span class="st">".zarr"</span>, <span class="st">".nc"</span>)))</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> Parallel(n_jobs<span class="op">=</span><span class="dv">32</span>)(delayed(zarr_to_nc)(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(glob(join(base_path, <span class="st">"*.zarr"</span>))))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>  0%|          | 0/1501 [00:00&lt;?, ?it/s]100%|██████████| 1501/1501 [00:24&lt;00:00, 62.47it/s] </code></pre>
 </div>
@@ -901,20 +879,20 @@ Total Wall Time: 85.4156</code></pre>
 </div>
 </div>
 <div id="cell-16" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> <span class="st">"/tmp/nc_check_compressed"</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"rm -rf </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(save_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>encoding <span class="op">=</span> {var: {<span class="st">"zlib"</span>: <span class="va">True</span>, <span class="st">"complevel"</span>: <span class="dv">1</span>} <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"data"</span>]}</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> []</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> zarr_to_nc(<span class="bu">file</span>):</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        ds.to_netcdf(join(save_path, <span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>].replace(<span class="st">".zarr"</span>, <span class="st">".nc"</span>)), encoding<span class="op">=</span>encoding)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> Parallel(n_jobs<span class="op">=</span><span class="dv">32</span>)(delayed(zarr_to_nc)(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(glob(join(base_path, <span class="st">"*.zarr"</span>))))</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> <span class="st">"/tmp/nc_check_compressed"</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"rm -rf </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>os.makedirs(save_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>encoding <span class="op">=</span> {var: {<span class="st">"zlib"</span>: <span class="va">True</span>, <span class="st">"complevel"</span>: <span class="dv">1</span>} <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"data"</span>]}</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> []</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> zarr_to_nc(<span class="bu">file</span>):</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        ds.to_netcdf(join(save_path, <span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>].replace(<span class="st">".zarr"</span>, <span class="st">".nc"</span>)), encoding<span class="op">=</span>encoding)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> Parallel(n_jobs<span class="op">=</span><span class="dv">32</span>)(delayed(zarr_to_nc)(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(glob(join(base_path, <span class="st">"*.zarr"</span>))))</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>os.system(<span class="ss">f"du -sh </span><span class="sc">{</span>save_path<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|██████████| 1501/1501 [00:04&lt;00:00, 311.18it/s]</code></pre>
 </div>
@@ -926,37 +904,37 @@ Total Wall Time: 85.4156</code></pre>
 </div>
 </div>
 <div id="cell-17" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> XarrayDatasetWithNC(Dataset):</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path, max_files):</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.base_path <span class="op">=</span> path</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_files <span class="op">=</span> glob(join(path, <span class="st">"*.nc"</span>))[:max_files]</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_files.sort()</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_ds <span class="op">=</span> [xr.open_dataset(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(<span class="va">self</span>.all_files)]</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lat_lags <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lon_lags <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.all_files) <span class="op">*</span> <span class="dv">25</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        file_idx <span class="op">=</span> idx <span class="op">//</span> <span class="dv">25</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        local_idx <span class="op">=</span> idx <span class="op">%</span> <span class="dv">25</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        lat_lag <span class="op">=</span> <span class="va">self</span>.lat_lags[local_idx <span class="op">//</span> <span class="dv">5</span>]</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        lon_lag <span class="op">=</span> <span class="va">self</span>.lon_lags[local_idx <span class="op">%</span> <span class="dv">5</span>]</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> <span class="va">self</span>.all_ds[file_idx]</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span>  ds.isel(lat_lag<span class="op">=</span>lat_lag, lon_lag<span class="op">=</span>lon_lag)[<span class="st">'data'</span>].values</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.tensor(np.einsum(<span class="st">"hwc-&gt;chw"</span>, img).astype(np.float32) <span class="op">/</span> <span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> XarrayDatasetWithNC(Dataset):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, path, max_files):</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.base_path <span class="op">=</span> path</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_files <span class="op">=</span> glob(join(path, <span class="st">"*.nc"</span>))[:max_files]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_files.sort()</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.all_ds <span class="op">=</span> [xr.open_dataset(<span class="bu">file</span>) <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(<span class="va">self</span>.all_files)]</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lat_lags <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.lon_lags <span class="op">=</span> [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.all_files) <span class="op">*</span> <span class="dv">25</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>        file_idx <span class="op">=</span> idx <span class="op">//</span> <span class="dv">25</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>        local_idx <span class="op">=</span> idx <span class="op">%</span> <span class="dv">25</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>        lat_lag <span class="op">=</span> <span class="va">self</span>.lat_lags[local_idx <span class="op">//</span> <span class="dv">5</span>]</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        lon_lag <span class="op">=</span> <span class="va">self</span>.lon_lags[local_idx <span class="op">%</span> <span class="dv">5</span>]</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>        ds <span class="op">=</span> <span class="va">self</span>.all_ds[file_idx]</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span>  ds.isel(lat_lag<span class="op">=</span>lat_lag, lon_lag<span class="op">=</span>lon_lag)[<span class="st">'data'</span>].values</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.tensor(np.einsum(<span class="st">"hwc-&gt;chw"</span>, img).astype(np.float32) <span class="op">/</span> <span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>nc_path <span class="op">=</span> <span class="st">"/tmp/nc_check_compressed"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>nc_path <span class="op">=</span> <span class="st">"/tmp/nc_check_compressed"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-19" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDatasetWithNC(nc_path, max_files<span class="op">=</span>max_files)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>num_workers <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> XarrayDatasetWithNC(nc_path, max_files<span class="op">=</span>max_files)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>process_it(dataset, batch_size, num_workers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|██████████| 500/500 [00:02&lt;00:00, 246.27it/s]
 Time: 0.7414: 100%|██████████| 98/98 [01:25&lt;00:00,  1.15it/s]</code></pre>
@@ -967,42 +945,45 @@ Total time for all iterations: 80.9527
 Total Wall Time per iteration: 0.8725
 Total Wall Time: 85.5034</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
 </div>
 </section>
 <section id="additional-experiments" class="level2">
-<h2 data-anchor-id="additional-experiments">Additional experiments</h2>
+<h2 class="anchored" data-anchor-id="additional-experiments">Additional experiments</h2>
 <div id="cell-21" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>n_images <span class="op">=</span> <span class="dv">60000</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">84.9131</span><span class="op">/</span><span class="dv">500</span><span class="op">/</span><span class="dv">25</span> <span class="op">*</span> n_images</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Time to process </span><span class="sc">{</span>n_images<span class="sc">}</span><span class="ss"> images: "</span>, t<span class="op">/</span><span class="dv">60</span>, <span class="st">"minutes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>n_images <span class="op">=</span> <span class="dv">60000</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">84.9131</span><span class="op">/</span><span class="dv">500</span><span class="op">/</span><span class="dv">25</span> <span class="op">*</span> n_images</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Time to process </span><span class="sc">{</span>n_images<span class="sc">}</span><span class="ss"> images: "</span>, t<span class="op">/</span><span class="dv">60</span>, <span class="st">"minutes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Time to process 60000 images:  6.793048000000001 minutes</code></pre>
 </div>
 </div>
 <div id="cell-22" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(join(base_path, <span class="st">"*.zarr"</span>))</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>data_tensors <span class="op">=</span> []</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(files):</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(ds['data'].values.reshape(-1, 224, 224, 3))</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        data_tensors.append(torch.tensor(np.einsum(<span class="st">"nhwc-&gt;nchw"</span>, ds[<span class="st">'data'</span>].values.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">224</span>, <span class="dv">224</span>, <span class="dv">3</span>)).astype(np.float16) <span class="op">/</span> <span class="dv">255</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(join(base_path, <span class="st">"*.zarr"</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>data_tensors <span class="op">=</span> []</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm(files):</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> xr.open_zarr(<span class="bu">file</span>, consolidated<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> ds:</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(ds['data'].values.reshape(-1, 224, 224, 3))</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        data_tensors.append(torch.tensor(np.einsum(<span class="st">"nhwc-&gt;nchw"</span>, ds[<span class="st">'data'</span>].values.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">224</span>, <span class="dv">224</span>, <span class="dv">3</span>)).astype(np.float16) <span class="op">/</span> <span class="dv">255</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|██████████| 1501/1501 [02:44&lt;00:00,  9.13it/s]</code></pre>
 </div>
 </div>
 <div id="cell-23" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>all_in_one <span class="op">=</span> torch.concat(data_tensors, dim<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>all_in_one.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>all_in_one <span class="op">=</span> torch.concat(data_tensors, dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>all_in_one.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>torch.Size([37525, 3, 224, 224])</code></pre>
 </div>
 </div>
 <div id="cell-24" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>all_in_one <span class="op">=</span> all_in_one.to(<span class="st">'cuda'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>all_in_one <span class="op">=</span> all_in_one.to(<span class="st">'cuda'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="insights" class="level2">
-<h2 data-anchor-id="insights">Insights</h2>
+<h2 class="anchored" data-anchor-id="insights">Insights</h2>
 <ul>
 <li>GPU Memory consumption is <code>17776MiB / 81920MiB</code> for batch size 128 for ViT model</li>
 <li>Uploading torch.Size([37525, 3, 224, 224]) of float32 data to GPU takes <code>22054MiB / 81920MiB</code> of GPU Memory. Same data with float16 takes <code>11202MiB / 81920MiB</code> of GPU Memory.</li>
@@ -1013,7 +994,7 @@ Total Wall Time: 85.5034</code></pre>
 </section>
 </section>
 
- <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1049,18 +1030,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1092,7 +1062,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1127,7 +1137,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1401,7 +1415,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 
