@@ -17,38 +17,12 @@ toc: true
 HOST: The computer physically present with you.    
 REMOTE: The remote computer that you'd like to access via ssh.     
 REMOTE-IP: Ip address of the REMOTE.    
-PORT: The port on which the ssh server is running on REMOTE.    
-
-## What is the problem?
-Similar to Windows machines, one can run the following commands on a macOS HOST for setting up the passwordless ssh:
+PORT: The port on which the ssh server is running on REMOTE.
 
 ```bash
-ssh-keygen
-ssh-copy-id -i ~/.ssh/id_rsa.pub -p PORT USERANAME@REMOTE-IP
+ssh-keygen # this will generate a public and private key pair. Rename it if you want.
+ssh-copy-id -i ~/.ssh/id_rsa.pub -p PORT USERANAME@REMOTE-IP # this will copy the public key to REMOTE
+ssh-add ~/.ssh/id_rsa # this command tells the HOST to use the private key for ssh connections
 ```
 
-But this does not work out of the box without the following command which lets your HOST know about the private key.
-
-```bash
-ssh-add ~/.ssh/id_rsa
-```
-
-After this, connection works fine from macOS CLI. However, if you are trying to connect to REMOTE from VS code, make sure you restart VS code before attempting to connect (quit from the Dock as well).
-
-So far so good. But this setup fails when you reboot your HOST since `ssh-add` is not perstistently adding the pirvate key to HOST.
-
-So, what to do now?
-
-## Permenant solution
-
-I found a permenant and full-proof solution [here](https://apple.stackexchange.com/a/250572). For each REMOTE you add in your HOST's `~/.ssh/config`, after generating a key pair and copying it to REMOTE with `ssh-copy-id` command, modify its entry in `~/.ssh/config` like the following and the issue should be permenently resolved.
-
-```
-Host REMOTE
-  UseKeychain yes
-  AddKeysToAgent yes
-  IdentityFile ~/.ssh/id_rsa
-  HostName REMOTE-IP
-  Port PORT
-  User USERNAME
-```
+That's it! You should now be able to ssh into the REMOTE without a password. After rebooting the HOST, if VSCode or CLI asks for a password, run `ssh-add ~/.ssh/id_rsa` again.
