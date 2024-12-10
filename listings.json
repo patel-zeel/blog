@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2024-12-10-cpcb-download.html",
       "/posts/foundation-models-for-time-series.html",
       "/posts/GPT-from-scratch.html",
       "/posts/fundamentals_across_domains.html",
@@ -12,8 +13,8 @@
       "/posts/AL_with_MNIST.html",
       "/posts/non-gaussian-likelihood-mlps.html",
       "/posts/pruning_vs_uncertainty.html",
-      "/posts/bayesian-gaussian-basis-regression.html",
       "/posts/air-quality-google-.html",
+      "/posts/bayesian-gaussian-basis-regression.html",
       "/posts/numpy-algebra- copy.html",
       "/posts/Rank1_GPs.html",
       "/posts/PurpleAir.html",
