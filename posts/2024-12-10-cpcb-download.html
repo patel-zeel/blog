@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div id="cell-1" class="cell" data-execution_count="87">
+<div id="cell-1" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
@@ -226,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>DOWNLOAD_OLD_DATA_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing/caaqm-data-repository"</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>DOWNLOAD_PAGE_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing/data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="2">
+<div id="cell-2" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> click_it(driver, element):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"arguments[0].click();"</span>, element)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -501,12 +501,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="downloading-data" class="level2">
 <h2 class="anchored" data-anchor-id="downloading-data">Downloading data</h2>
-<div id="cell-16" class="cell" data-execution_count="56">
+<div id="cell-16" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># URL is specific to PM2.5 and PM10 so update it as per your needs</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_url(state, city, site_id):</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-view-data-report/%2522%257B%255C%2522parameter_list%255C%2522%253A%255B%257B%255C%2522id%255C%2522%253A0%252C%255C%2522itemName%255C%2522%253A%255C%2522PM2.5%255C%2522%252C%255C%2522itemValue%255C%2522%253A%255C%2522parameter_193%255C%2522%257D%252C%257B%255C%2522id%255C%2522%253A1%252C%255C%2522itemName%255C%2522%253A%255C%2522PM10%255C%2522%252C%255C%2522itemValue%255C%2522%253A%255C%2522parameter_215%255C%2522%257D%255D%252C%255C%2522criteria%255C%2522%253A%255C%252224%2520Hours%255C%2522%252C%255C%2522reportFormat%255C%2522%253A%255C%2522Tabular%255C%2522%252C%255C%2522fromDate%255C%2522%253A%255C%252201-01-2024%2520T00%253A00%253A00Z%255C%2522%252C%255C%2522toDate%255C%2522%253A%255C%252211-12-2024%2520T16%253A45%253A59Z%255C%2522%252C%255C%2522state%255C%2522%253A%255C%2522</span><span class="sc">{</span>state<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'%2520'</span>)<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522city%255C%2522%253A%255C%2522</span><span class="sc">{</span>city<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'%2520'</span>)<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522station%255C%2522%253A%255C%2522</span><span class="sc">{</span>site_id<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522parameter%255C%2522%253A%255B%255C%2522parameter_193%255C%2522%252C%255C%2522parameter_215%255C%2522%255D%252C%255C%2522parameterNames%255C%2522%253A%255B%255C%2522PM2.5%255C%2522%252C%255C%2522PM10%255C%2522%255D%257D%2522"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="126">
+<div id="cell-17" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add download directory</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>options.add_experimental_option(<span class="st">"prefs"</span>, {</span>
@@ -517,10 +517,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>driver.get(HOME_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Enter Captcha manually before moving ahead</p>
-<div id="cell-19" class="cell" data-execution_count="127">
+<div id="cell-19" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>metadata_df <span class="op">=</span> pd.read_csv(<span class="st">"metadata.csv"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>metadata_df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="127">
+<div class="cell-output cell-output-display" data-execution_count="30">
 <div>
 
 
@@ -555,133 +555,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="128">
+<div id="cell-20" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(<span class="st">"/Users/project561/cpcb_downloads/*.xlsx"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of files in the download directory:"</span>, <span class="bu">len</span>(files))</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>site_ids <span class="op">=</span> [re.search(<span class="vs">r"site_\d+?2024"</span>, <span class="bu">file</span>).group()[:<span class="op">-</span><span class="dv">4</span>] <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files]</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assert len(set(site_ids)) == len(site_ids), pd.Series(site_ids).value_counts()</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>site_ids <span class="op">=</span> <span class="bu">set</span>(site_ids)</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>num_windows <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(metadata_df)):</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    state, city, station, site_id <span class="op">=</span> metadata_df.iloc[i]</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> site_id <span class="kw">in</span> site_ids:</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print("Already downloaded", i, state, city, station, site_id)</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Downloading"</span>, i, state, city, station, site_id)</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> get_url(state, city, site_id)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open new tab</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"window.open('');"</span>)</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    num_windows <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    driver.get(url)</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    excel_button <span class="op">=</span> WebDriverWait(driver, <span class="dv">20</span>).until(</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">"fa-file-excel-o"</span>)))</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    click_it(driver, excel_button)</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(driver.window_handles) <span class="op">&gt;</span> <span class="dv">10</span>:</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># close first 9 windows</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">9</span>):</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>            driver.switch_to.window(driver.window_handles[<span class="dv">0</span>])</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>            driver.close()</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(metadata_df)):</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    state, city, station, site_id <span class="op">=</span> metadata_df.iloc[i]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> site_id <span class="kw">in</span> site_ids:</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print("Already downloaded", i, state, city, station, site_id)</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Downloading"</span>, i, state, city, station, site_id)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> get_url(state, city, site_id)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open new tab</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"window.open('');"</span>)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    driver.get(url)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    excel_button <span class="op">=</span> WebDriverWait(driver, <span class="dv">20</span>).until(</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">"fa-file-excel-o"</span>)))</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    click_it(driver, excel_button)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(driver.window_handles) <span class="op">&gt;</span> <span class="dv">10</span>:</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># close first 9 windows</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">9</span>):</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>            driver.switch_to.window(driver.window_handles[<span class="dv">0</span>])</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>            driver.close()</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>        driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of files in the download directory: 204
-Downloading 203 Karnataka Ramanagara Vijay Nagar, Ramanagara - KSPCB site_5255
-Downloading 204 Karnataka Shivamogga Vinoba Nagara, Shivamogga - KSPCB site_5266
-Downloading 205 Karnataka Tumakuru Thimmalapura, Tumakuru - KSPCB site_5682
-Downloading 206 Karnataka Udupi Brahmagiri, Udupi - KSPCB site_5433
-Downloading 207 Karnataka Vijayapura Ibrahimpur, Vijayapura - KSPCB site_5267
-Downloading 208 Karnataka Yadgir Collector Office, Yadgir - KSPCB site_5254
-Downloading 209 Kerala Eloor Udyogamandal, Eloor - Kerala PCB site_5105
-Downloading 210 Kerala Ernakulam Kacheripady, Ernakulam - Kerala PCB site_5272
-Downloading 211 Kerala Kannur Thavakkara, Kannur - Kerala PCB site_5276
-Downloading 212 Kerala Kochi Vyttila, Kochi - Kerala PCB site_5270
-Downloading 213 Kerala Kollam Polayathode, Kollam - Kerala PCB site_5334
-Downloading 214 Kerala Kozhikode Palayam, Kozhikode - Kerala PCB site_5271
-Downloading 215 Kerala Thiruvananthapuram Plammoodu, Thiruvananthapuram - Kerala PCB site_252
-Downloading 216 Kerala Thiruvananthapuram Kariavattom, Thiruvananthapuram - Kerala PCB site_5331
-Downloading 217 Kerala Thrissur Corporation Ground, Thrissur - Kerala PCB site_5390
-Downloading 218 Madhya Pradesh Bhopal Idgah Hills, Bhopal - MPPCB site_5708
-Downloading 219 Madhya Pradesh Bhopal T T Nagar, Bhopal - MPPCB site_5247
-Downloading 220 Madhya Pradesh Bhopal Paryavaran Parisar, Bhopal - MPPCB site_5650
-Downloading 221 Madhya Pradesh Damoh Shrivastav Colony, Damoh - MPPCB site_5040
-Downloading 222 Madhya Pradesh Dewas Bhopal Chauraha, Dewas - MPPCB site_1404
-Downloading 223 Madhya Pradesh Gwalior Maharaj Bada, Gwalior - MPPCB site_5661
-Downloading 224 Madhya Pradesh Gwalior City Center, Gwalior - MPPCB site_5273
-Downloading 225 Madhya Pradesh Gwalior Phool Bagh, Gwalior - Mondelez Ind. Food site_5275
-Downloading 226 Madhya Pradesh Gwalior Deen Dayal Nagar, Gwalior - MPPCB site_5667
-Downloading 227 Madhya Pradesh Indore Maguda Nagar, Indore - IMC site_5856
-Downloading 228 Madhya Pradesh Indore Chhoti Gwaltoli, Indore - MPPCB site_5248
-Downloading 229 Madhya Pradesh Indore Residency Area, Indore - IMC site_5854
-Downloading 230 Madhya Pradesh Indore Vijay Nagar Scheme-78, Indore - Glenmark site_5709
-Downloading 231 Madhya Pradesh Indore Regional Park, Indore - IMC site_5855
-Downloading 232 Madhya Pradesh Indore Airport Area, Indore - IMC site_5857
-Downloading 233 Madhya Pradesh Jabalpur Suhagi, Jabalpur - JMC site_5816
-Downloading 234 Madhya Pradesh Jabalpur Gupteshwar, Jabalpur - JMC site_5817
-Downloading 235 Madhya Pradesh Jabalpur Govindh Bhavan Colony, Jabalpur - JMC site_5965
-Downloading 236 Madhya Pradesh Jabalpur Marhatal, Jabalpur - MPPCB site_5249
-Downloading 237 Madhya Pradesh Katni Gole Bazar, Katni - MPPCB site_5250
-Downloading 238 Madhya Pradesh Maihar Sahilara, Maihar - KJS Cements site_5068
-Downloading 239 Madhya Pradesh Mandideep Sector-D Industrial Area, Mandideep - MPPCB site_1403
-Downloading 240 Madhya Pradesh Pithampur Sector-2 Industrial Area, Pithampur - MPPCB site_1402
-Downloading 241 Madhya Pradesh Ratlam Shasthri Nagar, Ratlam - IPCA Lab site_5042
-Downloading 242 Madhya Pradesh Sagar Deen Dayal Nagar, Sagar - MPPCB site_5269
-Downloading 243 Madhya Pradesh Sagar Civil Lines, Sagar - MPPCB site_5662
-Downloading 244 Madhya Pradesh Satna Bandhavgar Colony, Satna - Birla Cement site_1433
-Downloading 245 Madhya Pradesh Singrauli Suryakiran Bhawan NCL, Singrauli - MPPCB site_1401
-Downloading 246 Madhya Pradesh Ujjain Mahakaleshwar Temple, Ujjain - MPPCB site_1400
-Downloading 247 Maharashtra Ahmednagar Tarakpur, Ahmednagar - MPCB site_5785
-Downloading 248 Maharashtra Akola Ramdaspeth, Akola - MPCB site_5784
-Downloading 249 Maharashtra Amravati Shivneri Colony, Amravati - MPCB site_5786
-Downloading 250 Maharashtra Amravati Shri Shivaji Science College, Amaravati - MPCB site_5787
-Downloading 251 Maharashtra Aurangabad MIDC Chilkalthana, Aurangabad - MPCB site_5788
-Downloading 252 Maharashtra Aurangabad More Chowk Waluj, Aurangabad - MPCB site_198
-Downloading 253 Maharashtra Aurangabad Rachnakar Colony, Aurangabad - MPCB site_5789</code></pre>
-</div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TimeoutException</span>                          Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[128], line 22</span>
-<span class="ansi-green-fg ansi-bold">     20</span> driver<span style="color:rgb(98,98,98)">.</span>switch_to<span style="color:rgb(98,98,98)">.</span>window(driver<span style="color:rgb(98,98,98)">.</span>window_handles[<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">1</span>])
-<span class="ansi-green-fg ansi-bold">     21</span> driver<span style="color:rgb(98,98,98)">.</span>get(url)
-<span class="ansi-green-fg">---&gt; 22</span> excel_button <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">WebDriverWait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">driver</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">20</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">until</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg ansi-bold">     23</span> <span class="ansi-yellow-bg">EC</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">element_to_be_clickable</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">By</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">CLASS_NAME</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">fa-file-excel-o</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">     24</span> click_it(driver, excel_button)
-<span class="ansi-green-fg ansi-bold">     25</span> sleep(<span style="color:rgb(98,98,98)">1</span>)
-
-File <span class="ansi-green-fg">/opt/miniconda3/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:105</span>, in <span class="ansi-cyan-fg">WebDriverWait.until</span><span class="ansi-blue-fg">(self, method, message)</span>
-<span class="ansi-green-fg ansi-bold">    103</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> time<span style="color:rgb(98,98,98)">.</span>monotonic() <span style="color:rgb(98,98,98)">&gt;</span> end_time:
-<span class="ansi-green-fg ansi-bold">    104</span>         <span style="font-weight:bold;color:rgb(0,135,0)">break</span>
-<span class="ansi-green-fg">--&gt; 105</span> <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> TimeoutException(message, screen, stacktrace)
-
-<span class="ansi-red-fg">TimeoutException</span>: Message: 
-Stacktrace:
-0   chromedriver                        0x0000000104d9baf0 cxxbridge1$str$ptr + 3651580
-1   chromedriver                        0x0000000104d94340 cxxbridge1$str$ptr + 3620940
-2   chromedriver                        0x00000001047fc4b4 cxxbridge1$string$len + 89224
-3   chromedriver                        0x0000000104840898 cxxbridge1$string$len + 368748
-4   chromedriver                        0x000000010487a0fc cxxbridge1$string$len + 604368
-5   chromedriver                        0x00000001048350b0 cxxbridge1$string$len + 321668
-6   chromedriver                        0x0000000104835d00 cxxbridge1$string$len + 324820
-7   chromedriver                        0x0000000104d66e34 cxxbridge1$str$ptr + 3435328
-8   chromedriver                        0x0000000104d6a14c cxxbridge1$str$ptr + 3448408
-9   chromedriver                        0x0000000104d4e1a8 cxxbridge1$str$ptr + 3333812
-10  chromedriver                        0x0000000104d6aa0c cxxbridge1$str$ptr + 3450648
-11  chromedriver                        0x0000000104d3f9b4 cxxbridge1$str$ptr + 3274432
-12  chromedriver                        0x0000000104d85120 cxxbridge1$str$ptr + 3558956
-13  chromedriver                        0x0000000104d8529c cxxbridge1$str$ptr + 3559336
-14  chromedriver                        0x0000000104d93fb4 cxxbridge1$str$ptr + 3620032
-15  libsystem_pthread.dylib             0x0000000195eb9f94 _pthread_start + 136
-16  libsystem_pthread.dylib             0x0000000195eb4d34 thread_start + 8
-</pre>
-</div>
+<pre><code>Number of files in the download directory: 302
+Downloading 301 Maharashtra Nagpur Ram Nagar, Nagpur - MPCB site_5793
+Downloading 302 Maharashtra Nagpur Mahal, Nagpur - MPCB site_5796
+Downloading 303 Maharashtra Nagpur Opp GPO Civil Lines, Nagpur - MPCB site_303
+Downloading 304 Maharashtra Nagpur Ambazari, Nagpur - MPCB site_5792
+Downloading 305 Maharashtra Nanded Sneh Nagar, Nanded - MPCB site_5795
+Downloading 306 Maharashtra Nashik Pandav Nagari, Nashik - MPCB site_5779
+Downloading 307 Maharashtra Nashik MIDC Ambad, Nashik - MPCB site_5781
+Downloading 308 Maharashtra Nashik Gangapur Road, Nashik - MPCB site_304
+Downloading 309 Maharashtra Nashik Hirawadi, Nashik - MPCB site_5782
+Downloading 310 Maharashtra Navi Mumbai Tondare-Taloja, Navi Mumbai - MPCB site_5803
+Downloading 311 Maharashtra Navi Mumbai Sanpada, Navi Mumbai - MPCB site_5815
+Downloading 312 Maharashtra Navi Mumbai Airoli, Navi Mumbai - MPCB site_261
+Downloading 313 Maharashtra Navi Mumbai Mahape, Navi Mumbai - MPCB site_5114
+Downloading 314 Maharashtra Navi Mumbai Kopripada-Vashi, Navi Mumbai - MPCB site_5805
+Downloading 315 Maharashtra Navi Mumbai Sector-19A Nerul, Navi Mumbai - IITM site_5401
+Downloading 316 Maharashtra Navi Mumbai Nerul, Navi Mumbai - MPCB site_5103
+Downloading 317 Maharashtra Navi Mumbai Sector-2E Kalamboli, Navi Mumbai - MPCB site_5799
+Downloading 318 Maharashtra Parbhani Masoom Colony, Parbhani - MPCB site_5794
+Downloading 319 Maharashtra Pimpri-Chinchwad Park Street Wakad, Pimpri Chinchwad - MPCB site_5764
+Downloading 320 Maharashtra Pimpri-Chinchwad Savta Mali Nagar, Pimpri-Chinchwad - IITM site_5998
+Downloading 321 Maharashtra Pimpri-Chinchwad Thergaon, Pimpri Chinchwad - MPCB site_5765
+Downloading 322 Maharashtra Pimpri-Chinchwad Gavalinagar, Pimpri Chinchwad - MPCB site_5763
+Downloading 323 Maharashtra Pune Revenue Colony-Shivajinagar, Pune - IITM site_5409
+Downloading 324 Maharashtra Pune Mhada Colony, Pune - IITM site_5404
+Downloading 325 Maharashtra Pune Savitribai Phule Pune University, Pune - MPCB site_5767
+Downloading 326 Maharashtra Pune Bhumkar Nagar, Pune - IITM site_5988
+Downloading 327 Maharashtra Pune Hadapsar, Pune - IITM site_5407
+Downloading 328 Maharashtra Pune Karve Road, Pune - MPCB site_292
+Downloading 329 Maharashtra Pune Alandi, Pune - IITM site_5405</code></pre>
 </div>
 </div>
 
