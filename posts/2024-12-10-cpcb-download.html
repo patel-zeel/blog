@@ -196,8 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#dry-run-to-get-metadata" id="toc-dry-run-to-get-metadata" class="nav-link active" data-scroll-target="#dry-run-to-get-metadata">Dry run to get metadata</a></li>
-  <li><a href="#once-metadata-is-saved-run-from-here" id="toc-once-metadata-is-saved-run-from-here" class="nav-link" data-scroll-target="#once-metadata-is-saved-run-from-here">Once metadata is saved, run from here</a></li>
-  <li><a href="#full-loop" id="toc-full-loop" class="nav-link" data-scroll-target="#full-loop">Full loop</a></li>
+  <li><a href="#downloading-data" id="toc-downloading-data" class="nav-link" data-scroll-target="#downloading-data">Downloading data</a></li>
   </ul>
 </nav>
     </div>
@@ -208,460 +207,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div id="cell-1" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.keys <span class="im">import</span> Keys</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support.ui <span class="im">import</span> Select, WebDriverWait</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.action_chains <span class="im">import</span> ActionChains</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support <span class="im">import</span> expected_conditions <span class="im">as</span> EC</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>HOME_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing"</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>DOWNLOAD_PAGE_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing/data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-1" class="cell" data-execution_count="87">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium <span class="im">import</span> webdriver</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.keys <span class="im">import</span> Keys</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support.ui <span class="im">import</span> Select, WebDriverWait</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.common.action_chains <span class="im">import</span> ActionChains</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.support <span class="im">import</span> expected_conditions <span class="im">as</span> EC</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> selenium.webdriver.chrome.options <span class="im">import</span> Options</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> sleep</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>HOME_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>DOWNLOAD_OLD_DATA_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing/caaqm-data-repository"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>DOWNLOAD_PAGE_URL <span class="op">=</span> <span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing/data"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> click_it(driver, element):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"arguments[0].click();"</span>, element)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> find_it(element, option):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> element.find_element(By.XPATH, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>option<span class="sc">}</span><span class="ss">')]"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> select_dropdown_option(driver, element, option):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    element.click()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> find_it(element, option)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    click_it(driver, option)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="dry-run-to-get-metadata" class="level2">
 <h2 class="anchored" data-anchor-id="dry-run-to-get-metadata">Dry run to get metadata</h2>
-<div id="cell-3" class="cell" data-execution_count="219">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>driver.get(HOME_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># headless chrome</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> Options()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>options.add_argument(<span class="st">"--headless"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># open the browser</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># open the website</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>driver.get(DOWNLOAD_OLD_DATA_URL)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># wait for the page to load and the dropdowns to appear</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> WebDriverWait(driver, <span class="dv">10</span>).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, <span class="st">".select-box"</span>)))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dropdowns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>5</code></pre>
 </div>
-<p>Enter Captcha manually before moving ahead</p>
-<div id="cell-5" class="cell" data-execution_count="214">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>driver.get(DOWNLOAD_PAGE_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="215">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(dropdowns) <span class="op">==</span> <span class="dv">3</span>, <span class="bu">len</span>(dropdowns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[215], line 2</span>
-<span class="ansi-green-fg ansi-bold">      1</span> dropdowns <span style="color:rgb(98,98,98)">=</span> driver<span style="color:rgb(98,98,98)">.</span>find_elements(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">css selector</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">.select-box</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">----&gt; 2</span> <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> <span style="color:rgb(0,135,0)">len</span>(dropdowns) <span style="color:rgb(98,98,98)">==</span> <span style="color:rgb(98,98,98)">3</span>, <span style="color:rgb(0,135,0)">len</span>(dropdowns)
-
-<span class="ansi-red-fg">AssertionError</span>: 0</pre>
+<div id="cell-5" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>drop_data_type, drop_frequency, drop_states, drop_cities, drop_stations <span class="op">=</span> dropdowns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="cell-6" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data type</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>select_dropdown_option(driver, drop_data_type, <span class="st">"Raw data"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select frequency</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>select_dropdown_option(driver, drop_frequency, <span class="st">"1 day"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the states</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>drop_states.click() <span class="co"># Open the dropdown</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> drop_states.text.replace(<span class="st">"▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of states:"</span>, <span class="bu">len</span>(states))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>drop_states.click() <span class="co"># Close the dropdown</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of states: 31</code></pre>
 </div>
 </div>
 <div id="cell-7" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">0</span>].click() <span class="co"># Open</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> dropdowns[<span class="dv">0</span>].text.replace(<span class="st">"Select ...</span><span class="ch">\n</span><span class="st">▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">0</span>].click() <span class="co"># Close</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(states) <span class="op">==</span> <span class="dv">31</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> state <span class="kw">in</span> states:</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    metadata_dict[state] <span class="op">=</span> {}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>metadata_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"State"</span>, <span class="st">"City"</span>, <span class="st">"Station"</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> state <span class="kw">in</span> tqdm(metadata_dict):</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>state<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">0</span>].click() <span class="co"># Open</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># select state</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>state<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    option.click() <span class="co"># Select and Close</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">1</span>].click() <span class="co"># Open</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get all cities</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    cities <span class="op">=</span> dropdowns[<span class="dv">1</span>].text.replace(<span class="st">"Select ...</span><span class="ch">\n</span><span class="st">▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>cities<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    metadata_dict[state] <span class="op">=</span> {city: {} <span class="cf">for</span> city <span class="kw">in</span> cities}</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">1</span>].click() <span class="co"># Close</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> city <span class="kw">in</span> cities:</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>state<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>city<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        dropdowns[<span class="dv">1</span>].click()</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        option.click() <span class="co"># Select and Close</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="fl">0.1</span>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get all stations</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        dropdowns[<span class="dv">2</span>].click()</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        stations <span class="op">=</span> dropdowns[<span class="dv">2</span>].text.replace(<span class="st">"Select ...</span><span class="ch">\n</span><span class="st">▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> station <span class="kw">in</span> stations:</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            metadata_df.loc[<span class="bu">len</span>(metadata_df)] <span class="op">=</span> [state, city, station]</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>metadata_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">"State"</span>, <span class="st">"City"</span>, <span class="st">"Station"</span>, <span class="st">"site_id"</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This loop took less than a minute to run</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>progress_bar <span class="op">=</span> tqdm(total<span class="op">=</span><span class="dv">600</span>) <span class="co"># as of 2024, 560 stations. update this number if it changes</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> state <span class="kw">in</span> states:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    select_dropdown_option(driver, drop_states, state)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get all cities</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    drop_cities.click() <span class="co"># Open the dropdown</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    cities <span class="op">=</span> drop_cities.text.replace(<span class="st">"▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    drop_cities.click() <span class="co"># Close the dropdown</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> city <span class="kw">in</span> cities:</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        select_dropdown_option(driver, drop_cities, city)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get all stations</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        drop_stations.click() <span class="co"># Open the dropdown</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        stations <span class="op">=</span> drop_stations.text.replace(<span class="st">"▲</span><span class="ch">\n</span><span class="st">"</span>, <span class="st">""</span>).split(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        drop_stations.click() <span class="co"># Close the dropdown</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> station <span class="kw">in</span> stations:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># corner cases</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> station <span class="op">==</span> <span class="st">"Municipal Corporation Office, Dharuhera - HSPCB"</span>:</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                site_id <span class="op">=</span> <span class="st">"site_5044"</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> station <span class="op">==</span> <span class="st">"Civil Lines, Ajmer - RSPCB"</span>:</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                site_id <span class="op">=</span> <span class="st">"site_1392"</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>                    select_dropdown_option(driver, drop_stations, station)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span>:</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(<span class="st">"Unable to select station"</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(station)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(drop_stations.text)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                site_id <span class="op">=</span> drop_stations.get_attribute(<span class="st">"ng-reflect-model"</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>            metadata_df.loc[<span class="bu">len</span>(metadata_df)] <span class="op">=</span> [state, city, station, site_id]</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>            progress_bar.update(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"3a2d9b1eb2fa4322b3727b021b0b7629","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"957f5ecd8a40427aa882ef39f65d90c7","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>state='Andhra Pradesh'
-cities=['Amaravati', 'Anantapur', 'Chittoor', 'Kadapa', 'Rajamahendravaram', 'Tirupati', 'Vijayawada', 'Visakhapatnam']
-state='Andhra Pradesh', city='Amaravati'
-state='Andhra Pradesh', city='Anantapur'
-state='Andhra Pradesh', city='Chittoor'
-state='Andhra Pradesh', city='Kadapa'
-state='Andhra Pradesh', city='Rajamahendravaram'
-state='Andhra Pradesh', city='Tirupati'
-state='Andhra Pradesh', city='Vijayawada'
-state='Andhra Pradesh', city='Visakhapatnam'
-state='Arunachal Pradesh'
-cities=['Naharlagun']
-state='Arunachal Pradesh', city='Naharlagun'
-state='Assam'
-cities=['Byrnihat', 'Guwahati', 'Nagaon', 'Nalbari', 'Silchar', 'Sivasagar']
-state='Assam', city='Byrnihat'
-state='Assam', city='Guwahati'
-state='Assam', city='Nagaon'
-state='Assam', city='Nalbari'
-state='Assam', city='Silchar'
-state='Assam', city='Sivasagar'
-state='Bihar'
-cities=['Araria', 'Arrah', 'Aurangabad', 'Begusarai', 'Bettiah', 'Bhagalpur', 'Bihar Sharif', 'Buxar', 'Chhapra', 'Darbhanga', 'Gaya', 'Hajipur', 'Katihar', 'Kishanganj', 'Manguraha', 'Motihari', 'Munger', 'Muzaffarpur', 'Patna', 'Purnia', 'Rajgir', 'Saharsa', 'Samastipur', 'Sasaram', 'Siwan']
-state='Bihar', city='Araria'
-state='Bihar', city='Arrah'
-state='Bihar', city='Aurangabad'
-state='Bihar', city='Begusarai'
-state='Bihar', city='Bettiah'
-state='Bihar', city='Bhagalpur'
-state='Bihar', city='Bihar Sharif'
-state='Bihar', city='Buxar'
-state='Bihar', city='Chhapra'
-state='Bihar', city='Darbhanga'
-state='Bihar', city='Gaya'
-state='Bihar', city='Hajipur'
-state='Bihar', city='Katihar'
-state='Bihar', city='Kishanganj'
-state='Bihar', city='Manguraha'
-state='Bihar', city='Motihari'
-state='Bihar', city='Munger'
-state='Bihar', city='Muzaffarpur'
-state='Bihar', city='Patna'
-state='Bihar', city='Purnia'
-state='Bihar', city='Rajgir'
-state='Bihar', city='Saharsa'
-state='Bihar', city='Samastipur'
-state='Bihar', city='Sasaram'
-state='Bihar', city='Siwan'
-state='Chandigarh'
-cities=['Chandigarh']
-state='Chandigarh', city='Chandigarh'
-state='Chhattisgarh'
-cities=['Bhilai', 'Bilaspur', 'Chhal', 'Korba', 'Kunjemura', 'Milupara', 'Raipur', 'Tumidih']
-state='Chhattisgarh', city='Bhilai'
-state='Chhattisgarh', city='Bilaspur'
-state='Chhattisgarh', city='Chhal'
-state='Chhattisgarh', city='Korba'
-state='Chhattisgarh', city='Kunjemura'
-state='Chhattisgarh', city='Milupara'
-state='Chhattisgarh', city='Raipur'
-state='Chhattisgarh', city='Tumidih'
-state='Delhi'
-cities=['Delhi']
-state='Delhi', city='Delhi'
-state='Gujarat'
-cities=['Ahmedabad', 'Ankleshwar', 'Gandhinagar', 'Nandesari', 'Surat', 'Vapi', 'Vatva']
-state='Gujarat', city='Ahmedabad'
-state='Gujarat', city='Ankleshwar'
-state='Gujarat', city='Gandhinagar'
-state='Gujarat', city='Nandesari'
-state='Gujarat', city='Surat'
-state='Gujarat', city='Vapi'
-state='Gujarat', city='Vatva'
-state='Haryana'
-cities=['Ambala', 'Bahadurgarh', 'Ballabgarh', 'Bhiwani', 'Charkhi Dadri', 'Dharuhera', 'Faridabad', 'Fatehabad', 'Gurugram', 'Hisar', 'Jind', 'Kaithal', 'Karnal', 'Kurukshetra', 'Mandikhera', 'Manesar', 'Narnaul', 'Palwal', 'Panchkula', 'Panipat', 'Rohtak', 'Sirsa', 'Sonipat', 'Yamuna Nagar']
-state='Haryana', city='Ambala'
-state='Haryana', city='Bahadurgarh'
-state='Haryana', city='Ballabgarh'
-state='Haryana', city='Bhiwani'
-state='Haryana', city='Charkhi Dadri'
-state='Haryana', city='Dharuhera'
-state='Haryana', city='Faridabad'
-state='Haryana', city='Fatehabad'
-state='Haryana', city='Gurugram'
-state='Haryana', city='Hisar'
-state='Haryana', city='Jind'
-state='Haryana', city='Kaithal'
-state='Haryana', city='Karnal'
-state='Haryana', city='Kurukshetra'
-state='Haryana', city='Mandikhera'
-state='Haryana', city='Manesar'
-state='Haryana', city='Narnaul'
-state='Haryana', city='Palwal'
-state='Haryana', city='Panchkula'
-state='Haryana', city='Panipat'
-state='Haryana', city='Rohtak'
-state='Haryana', city='Sirsa'
-state='Haryana', city='Sonipat'
-state='Haryana', city='Yamuna Nagar'
-state='Himachal Pradesh'
-cities=['Baddi']
-state='Himachal Pradesh', city='Baddi'
-state='Jammu and Kashmir'
-cities=['Srinagar']
-state='Jammu and Kashmir', city='Srinagar'
-state='Jharkhand'
-cities=['Dhanbad', 'Jorapokhar', 'Pathardih']
-state='Jharkhand', city='Dhanbad'
-state='Jharkhand', city='Jorapokhar'
-state='Jharkhand', city='Pathardih'
-state='Karnataka'
-cities=['Bagalkot', 'Belgaum', 'Bengaluru', 'Bidar', 'Chamarajanagar', 'Chikkaballapur', 'Chikkamagaluru', 'Davanagere', 'Dharwad', 'Gadag', 'Hassan', 'Haveri', 'Hubballi', 'Kalaburagi', 'Karwar', 'Kolar', 'Koppal', 'Madikeri', 'Mangalore', 'Mysuru', 'Raichur', 'Ramanagara', 'Shivamogga', 'Tumakuru', 'Udupi', 'Vijayapura', 'Yadgir']
-state='Karnataka', city='Bagalkot'
-state='Karnataka', city='Belgaum'
-state='Karnataka', city='Bengaluru'
-state='Karnataka', city='Bidar'
-state='Karnataka', city='Chamarajanagar'
-state='Karnataka', city='Chikkaballapur'
-state='Karnataka', city='Chikkamagaluru'
-state='Karnataka', city='Davanagere'
-state='Karnataka', city='Dharwad'
-state='Karnataka', city='Gadag'
-state='Karnataka', city='Hassan'
-state='Karnataka', city='Haveri'
-state='Karnataka', city='Hubballi'
-state='Karnataka', city='Kalaburagi'
-state='Karnataka', city='Karwar'
-state='Karnataka', city='Kolar'
-state='Karnataka', city='Koppal'
-state='Karnataka', city='Madikeri'
-state='Karnataka', city='Mangalore'
-state='Karnataka', city='Mysuru'
-state='Karnataka', city='Raichur'
-state='Karnataka', city='Ramanagara'
-state='Karnataka', city='Shivamogga'
-state='Karnataka', city='Tumakuru'
-state='Karnataka', city='Udupi'
-state='Karnataka', city='Vijayapura'
-state='Karnataka', city='Yadgir'
-state='Kerala'
-cities=['Eloor', 'Ernakulam', 'Kannur', 'Kochi', 'Kollam', 'Kozhikode', 'Thiruvananthapuram', 'Thrissur']
-state='Kerala', city='Eloor'
-state='Kerala', city='Ernakulam'
-state='Kerala', city='Kannur'
-state='Kerala', city='Kochi'
-state='Kerala', city='Kollam'
-state='Kerala', city='Kozhikode'
-state='Kerala', city='Thiruvananthapuram'
-state='Kerala', city='Thrissur'
-state='Madhya Pradesh'
-cities=['Bhopal', 'Damoh', 'Dewas', 'Gwalior', 'Indore', 'Jabalpur', 'Katni', 'Maihar', 'Mandideep', 'Pithampur', 'Ratlam', 'Sagar', 'Satna', 'Singrauli', 'Ujjain']
-state='Madhya Pradesh', city='Bhopal'
-state='Madhya Pradesh', city='Damoh'
-state='Madhya Pradesh', city='Dewas'
-state='Madhya Pradesh', city='Gwalior'
-state='Madhya Pradesh', city='Indore'
-state='Madhya Pradesh', city='Jabalpur'
-state='Madhya Pradesh', city='Katni'
-state='Madhya Pradesh', city='Maihar'
-state='Madhya Pradesh', city='Mandideep'
-state='Madhya Pradesh', city='Pithampur'
-state='Madhya Pradesh', city='Ratlam'
-state='Madhya Pradesh', city='Sagar'
-state='Madhya Pradesh', city='Satna'
-state='Madhya Pradesh', city='Singrauli'
-state='Madhya Pradesh', city='Ujjain'
-state='Maharashtra'
-cities=['Ahmednagar', 'Akola', 'Amravati', 'Aurangabad', 'Badlapur', 'Belapur', 'Bhiwandi', 'Boisar', 'Chandrapur', 'Dhule', 'Jalgaon', 'Jalna', 'Kalyan', 'Kolhapur', 'Latur', 'Mahad', 'Malegaon', 'Mira-Bhayandar', 'Mumbai', 'Nagpur', 'Nanded', 'Nashik', 'Navi Mumbai', 'Parbhani', 'Pimpri-Chinchwad', 'Pune', 'Sangli', 'Solapur', 'Thane', 'Ulhasnagar', 'Virar']
-state='Maharashtra', city='Ahmednagar'
-state='Maharashtra', city='Akola'
-state='Maharashtra', city='Amravati'
-state='Maharashtra', city='Aurangabad'
-state='Maharashtra', city='Badlapur'
-state='Maharashtra', city='Belapur'
-state='Maharashtra', city='Bhiwandi'
-state='Maharashtra', city='Boisar'
-state='Maharashtra', city='Chandrapur'
-state='Maharashtra', city='Dhule'
-state='Maharashtra', city='Jalgaon'
-state='Maharashtra', city='Jalna'
-state='Maharashtra', city='Kalyan'
-state='Maharashtra', city='Kolhapur'
-state='Maharashtra', city='Latur'
-state='Maharashtra', city='Mahad'
-state='Maharashtra', city='Malegaon'
-state='Maharashtra', city='Mira-Bhayandar'
-state='Maharashtra', city='Mumbai'
-state='Maharashtra', city='Nagpur'
-state='Maharashtra', city='Nanded'
-state='Maharashtra', city='Nashik'
-state='Maharashtra', city='Navi Mumbai'
-state='Maharashtra', city='Parbhani'
-state='Maharashtra', city='Pimpri-Chinchwad'
-state='Maharashtra', city='Pune'
-state='Maharashtra', city='Sangli'
-state='Maharashtra', city='Solapur'
-state='Maharashtra', city='Thane'
-state='Maharashtra', city='Ulhasnagar'
-state='Maharashtra', city='Virar'
-state='Manipur'
-cities=['Imphal']
-state='Manipur', city='Imphal'
-state='Meghalaya'
-cities=['Shillong']
-state='Meghalaya', city='Shillong'
-state='Mizoram'
-cities=['Aizawl']
-state='Mizoram', city='Aizawl'
-state='Nagaland'
-cities=['Kohima']
-state='Nagaland', city='Kohima'
-state='Odisha'
-cities=['Angul', 'Balasore', 'Barbil', 'Baripada', 'Bhubaneswar', 'Bileipada', 'Brajrajnagar', 'Byasanagar', 'Cuttack', 'Keonjhar', 'Nayagarh', 'Rairangpur', 'Rourkela', 'Suakati', 'Talcher', 'Tensa']
-state='Odisha', city='Angul'
-state='Odisha', city='Balasore'
-state='Odisha', city='Barbil'
-state='Odisha', city='Baripada'
-state='Odisha', city='Bhubaneswar'
-state='Odisha', city='Bileipada'
-state='Odisha', city='Brajrajnagar'
-state='Odisha', city='Byasanagar'
-state='Odisha', city='Cuttack'
-state='Odisha', city='Keonjhar'
-state='Odisha', city='Nayagarh'
-state='Odisha', city='Rairangpur'
-state='Odisha', city='Rourkela'
-state='Odisha', city='Suakati'
-state='Odisha', city='Talcher'
-state='Odisha', city='Tensa'
-state='Puducherry'
-cities=['Puducherry']
-state='Puducherry', city='Puducherry'
-state='Punjab'
-cities=['Amritsar', 'Bathinda', 'Jalandhar', 'Khanna', 'Ludhiana', 'Mandi Gobindgarh', 'Patiala', 'Rupnagar']
-state='Punjab', city='Amritsar'
-state='Punjab', city='Bathinda'
-state='Punjab', city='Jalandhar'
-state='Punjab', city='Khanna'
-state='Punjab', city='Ludhiana'
-state='Punjab', city='Mandi Gobindgarh'
-state='Punjab', city='Patiala'
-state='Punjab', city='Rupnagar'
-state='Rajasthan'
-cities=['Ajmer', 'Alwar', 'Banswara', 'Baran', 'Barmer', 'Bharatpur', 'Bhilwara', 'Bhiwadi', 'Bikaner', 'Bundi', 'Chittorgarh', 'Churu', 'Dausa', 'Dholpur', 'Dungarpur', 'Hanumangarh', 'Jaipur', 'Jaisalmer', 'Jalore', 'Jhalawar', 'Jhunjhunu', 'Jodhpur', 'Karauli', 'Kota', 'Nagaur', 'Pali', 'Pratapgarh', 'Rajsamand', 'Sawai Madhopur', 'Sikar', 'Sirohi', 'Sri Ganganagar', 'Tonk', 'Udaipur']
-state='Rajasthan', city='Ajmer'
-state='Rajasthan', city='Alwar'
-state='Rajasthan', city='Banswara'
-state='Rajasthan', city='Baran'
-state='Rajasthan', city='Barmer'
-state='Rajasthan', city='Bharatpur'
-state='Rajasthan', city='Bhilwara'
-state='Rajasthan', city='Bhiwadi'
-state='Rajasthan', city='Bikaner'
-state='Rajasthan', city='Bundi'
-state='Rajasthan', city='Chittorgarh'
-state='Rajasthan', city='Churu'
-state='Rajasthan', city='Dausa'
-state='Rajasthan', city='Dholpur'
-state='Rajasthan', city='Dungarpur'
-state='Rajasthan', city='Hanumangarh'
-state='Rajasthan', city='Jaipur'
-state='Rajasthan', city='Jaisalmer'
-state='Rajasthan', city='Jalore'
-state='Rajasthan', city='Jhalawar'
-state='Rajasthan', city='Jhunjhunu'
-state='Rajasthan', city='Jodhpur'
-state='Rajasthan', city='Karauli'
-state='Rajasthan', city='Kota'
-state='Rajasthan', city='Nagaur'
-state='Rajasthan', city='Pali'
-state='Rajasthan', city='Pratapgarh'
-state='Rajasthan', city='Rajsamand'
-state='Rajasthan', city='Sawai Madhopur'
-state='Rajasthan', city='Sikar'
-state='Rajasthan', city='Sirohi'
-state='Rajasthan', city='Sri Ganganagar'
-state='Rajasthan', city='Tonk'
-state='Rajasthan', city='Udaipur'
-state='Sikkim'
-cities=['Gangtok']
-state='Sikkim', city='Gangtok'
-state='Tamil Nadu'
-cities=['Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dindigul', 'Gummidipoondi', 'Hosur', 'Kanchipuram', 'Karur', 'Madurai', 'Nagapattinam', 'Ooty', 'Palkalaiperur', 'Perundurai', 'Pudukottai', 'Ramanathapuram', 'Ranipet', 'Salem', 'Thanjavur', 'Thoothukudi', 'Tiruchirappalli', 'Tirunelveli', 'Tirupur', 'Vellore', 'Virudhunagar']
-state='Tamil Nadu', city='Ariyalur'
-state='Tamil Nadu', city='Chengalpattu'
-state='Tamil Nadu', city='Chennai'
-state='Tamil Nadu', city='Coimbatore'
-state='Tamil Nadu', city='Cuddalore'
-state='Tamil Nadu', city='Dindigul'
-state='Tamil Nadu', city='Gummidipoondi'
-state='Tamil Nadu', city='Hosur'
-state='Tamil Nadu', city='Kanchipuram'
-state='Tamil Nadu', city='Karur'
-state='Tamil Nadu', city='Madurai'
-state='Tamil Nadu', city='Nagapattinam'
-state='Tamil Nadu', city='Ooty'
-state='Tamil Nadu', city='Palkalaiperur'
-state='Tamil Nadu', city='Perundurai'
-state='Tamil Nadu', city='Pudukottai'
-state='Tamil Nadu', city='Ramanathapuram'
-state='Tamil Nadu', city='Ranipet'
-state='Tamil Nadu', city='Salem'
-state='Tamil Nadu', city='Thanjavur'
-state='Tamil Nadu', city='Thoothukudi'
-state='Tamil Nadu', city='Tiruchirappalli'
-state='Tamil Nadu', city='Tirunelveli'
-state='Tamil Nadu', city='Tirupur'
-state='Tamil Nadu', city='Vellore'
-state='Tamil Nadu', city='Virudhunagar'
-state='Telangana'
-cities=['Hyderabad']
-state='Telangana', city='Hyderabad'
-state='Tripura'
-cities=['Agartala']
-state='Tripura', city='Agartala'
-state='Uttar Pradesh'
-cities=['Agra', 'Baghpat', 'Bareilly', 'Bulandshahr', 'Firozabad', 'Ghaziabad', 'Gorakhpur', 'Greater Noida', 'Hapur', 'Jhansi', 'Kanpur', 'Khurja', 'Lucknow', 'Meerut', 'Moradabad', 'Muzaffarnagar', 'Noida', 'Prayagraj', 'Varanasi', 'Vrindavan']
-state='Uttar Pradesh', city='Agra'
-state='Uttar Pradesh', city='Baghpat'
-state='Uttar Pradesh', city='Bareilly'
-state='Uttar Pradesh', city='Bulandshahr'
-state='Uttar Pradesh', city='Firozabad'
-state='Uttar Pradesh', city='Ghaziabad'
-state='Uttar Pradesh', city='Gorakhpur'
-state='Uttar Pradesh', city='Greater Noida'
-state='Uttar Pradesh', city='Hapur'
-state='Uttar Pradesh', city='Jhansi'
-state='Uttar Pradesh', city='Kanpur'
-state='Uttar Pradesh', city='Khurja'
-state='Uttar Pradesh', city='Lucknow'
-state='Uttar Pradesh', city='Meerut'
-state='Uttar Pradesh', city='Moradabad'
-state='Uttar Pradesh', city='Muzaffarnagar'
-state='Uttar Pradesh', city='Noida'
-state='Uttar Pradesh', city='Prayagraj'
-state='Uttar Pradesh', city='Varanasi'
-state='Uttar Pradesh', city='Vrindavan'
-state='Uttarakhand'
-cities=['Dehradun', 'Kashipur', 'Rishikesh']
-state='Uttarakhand', city='Dehradun'
-state='Uttarakhand', city='Kashipur'
-state='Uttarakhand', city='Rishikesh'
-state='West Bengal'
-cities=['Asansol', 'Barrackpore', 'Durgapur', 'Haldia', 'Howrah', 'Kolkata', 'Siliguri']
-state='West Bengal', city='Asansol'
-state='West Bengal', city='Barrackpore'
-state='West Bengal', city='Durgapur'
-state='West Bengal', city='Haldia'
-state='West Bengal', city='Howrah'
-state='West Bengal', city='Kolkata'
-state='West Bengal', city='Siliguri'</code></pre>
 </div>
-</div>
-<div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(metadata_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div id="cell-8" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(metadata_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>560</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>metadata_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<div id="cell-9" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>metadata_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -672,6 +340,7 @@ state='West Bengal', city='Siliguri'</code></pre>
 <th data-quarto-table-cell-role="th">State</th>
 <th data-quarto-table-cell-role="th">City</th>
 <th data-quarto-table-cell-role="th">Station</th>
+<th data-quarto-table-cell-role="th">site_id</th>
 </tr>
 </thead>
 <tbody>
@@ -680,30 +349,35 @@ state='West Bengal', city='Siliguri'</code></pre>
 <td>Andhra Pradesh</td>
 <td>Amaravati</td>
 <td>Secretariat, Amaravati - APPCB</td>
+<td>site_1406</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>Andhra Pradesh</td>
 <td>Anantapur</td>
 <td>Gulzarpet, Anantapur - APPCB</td>
+<td>site_5632</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>Andhra Pradesh</td>
 <td>Chittoor</td>
 <td>Gangineni Cheruvu, Chittoor - APPCB</td>
+<td>site_5665</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>Andhra Pradesh</td>
 <td>Kadapa</td>
 <td>Yerramukkapalli, Kadapa - APPCB</td>
+<td>site_5693</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>Andhra Pradesh</td>
 <td>Rajamahendravaram</td>
 <td>Anand Kala Kshetram, Rajamahendravaram - APPCB</td>
+<td>site_1399</td>
 </tr>
 </tbody>
 </table>
@@ -711,9 +385,9 @@ state='West Bengal', city='Siliguri'</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-11" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>metadata_df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div id="cell-10" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>metadata_df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -724,6 +398,7 @@ state='West Bengal', city='Siliguri'</code></pre>
 <th data-quarto-table-cell-role="th">State</th>
 <th data-quarto-table-cell-role="th">City</th>
 <th data-quarto-table-cell-role="th">Station</th>
+<th data-quarto-table-cell-role="th">site_id</th>
 </tr>
 </thead>
 <tbody>
@@ -731,31 +406,36 @@ state='West Bengal', city='Siliguri'</code></pre>
 <td data-quarto-table-cell-role="th">555</td>
 <td>West Bengal</td>
 <td>Kolkata</td>
-<td>Jadavpur, Kolkata - WBPCB</td>
+<td>Rabindra Bharati University, Kolkata - WBPCB</td>
+<td>site_296</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">556</td>
 <td>West Bengal</td>
 <td>Kolkata</td>
-<td>Rabindra Bharati University, Kolkata - WBPCB</td>
+<td>Fort William, Kolkata - WBPCB</td>
+<td>site_5110</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">557</td>
 <td>West Bengal</td>
 <td>Kolkata</td>
-<td>Rabindra Sarobar, Kolkata - WBPCB</td>
+<td>Victoria, Kolkata - WBPCB</td>
+<td>site_309</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">558</td>
 <td>West Bengal</td>
 <td>Kolkata</td>
-<td>Victoria, Kolkata - WBPCB</td>
+<td>Bidhannagar, Kolkata - WBPCB</td>
+<td>site_5129</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">559</td>
 <td>West Bengal</td>
 <td>Siliguri</td>
 <td>Ward-32 Bapupara, Siliguri - WBPCB</td>
+<td>site_1419</td>
 </tr>
 </tbody>
 </table>
@@ -763,337 +443,218 @@ state='West Bengal', city='Siliguri'</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>metadata_df.to_csv(<span class="st">"metadata.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> site_id, more_than_1 <span class="kw">in</span> (metadata_df.site_id.value_counts() <span class="op">&gt;</span> <span class="dv">1</span>).items():</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> more_than_1:</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(metadata_df[metadata_df.site_id <span class="op">==</span> site_id])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             State           City  \
+498  Uttar Pradesh  Greater Noida   
+525  Uttar Pradesh          Noida   
+
+                                         Station    site_id  
+498  Knowledge Park - III, Greater Noida - UPPCB  site_1541  
+525  Knowledge Park - III, Greater Noida - UPPCB  site_1541  
+           State        City                               Station    site_id
+25         Bihar  Aurangabad  MIDC Chilkalthana, Aurangabad - MPCB  site_5788
+254  Maharashtra  Aurangabad  MIDC Chilkalthana, Aurangabad - MPCB  site_5788
+           State        City                              Station   site_id
+26         Bihar  Aurangabad  More Chowk Waluj, Aurangabad - MPCB  site_198
+255  Maharashtra  Aurangabad  More Chowk Waluj, Aurangabad - MPCB  site_198
+           State        City                           Station    site_id
+27         Bihar  Aurangabad  Gurdeo Nagar, Aurangabad - BSPCB  site_5544
+256  Maharashtra  Aurangabad  Gurdeo Nagar, Aurangabad - BSPCB  site_5544
+           State        City                              Station    site_id
+28         Bihar  Aurangabad  Rachnakar Colony, Aurangabad - MPCB  site_5789
+257  Maharashtra  Aurangabad  Rachnakar Colony, Aurangabad - MPCB  site_5789
+             State           City                                    Station  \
+499  Uttar Pradesh  Greater Noida  Knowledge Park - V, Greater Noida - UPPCB   
+526  Uttar Pradesh          Noida  Knowledge Park - V, Greater Noida - UPPCB   
+
+       site_id  
+499  site_5121  
+526  site_5121  </code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clean up</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>drop_items <span class="op">=</span> [metadata_df[(metadata_df.State <span class="op">==</span> <span class="st">"Bihar"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"MIDC Chilkalthana, Aurangabad - MPCB"</span>)].index.item(),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.City <span class="op">==</span> <span class="st">"Noida"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"Knowledge Park - III, Greater Noida - UPPCB"</span>)].index.item(),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.State <span class="op">==</span> <span class="st">"Bihar"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"More Chowk Waluj, Aurangabad - MPCB"</span>)].index.item(),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.State <span class="op">==</span> <span class="st">"Bihar"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"MIDC Chilkalthana, Aurangabad - MPCB"</span>)].index.item(),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.State <span class="op">==</span> <span class="st">"Maharashtra"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"Gurdeo Nagar, Aurangabad - BSPCB"</span>)].index.item(),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.State <span class="op">==</span> <span class="st">"Bihar"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"Rachnakar Colony, Aurangabad - MPCB"</span>)].index.item(),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>              metadata_df[(metadata_df.City <span class="op">==</span> <span class="st">"Noida"</span>) <span class="op">&amp;</span> (metadata_df.Station <span class="op">==</span> <span class="st">"Knowledge Park - V, Greater Noida - UPPCB"</span>)].index.item()]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>metadata_df.drop(drop_items, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(metadata_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>554</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">set</span>(metadata_df.site_id.value_counts()) <span class="op">==</span> {<span class="dv">1</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>metadata_df.to_csv(<span class="st">"metadata.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="once-metadata-is-saved-run-from-here" class="level2">
-<h2 class="anchored" data-anchor-id="once-metadata-is-saved-run-from-here">Once metadata is saved, run from here</h2>
-<div id="cell-14" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>metadata_df <span class="op">=</span> pd.read_csv(<span class="st">'metadata.csv'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(metadata_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
-<pre><code>560</code></pre>
+<section id="downloading-data" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-data">Downloading data</h2>
+<div id="cell-16" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># URL is specific to PM2.5 and PM10 so update it as per your needs</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_url(state, city, site_id):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-view-data-report/%2522%257B%255C%2522parameter_list%255C%2522%253A%255B%257B%255C%2522id%255C%2522%253A0%252C%255C%2522itemName%255C%2522%253A%255C%2522PM2.5%255C%2522%252C%255C%2522itemValue%255C%2522%253A%255C%2522parameter_193%255C%2522%257D%252C%257B%255C%2522id%255C%2522%253A1%252C%255C%2522itemName%255C%2522%253A%255C%2522PM10%255C%2522%252C%255C%2522itemValue%255C%2522%253A%255C%2522parameter_215%255C%2522%257D%255D%252C%255C%2522criteria%255C%2522%253A%255C%252224%2520Hours%255C%2522%252C%255C%2522reportFormat%255C%2522%253A%255C%2522Tabular%255C%2522%252C%255C%2522fromDate%255C%2522%253A%255C%252201-01-2024%2520T00%253A00%253A00Z%255C%2522%252C%255C%2522toDate%255C%2522%253A%255C%252211-12-2024%2520T16%253A45%253A59Z%255C%2522%252C%255C%2522state%255C%2522%253A%255C%2522</span><span class="sc">{</span>state<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'%2520'</span>)<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522city%255C%2522%253A%255C%2522</span><span class="sc">{</span>city<span class="sc">.</span>replace(<span class="st">' '</span>, <span class="st">'%2520'</span>)<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522station%255C%2522%253A%255C%2522</span><span class="sc">{</span>site_id<span class="sc">}</span><span class="ss">%255C%2522%252C%255C%2522parameter%255C%2522%253A%255B%255C%2522parameter_193%255C%2522%252C%255C%2522parameter_215%255C%2522%255D%252C%255C%2522parameterNames%255C%2522%253A%255B%255C%2522PM2.5%255C%2522%252C%255C%2522PM10%255C%2522%255D%257D%2522"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="cell-15" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add download directory</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>options.add_experimental_option(<span class="st">"prefs"</span>, {</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"download.default_directory"</span>: <span class="st">"/Users/project561/blog/cpcb_downloads"</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>driver.get(HOME_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-17" class="cell" data-execution_count="126">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add download directory</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>options.add_experimental_option(<span class="st">"prefs"</span>, {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"download.default_directory"</span>: <span class="st">"/Users/project561/cpcb_downloads"</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>driver.get(HOME_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Enter Captcha manually before moving ahead</p>
-<div id="cell-17" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>driver.get(DOWNLOAD_PAGE_URL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-19" class="cell" data-execution_count="127">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>metadata_df <span class="op">=</span> pd.read_csv(<span class="st">"metadata.csv"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>metadata_df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="127">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">State</th>
+<th data-quarto-table-cell-role="th">City</th>
+<th data-quarto-table-cell-role="th">Station</th>
+<th data-quarto-table-cell-role="th">site_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andhra Pradesh</td>
+<td>Amaravati</td>
+<td>Secretariat, Amaravati - APPCB</td>
+<td>site_1406</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Andhra Pradesh</td>
+<td>Anantapur</td>
+<td>Gulzarpet, Anantapur - APPCB</td>
+<td>site_5632</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<div id="cell-18" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>entry <span class="op">=</span> metadata_df.loc[i]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> entry[<span class="st">"State"</span>]</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>city <span class="op">=</span> entry[<span class="st">"City"</span>]</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>station <span class="op">=</span> entry[<span class="st">"Station"</span>]</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>state<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>city<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>station<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="128">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob(<span class="st">"/Users/project561/cpcb_downloads/*.xlsx"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of files in the download directory:"</span>, <span class="bu">len</span>(files))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>site_ids <span class="op">=</span> [re.search(<span class="vs">r"site_\d+?2024"</span>, <span class="bu">file</span>).group()[:<span class="op">-</span><span class="dv">4</span>] <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assert len(set(site_ids)) == len(site_ids), pd.Series(site_ids).value_counts()</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>site_ids <span class="op">=</span> <span class="bu">set</span>(site_ids)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>num_windows <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(metadata_df)):</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    state, city, station, site_id <span class="op">=</span> metadata_df.iloc[i]</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> site_id <span class="kw">in</span> site_ids:</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print("Already downloaded", i, state, city, station, site_id)</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Downloading"</span>, i, state, city, station, site_id)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> get_url(state, city, site_id)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open new tab</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"window.open('');"</span>)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    num_windows <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    driver.get(url)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    excel_button <span class="op">=</span> WebDriverWait(driver, <span class="dv">20</span>).until(</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">"fa-file-excel-o"</span>)))</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    click_it(driver, excel_button)</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">1</span>)</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(driver.window_handles) <span class="op">&gt;</span> <span class="dv">10</span>:</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># close first 9 windows</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">9</span>):</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>            driver.switch_to.window(driver.window_handles[<span class="dv">0</span>])</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>            driver.close()</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>state='Andhra Pradesh', city='Amaravati', station='Secretariat, Amaravati - APPCB'</code></pre>
-</div>
-</div>
-<div id="cell-19" class="cell" data-execution_count="224">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># State selection</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">0</span>].click() <span class="co"># Open</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># select state</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>state<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>option.click() <span class="co"># Select and Close</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.1</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># City selection</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">1</span>].click() <span class="co"># Open</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.1</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># select city</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>option.click() <span class="co"># Select and Close</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.1</span>)</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Station selection</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">2</span>].click() <span class="co"># Open</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.1</span>)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co"># select station</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>station<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>option.click() <span class="co"># Select and Close</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-20" class="cell" data-execution_count="225">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>multi_select <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//angular2-multiselect//div[@class='c-btn']"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>multi_select.click() <span class="co"># Open</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.1</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>pm25_checkbox <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//label[text()='PM2.5']/preceding-sibling::input"</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>pm10_checkbox <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//label[text()='PM10']/preceding-sibling::input"</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>actions <span class="op">=</span> ActionChains(driver)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pm25_checkbox.is_selected():</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    actions.move_to_element(pm25_checkbox).click().perform()</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> pm10_checkbox.is_selected():</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    actions.move_to_element(pm10_checkbox).click().perform()</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>multi_select.click() <span class="co"># Close</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-21" class="cell" data-execution_count="226">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(dropdowns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="226">
-<pre><code>5</code></pre>
-</div>
-</div>
-<div id="cell-22" class="cell" data-execution_count="227">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dropdowns[<span class="dv">4</span>].click() <span class="co"># Open</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="st">"//li[contains(text(), '15 Minute')]"</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>option.click() <span class="co"># Select and Close</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-23" class="cell" data-execution_count="228">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>date_pickers <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">".wc-date-container"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(date_pickers) <span class="op">==</span> <span class="dv">2</span>, <span class="bu">len</span>(date_pickers)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select start date</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>date_pickers[<span class="dv">0</span>].click()</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.5</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>desired_month <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">"month-year"</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>desired_month.click()</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.5</span>)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>option <span class="op">=</span> driver.find_element(By.ID, <span class="st">"JAN"</span>)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>option.click()</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.5</span>)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    desired_date <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//td[@class='calendar-day']/span[text()='1']"</span>)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"arguments[0].click();"</span>, desired_date)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Already selected"</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>date_pickers <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">".wc-date-container"</span>)</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(date_pickers) <span class="op">==</span> <span class="dv">2</span>, <span class="bu">len</span>(date_pickers)</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Select end date</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>date_pickers[<span class="dv">1</span>].click()</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.5</span>)</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>desired_months <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">"month-year"</span>)</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>desired_months[<span class="dv">1</span>].click()</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>sleep(<span class="fl">0.5</span>)</span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(By.ID, <span class="st">"DEC"</span>)</span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>    option.click()</span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Already in December"</span>)</span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>    desired_date <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//td[@class='calendar-day']/span[text()='1']"</span>)</span>
-<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"arguments[0].click();"</span>, desired_date)</span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Already selected"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Already in December</code></pre>
-</div>
-</div>
-<div id="cell-24" class="cell" data-execution_count="229">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># click on submit</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>submit_button <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//button[text()='Submit']"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>submit_button.click()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-25" class="cell" data-execution_count="231">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>excel_button <span class="op">=</span> WebDriverWait(driver, <span class="dv">20</span>).until(</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">"fa-file-excel-o"</span>))</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>excel_button.click()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="full-loop" class="level2">
-<h2 class="anchored" data-anchor-id="full-loop">Full loop</h2>
-<div id="cell-27" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> download(i):</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Downloading data for entry"</span>, i)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    driver.get(DOWNLOAD_PAGE_URL)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    entry <span class="op">=</span> metadata_df.loc[i]</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    state <span class="op">=</span> entry[<span class="st">"State"</span>]</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    city <span class="op">=</span> entry[<span class="st">"City"</span>]</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    station <span class="op">=</span> entry[<span class="st">"Station"</span>]</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>state<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>city<span class="op">=</span><span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>station<span class="op">=</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># State selection</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    WebDriverWait(driver, <span class="dv">60</span>).until(</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>        EC.presence_of_all_elements_located((By.CLASS_NAME, <span class="st">"select-box"</span>))</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">0</span>].click() <span class="co"># Open</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># select state</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>state<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    option.click() <span class="co"># Select and Close</span></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># City selection</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">1</span>].click() <span class="co"># Open</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># select city</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    option.click() <span class="co"># Select and Close</span></span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Station selection</span></span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">2</span>].click() <span class="co"># Open</span></span>
-<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># select station</span></span>
-<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="ss">f"//li[contains(text(), '</span><span class="sc">{</span>station<span class="sc">}</span><span class="ss">')]"</span>)</span>
-<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    option.click() <span class="co"># Select and Close</span></span>
-<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>    multi_select <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//angular2-multiselect//div[@class='c-btn']"</span>)</span>
-<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    multi_select.click() <span class="co"># Open</span></span>
-<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a>    actions <span class="op">=</span> ActionChains(driver)</span>
-<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>        pm10_checkbox <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//label[text()='PM10']/preceding-sibling::input"</span>)</span>
-<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> pm10_checkbox.is_selected():</span>
-<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>            actions.move_to_element(pm10_checkbox).click().perform()</span>
-<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"PM10 not available"</span>)</span>
-<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>        pm25_checkbox <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//label[text()='PM2.5']/preceding-sibling::input"</span>)</span>
-<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> pm25_checkbox.is_selected():</span>
-<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>            actions.move_to_element(pm25_checkbox).click().perform()</span>
-<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>            sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"PM2.5 not available"</span>)        </span>
-<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>    multi_select.click() <span class="co"># Close</span></span>
-<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a>    dropdowns <span class="op">=</span> driver.find_elements(<span class="st">"css selector"</span>, <span class="st">".select-box"</span>)</span>
-<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">len</span>(dropdowns)</span>
-<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>    dropdowns[<span class="dv">4</span>].click() <span class="co"># Open</span></span>
-<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>    option <span class="op">=</span> driver.find_element(<span class="st">"xpath"</span>, <span class="st">"//li[contains(text(), '15 Minute')]"</span>)</span>
-<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>    option.click() <span class="co"># Select and Close</span></span>
-<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>    date_pickers <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">".wc-date-container"</span>)</span>
-<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(date_pickers) <span class="op">==</span> <span class="dv">2</span>, <span class="bu">len</span>(date_pickers)</span>
-<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select start date</span></span>
-<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>    date_pickers[<span class="dv">0</span>].click()</span>
-<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a>    desired_month <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">"month-year"</span>)</span>
-<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a>    desired_month.click()</span>
-<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a>        option <span class="op">=</span> driver.find_element(By.ID, <span class="st">"JAN"</span>)</span>
-<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a>        option.click()</span>
-<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Already in January"</span>)</span>
-<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a>        desired_date <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//td[@class='calendar-day']/span[text()='1']"</span>)</span>
-<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a>        driver.execute_script(<span class="st">"arguments[0].click();"</span>, desired_date)</span>
-<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Already 1st selected"</span>)</span>
-<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a>    date_pickers <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">".wc-date-container"</span>)</span>
-<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(date_pickers) <span class="op">==</span> <span class="dv">2</span>, <span class="bu">len</span>(date_pickers)</span>
-<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Select end date</span></span>
-<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a>    date_pickers[<span class="dv">1</span>].click()</span>
-<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a>    desired_months <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">"month-year"</span>)</span>
-<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a>    desired_months[<span class="dv">1</span>].click()</span>
-<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="fl">0.1</span>)</span>
-<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a>        option <span class="op">=</span> driver.find_element(By.ID, <span class="st">"DEC"</span>)</span>
-<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a>        option.click()</span>
-<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Already in December"</span>)</span>
-<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a>        desired_date <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//td[@class='calendar-day']/span[text()='1']"</span>)</span>
-<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a>        driver.execute_script(<span class="st">"arguments[0].click();"</span>, desired_date)</span>
-<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Already 1st selected"</span>)</span>
-<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a>    <span class="co"># click on submit</span></span>
-<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a>    submit_button <span class="op">=</span> driver.find_element(By.XPATH, <span class="st">"//button[text()='Submit']"</span>)</span>
-<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a>    submit_button.click()</span>
-<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a>    excel_button <span class="op">=</span> WebDriverWait(driver, <span class="dv">20</span>).until(</span>
-<span id="cb28-121"><a href="#cb28-121" aria-hidden="true" tabindex="-1"></a>        EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">"fa-file-excel-o"</span>))</span>
-<span id="cb28-122"><a href="#cb28-122" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-123"><a href="#cb28-123" aria-hidden="true" tabindex="-1"></a>    excel_button.click()</span>
-<span id="cb28-124"><a href="#cb28-124" aria-hidden="true" tabindex="-1"></a>    sleep(<span class="dv">10</span>)</span>
-<span id="cb28-125"><a href="#cb28-125" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-126"><a href="#cb28-126" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">44</span>, <span class="bu">len</span>(metadata_df)):</span>
-<span id="cb28-127"><a href="#cb28-127" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open a new tab</span></span>
-<span id="cb28-128"><a href="#cb28-128" aria-hidden="true" tabindex="-1"></a>    driver.execute_script(<span class="st">"window.open('');"</span>)</span>
-<span id="cb28-129"><a href="#cb28-129" aria-hidden="true" tabindex="-1"></a>    driver.switch_to.window(driver.window_handles[<span class="op">-</span><span class="dv">1</span>])</span>
-<span id="cb28-130"><a href="#cb28-130" aria-hidden="true" tabindex="-1"></a>    download(i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Downloading data for entry 44
-state='Bihar', city='Motihari', station='Gandak Colony, Motihari - BSPCB'
-Already in December
-Downloading data for entry 45
-state='Bihar', city='Munger', station='Town Hall, Munger - BSPCB'
-Already in December
-Downloading data for entry 46
-state='Bihar', city='Muzaffarpur', station='Buddha Colony, Muzaffarpur - BSPCB'
-Already in December
-Downloading data for entry 47
-state='Bihar', city='Muzaffarpur', station='MIT-Daudpur Kothi, Muzaffarpur - BSPCB'
-Already in December
-Downloading data for entry 48
-state='Bihar', city='Muzaffarpur', station='Muzaffarpur Collectorate, Muzaffarpur - BSPCB'
-PM10 not available
-Already in December
-Downloading data for entry 49
-state='Bihar', city='Patna', station='DRM Office Danapur, Patna - BSPCB'
-Already in December
-Downloading data for entry 50
-state='Bihar', city='Patna', station='Govt. High School Shikarpur, Patna - BSPCB'
-Already in December
-Downloading data for entry 51
-state='Bihar', city='Patna', station='IGSC Planetarium Complex, Patna - BSPCB'</code></pre>
+<pre><code>Number of files in the download directory: 204
+Downloading 203 Karnataka Ramanagara Vijay Nagar, Ramanagara - KSPCB site_5255
+Downloading 204 Karnataka Shivamogga Vinoba Nagara, Shivamogga - KSPCB site_5266
+Downloading 205 Karnataka Tumakuru Thimmalapura, Tumakuru - KSPCB site_5682
+Downloading 206 Karnataka Udupi Brahmagiri, Udupi - KSPCB site_5433
+Downloading 207 Karnataka Vijayapura Ibrahimpur, Vijayapura - KSPCB site_5267
+Downloading 208 Karnataka Yadgir Collector Office, Yadgir - KSPCB site_5254
+Downloading 209 Kerala Eloor Udyogamandal, Eloor - Kerala PCB site_5105
+Downloading 210 Kerala Ernakulam Kacheripady, Ernakulam - Kerala PCB site_5272
+Downloading 211 Kerala Kannur Thavakkara, Kannur - Kerala PCB site_5276
+Downloading 212 Kerala Kochi Vyttila, Kochi - Kerala PCB site_5270
+Downloading 213 Kerala Kollam Polayathode, Kollam - Kerala PCB site_5334
+Downloading 214 Kerala Kozhikode Palayam, Kozhikode - Kerala PCB site_5271
+Downloading 215 Kerala Thiruvananthapuram Plammoodu, Thiruvananthapuram - Kerala PCB site_252
+Downloading 216 Kerala Thiruvananthapuram Kariavattom, Thiruvananthapuram - Kerala PCB site_5331
+Downloading 217 Kerala Thrissur Corporation Ground, Thrissur - Kerala PCB site_5390
+Downloading 218 Madhya Pradesh Bhopal Idgah Hills, Bhopal - MPPCB site_5708
+Downloading 219 Madhya Pradesh Bhopal T T Nagar, Bhopal - MPPCB site_5247
+Downloading 220 Madhya Pradesh Bhopal Paryavaran Parisar, Bhopal - MPPCB site_5650
+Downloading 221 Madhya Pradesh Damoh Shrivastav Colony, Damoh - MPPCB site_5040
+Downloading 222 Madhya Pradesh Dewas Bhopal Chauraha, Dewas - MPPCB site_1404
+Downloading 223 Madhya Pradesh Gwalior Maharaj Bada, Gwalior - MPPCB site_5661
+Downloading 224 Madhya Pradesh Gwalior City Center, Gwalior - MPPCB site_5273
+Downloading 225 Madhya Pradesh Gwalior Phool Bagh, Gwalior - Mondelez Ind. Food site_5275
+Downloading 226 Madhya Pradesh Gwalior Deen Dayal Nagar, Gwalior - MPPCB site_5667
+Downloading 227 Madhya Pradesh Indore Maguda Nagar, Indore - IMC site_5856
+Downloading 228 Madhya Pradesh Indore Chhoti Gwaltoli, Indore - MPPCB site_5248
+Downloading 229 Madhya Pradesh Indore Residency Area, Indore - IMC site_5854
+Downloading 230 Madhya Pradesh Indore Vijay Nagar Scheme-78, Indore - Glenmark site_5709
+Downloading 231 Madhya Pradesh Indore Regional Park, Indore - IMC site_5855
+Downloading 232 Madhya Pradesh Indore Airport Area, Indore - IMC site_5857
+Downloading 233 Madhya Pradesh Jabalpur Suhagi, Jabalpur - JMC site_5816
+Downloading 234 Madhya Pradesh Jabalpur Gupteshwar, Jabalpur - JMC site_5817
+Downloading 235 Madhya Pradesh Jabalpur Govindh Bhavan Colony, Jabalpur - JMC site_5965
+Downloading 236 Madhya Pradesh Jabalpur Marhatal, Jabalpur - MPPCB site_5249
+Downloading 237 Madhya Pradesh Katni Gole Bazar, Katni - MPPCB site_5250
+Downloading 238 Madhya Pradesh Maihar Sahilara, Maihar - KJS Cements site_5068
+Downloading 239 Madhya Pradesh Mandideep Sector-D Industrial Area, Mandideep - MPPCB site_1403
+Downloading 240 Madhya Pradesh Pithampur Sector-2 Industrial Area, Pithampur - MPPCB site_1402
+Downloading 241 Madhya Pradesh Ratlam Shasthri Nagar, Ratlam - IPCA Lab site_5042
+Downloading 242 Madhya Pradesh Sagar Deen Dayal Nagar, Sagar - MPPCB site_5269
+Downloading 243 Madhya Pradesh Sagar Civil Lines, Sagar - MPPCB site_5662
+Downloading 244 Madhya Pradesh Satna Bandhavgar Colony, Satna - Birla Cement site_1433
+Downloading 245 Madhya Pradesh Singrauli Suryakiran Bhawan NCL, Singrauli - MPPCB site_1401
+Downloading 246 Madhya Pradesh Ujjain Mahakaleshwar Temple, Ujjain - MPPCB site_1400
+Downloading 247 Maharashtra Ahmednagar Tarakpur, Ahmednagar - MPCB site_5785
+Downloading 248 Maharashtra Akola Ramdaspeth, Akola - MPCB site_5784
+Downloading 249 Maharashtra Amravati Shivneri Colony, Amravati - MPCB site_5786
+Downloading 250 Maharashtra Amravati Shri Shivaji Science College, Amaravati - MPCB site_5787
+Downloading 251 Maharashtra Aurangabad MIDC Chilkalthana, Aurangabad - MPCB site_5788
+Downloading 252 Maharashtra Aurangabad More Chowk Waluj, Aurangabad - MPCB site_198
+Downloading 253 Maharashtra Aurangabad Rachnakar Colony, Aurangabad - MPCB site_5789</code></pre>
 </div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">TimeoutException</span>                          Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[29], line 130</span>
-<span class="ansi-green-fg ansi-bold">    128</span> driver<span style="color:rgb(98,98,98)">.</span>execute_script(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">window.open(</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">);</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    129</span> driver<span style="color:rgb(98,98,98)">.</span>switch_to<span style="color:rgb(98,98,98)">.</span>window(driver<span style="color:rgb(98,98,98)">.</span>window_handles[<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">1</span>])
-<span class="ansi-green-fg">--&gt; 130</span> <span class="ansi-yellow-bg">download</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">i</span><span class="ansi-yellow-bg">)</span>
-
-Cell <span class="ansi-green-fg">In[29], line 11</span>, in <span class="ansi-cyan-fg">download</span><span class="ansi-blue-fg">(i)</span>
-<span class="ansi-green-fg ansi-bold">      8</span> <span style="color:rgb(0,135,0)">print</span>(<span style="color:rgb(175,0,0)">f</span><span style="color:rgb(175,0,0)">"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>state<span style="font-weight:bold;color:rgb(175,95,135)">=}</span><span style="color:rgb(175,0,0)">, </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>city<span style="font-weight:bold;color:rgb(175,95,135)">=}</span><span style="color:rgb(175,0,0)">, </span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>station<span style="font-weight:bold;color:rgb(175,95,135)">=}</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">     10</span> <span style="font-style:italic;color:rgb(95,135,135)"># State selection</span>
-<span class="ansi-green-fg">---&gt; 11</span> <span class="ansi-yellow-bg">WebDriverWait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">driver</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">60</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">until</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg ansi-bold">     12</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">EC</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">presence_of_all_elements_located</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">By</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">CLASS_NAME</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">select-box</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">     13</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">     14</span> dropdowns <span style="color:rgb(98,98,98)">=</span> driver<span style="color:rgb(98,98,98)">.</span>find_elements(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">css selector</span><span style="color:rgb(175,0,0)">"</span>, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">.select-box</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">     15</span> dropdowns[<span style="color:rgb(98,98,98)">0</span>]<span style="color:rgb(98,98,98)">.</span>click() <span style="font-style:italic;color:rgb(95,135,135)"># Open</span>
+Cell <span class="ansi-green-fg">In[128], line 22</span>
+<span class="ansi-green-fg ansi-bold">     20</span> driver<span style="color:rgb(98,98,98)">.</span>switch_to<span style="color:rgb(98,98,98)">.</span>window(driver<span style="color:rgb(98,98,98)">.</span>window_handles[<span style="color:rgb(98,98,98)">-</span><span style="color:rgb(98,98,98)">1</span>])
+<span class="ansi-green-fg ansi-bold">     21</span> driver<span style="color:rgb(98,98,98)">.</span>get(url)
+<span class="ansi-green-fg">---&gt; 22</span> excel_button <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">WebDriverWait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">driver</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">20</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">until</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg ansi-bold">     23</span> <span class="ansi-yellow-bg">EC</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">element_to_be_clickable</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">By</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">CLASS_NAME</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">fa-file-excel-o</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">     24</span> click_it(driver, excel_button)
+<span class="ansi-green-fg ansi-bold">     25</span> sleep(<span style="color:rgb(98,98,98)">1</span>)
 
 File <span class="ansi-green-fg">/opt/miniconda3/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:105</span>, in <span class="ansi-cyan-fg">WebDriverWait.until</span><span class="ansi-blue-fg">(self, method, message)</span>
 <span class="ansi-green-fg ansi-bold">    103</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> time<span style="color:rgb(98,98,98)">.</span>monotonic() <span style="color:rgb(98,98,98)">&gt;</span> end_time:
@@ -1101,6 +662,24 @@ File <span class="ansi-green-fg">/opt/miniconda3/lib/python3.12/site-packages/se
 <span class="ansi-green-fg">--&gt; 105</span> <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> TimeoutException(message, screen, stacktrace)
 
 <span class="ansi-red-fg">TimeoutException</span>: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104d9baf0 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000104d94340 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001047fc4b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x0000000104840898 cxxbridge1$string$len + 368748
+4   chromedriver                        0x000000010487a0fc cxxbridge1$string$len + 604368
+5   chromedriver                        0x00000001048350b0 cxxbridge1$string$len + 321668
+6   chromedriver                        0x0000000104835d00 cxxbridge1$string$len + 324820
+7   chromedriver                        0x0000000104d66e34 cxxbridge1$str$ptr + 3435328
+8   chromedriver                        0x0000000104d6a14c cxxbridge1$str$ptr + 3448408
+9   chromedriver                        0x0000000104d4e1a8 cxxbridge1$str$ptr + 3333812
+10  chromedriver                        0x0000000104d6aa0c cxxbridge1$str$ptr + 3450648
+11  chromedriver                        0x0000000104d3f9b4 cxxbridge1$str$ptr + 3274432
+12  chromedriver                        0x0000000104d85120 cxxbridge1$str$ptr + 3558956
+13  chromedriver                        0x0000000104d8529c cxxbridge1$str$ptr + 3559336
+14  chromedriver                        0x0000000104d93fb4 cxxbridge1$str$ptr + 3620032
+15  libsystem_pthread.dylib             0x0000000195eb9f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000195eb4d34 thread_start + 8
 </pre>
 </div>
 </div>
