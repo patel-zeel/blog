@@ -228,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>global_init <span class="op">=</span> time()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>rm: cannot remove 'log.txt': No such file or directory</code></pre>
+<pre><code>rm: log.txt: No such file or directory</code></pre>
 </div>
 </div>
 <div id="cell-2" class="cell" data-execution_count="2">
@@ -239,158 +239,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to the website and manually solve the CAPTCHA</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>driver.get(<span class="st">"https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>There was an error managing chromedriver (error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json)); using driver found in the cache
-Error sending stats to Plausible: error sending request for url (https://plausible.io/api/event)</code></pre>
-</div>
-<div class="cell-output cell-output-error">
-<div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">SessionNotCreatedException</span>                Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[2], line 4</span>
-<span class="ansi-green-fg ansi-bold">      1</span> <span style="font-style:italic;color:rgb(95,135,135)"># Set up WebDriver</span>
-<span class="ansi-green-fg ansi-bold">      2</span> op <span style="color:rgb(98,98,98)">=</span> webdriver<span style="color:rgb(98,98,98)">.</span>ChromeOptions()
-<span class="ansi-green-fg">----&gt; 4</span> driver <span style="color:rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">webdriver</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">Chrome</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">options</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">op</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">      6</span> <span style="font-style:italic;color:rgb(95,135,135)"># Navigate to the website and manually solve the CAPTCHA</span>
-<span class="ansi-green-fg ansi-bold">      7</span> driver<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">https://airquality.cpcb.gov.in/ccr/#/caaqm-dashboard-all/caaqm-landing</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/chrome/webdriver.py:45</span>, in <span class="ansi-cyan-fg">WebDriver.__init__</span><span class="ansi-blue-fg">(self, options, service, keep_alive)</span>
-<span class="ansi-green-fg ansi-bold">     42</span> service <span style="color:rgb(98,98,98)">=</span> service <span style="font-weight:bold;color:rgb(0,135,0)">if</span> service <span style="font-weight:bold;color:rgb(0,135,0)">else</span> Service()
-<span class="ansi-green-fg ansi-bold">     43</span> options <span style="color:rgb(98,98,98)">=</span> options <span style="font-weight:bold;color:rgb(0,135,0)">if</span> options <span style="font-weight:bold;color:rgb(0,135,0)">else</span> Options()
-<span class="ansi-green-fg">---&gt; 45</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">super</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span style="color:rgb(0,0,255)" class="ansi-yellow-bg">__init__</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg ansi-bold">     46</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">browser_name</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">DesiredCapabilities</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">CHROME</span><span class="ansi-yellow-bg">[</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">browserName</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">     47</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">vendor_prefix</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">goog</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">     48</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">options</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">     49</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">service</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">service</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">     50</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">keep_alive</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">keep_alive</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg ansi-bold">     51</span> <span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/chromium/webdriver.py:66</span>, in <span class="ansi-cyan-fg">ChromiumDriver.__init__</span><span class="ansi-blue-fg">(self, browser_name, vendor_prefix, options, service, keep_alive)</span>
-<span class="ansi-green-fg ansi-bold">     57</span> executor <span style="color:rgb(98,98,98)">=</span> ChromiumRemoteConnection(
-<span class="ansi-green-fg ansi-bold">     58</span>     remote_server_addr<span style="color:rgb(98,98,98)">=</span><span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>service<span style="color:rgb(98,98,98)">.</span>service_url,
-<span class="ansi-green-fg ansi-bold">     59</span>     browser_name<span style="color:rgb(98,98,98)">=</span>browser_name,
-<span class="ansi-green-fg">   (...)</span>
-<span class="ansi-green-fg ansi-bold">     62</span>     ignore_proxy<span style="color:rgb(98,98,98)">=</span>options<span style="color:rgb(98,98,98)">.</span>_ignore_local_proxy,
-<span class="ansi-green-fg ansi-bold">     63</span> )
-<span class="ansi-green-fg ansi-bold">     65</span> <span style="font-weight:bold;color:rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">---&gt; 66</span>     <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">super</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span style="color:rgb(0,0,255)" class="ansi-yellow-bg">__init__</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">command_executor</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">executor</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">options</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">     67</span> <span style="font-weight:bold;color:rgb(0,135,0)">except</span> <span style="font-weight:bold;color:rgb(215,95,95)">Exception</span>:
-<span class="ansi-green-fg ansi-bold">     68</span>     <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>quit()
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py:241</span>, in <span class="ansi-cyan-fg">WebDriver.__init__</span><span class="ansi-blue-fg">(self, command_executor, keep_alive, file_detector, options, locator_converter, web_element_cls, client_config)</span>
-<span class="ansi-green-fg ansi-bold">    239</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_authenticator_id <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-<span class="ansi-green-fg ansi-bold">    240</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>start_client()
-<span class="ansi-green-fg">--&gt; 241</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">start_session</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">capabilities</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    242</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_fedcm <span style="color:rgb(98,98,98)">=</span> FedCM(<span style="color:rgb(0,135,0)">self</span>)
-<span class="ansi-green-fg ansi-bold">    244</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_websocket_connection <span style="color:rgb(98,98,98)">=</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py:329</span>, in <span class="ansi-cyan-fg">WebDriver.start_session</span><span class="ansi-blue-fg">(self, capabilities)</span>
-<span class="ansi-green-fg ansi-bold">    322</span> <span style="font-style:italic;color:rgb(175,0,0)">"""Creates a new session with the desired capabilities.</span>
-<span class="ansi-green-fg ansi-bold">    323</span> 
-<span class="ansi-green-fg ansi-bold">    324</span> <span style="font-style:italic;color:rgb(175,0,0)">:Args:</span>
-<span class="ansi-green-fg ansi-bold">    325</span> <span style="font-style:italic;color:rgb(175,0,0)"> - capabilities - a capabilities dict to start the session with.</span>
-<span class="ansi-green-fg ansi-bold">    326</span> <span style="font-style:italic;color:rgb(175,0,0)">"""</span>
-<span class="ansi-green-fg ansi-bold">    328</span> caps <span style="color:rgb(98,98,98)">=</span> _create_caps(capabilities)
-<span class="ansi-green-fg">--&gt; 329</span> response <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">execute</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">Command</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">NEW_SESSION</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">caps</span><span class="ansi-yellow-bg">)</span>[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">value</span><span style="color:rgb(175,0,0)">"</span>]
-<span class="ansi-green-fg ansi-bold">    330</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>session_id <span style="color:rgb(98,98,98)">=</span> response<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">sessionId</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    331</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>caps <span style="color:rgb(98,98,98)">=</span> response<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">capabilities</span><span style="color:rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/remote/webdriver.py:384</span>, in <span class="ansi-cyan-fg">WebDriver.execute</span><span class="ansi-blue-fg">(self, driver_command, params)</span>
-<span class="ansi-green-fg ansi-bold">    382</span> response <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>command_executor<span style="color:rgb(98,98,98)">.</span>execute(driver_command, params)
-<span class="ansi-green-fg ansi-bold">    383</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> response:
-<span class="ansi-green-fg">--&gt; 384</span>     <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">error_handler</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">check_response</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">response</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg ansi-bold">    385</span>     response[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">value</span><span style="color:rgb(175,0,0)">"</span>] <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">self</span><span style="color:rgb(98,98,98)">.</span>_unwrap_value(response<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">value</span><span style="color:rgb(175,0,0)">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>))
-<span class="ansi-green-fg ansi-bold">    386</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> response
-
-File <span class="ansi-green-fg">/opt/anaconda3/envs/zeel_py310/lib/python3.10/site-packages/selenium/webdriver/remote/errorhandler.py:232</span>, in <span class="ansi-cyan-fg">ErrorHandler.check_response</span><span class="ansi-blue-fg">(self, response)</span>
-<span class="ansi-green-fg ansi-bold">    230</span>         alert_text <span style="color:rgb(98,98,98)">=</span> value[<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">alert</span><span style="color:rgb(175,0,0)">"</span>]<span style="color:rgb(98,98,98)">.</span>get(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">text</span><span style="color:rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg ansi-bold">    231</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> exception_class(message, screen, stacktrace, alert_text)  <span style="font-style:italic;color:rgb(95,135,135)"># type: ignore[call-arg]  # mypy is not smart enough here</span>
-<span class="ansi-green-fg">--&gt; 232</span> <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> exception_class(message, screen, stacktrace)
-
-<span class="ansi-red-fg">SessionNotCreatedException</span>: Message: session not created: Chrome failed to start: exited normally.
-  (session not created: DevToolsActivePort file doesn't exist)
-  (The process started from chrome location /usr/bin/google-chrome is no longer running, so ChromeDriver is assuming that Chrome has crashed.)
-Stacktrace:
-#0 0x556d1853ab9a &lt;unknown&gt;
-#1 0x556d18220670 &lt;unknown&gt;
-#2 0x556d18258971 &lt;unknown&gt;
-#3 0x556d18254315 &lt;unknown&gt;
-#4 0x556d182a0e66 &lt;unknown&gt;
-#5 0x556d182a04b6 &lt;unknown&gt;
-#6 0x556d18294923 &lt;unknown&gt;
-#7 0x556d182626e7 &lt;unknown&gt;
-#8 0x556d182636de &lt;unknown&gt;
-#9 0x556d1850466b &lt;unknown&gt;
-#10 0x556d18508611 &lt;unknown&gt;
-#11 0x556d184f04e5 &lt;unknown&gt;
-#12 0x556d18509192 &lt;unknown&gt;
-#13 0x556d184d56ef &lt;unknown&gt;
-#14 0x556d185299d8 &lt;unknown&gt;
-#15 0x556d18529ba7 &lt;unknown&gt;
-#16 0x556d185399ec &lt;unknown&gt;
-#17 0x7fc996c7c609 start_thread
-</pre>
-</div>
-</div>
 </div>
 <blockquote class="blockquote">
 <p>Manually solve captcha before moving on to the next cell..</p>
 </blockquote>
 <div id="cell-4" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leaflet-marker-icon custom-div-icon map_markers station_status_live leaflet-zoom-animated leaflet-interactive</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>all_stations_len <span class="op">=</span> <span class="bu">len</span>(all_station_markers)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total stations: "</span>, all_stations_len)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leaflet-marker-icon custom-div-icon map_markers station_status_live leaflet-zoom-animated leaflet-interactive</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>all_stations_len <span class="op">=</span> <span class="bu">len</span>(all_station_markers)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total stations: "</span>, all_stations_len)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Total stations:  549</code></pre>
+<pre><code>Total stations:  558</code></pre>
 </div>
 </div>
 <div id="cell-5" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_after(string, phrase):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> string[string.index(phrase) <span class="op">+</span> <span class="bu">len</span>(phrase):]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {}</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>marker_id <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>progress_bar <span class="op">=</span> tqdm(total<span class="op">=</span>all_stations_len, desc<span class="op">=</span><span class="st">"Progress"</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> marker_id <span class="op">&lt;</span> all_stations_len:</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        marker <span class="op">=</span> all_station_markers[marker_id]</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        driver.execute_script(<span class="st">"arguments[0].click();"</span>, marker)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        WebDriverWait(driver, <span class="dv">10</span>).until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">'close'</span>)))</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        children <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">"col-md-12"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="st">"Station Name"</span> <span class="kw">in</span> children[<span class="dv">3</span>].text</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># parse it</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        station, address, location <span class="op">=</span> children[<span class="dv">3</span>].text.split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        station <span class="op">=</span> get_after(station, <span class="st">"Station Name: "</span>)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        address <span class="op">=</span> get_after(address, <span class="st">"Address: "</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        latitude, longitude <span class="op">=</span> location.split(<span class="st">","</span>)</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        latitude <span class="op">=</span> get_after(latitude, <span class="st">"Latitude: "</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        longitude <span class="op">=</span> get_after(longitude, <span class="st">"Longitude: "</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        data[station] <span class="op">=</span> {<span class="st">"address"</span>: address, <span class="st">"latitude"</span>: <span class="bu">float</span>(latitude), <span class="st">"longitude"</span>: <span class="bu">float</span>(longitude)}</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        close <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">"close"</span>)</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        close.click()</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="fl">0.5</span>)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        marker_id <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        progress_bar.update(<span class="dv">1</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        driver.refresh()</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">input</span>(<span class="st">"Please manually solve the Captcha"</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_after(string, phrase):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> string[string.index(phrase) <span class="op">+</span> <span class="bu">len</span>(phrase):]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>marker_id <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>progress_bar <span class="op">=</span> tqdm(total<span class="op">=</span>all_stations_len, desc<span class="op">=</span><span class="st">"Progress"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> marker_id <span class="op">&lt;</span> all_stations_len:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        marker <span class="op">=</span> all_station_markers[marker_id]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        driver.execute_script(<span class="st">"arguments[0].click();"</span>, marker)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        WebDriverWait(driver, <span class="dv">10</span>).until(EC.element_to_be_clickable((By.CLASS_NAME, <span class="st">'close'</span>)))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        children <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">"col-md-12"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="st">"Station Name"</span> <span class="kw">in</span> children[<span class="dv">3</span>].text</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># parse it</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        station, address, location <span class="op">=</span> children[<span class="dv">3</span>].text.split(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        station <span class="op">=</span> get_after(station, <span class="st">"Station Name: "</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        address <span class="op">=</span> get_after(address, <span class="st">"Address: "</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        latitude, longitude <span class="op">=</span> location.split(<span class="st">","</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        latitude <span class="op">=</span> get_after(latitude, <span class="st">"Latitude: "</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        longitude <span class="op">=</span> get_after(longitude, <span class="st">"Longitude: "</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        data[station] <span class="op">=</span> {<span class="st">"address"</span>: address, <span class="st">"latitude"</span>: <span class="bu">float</span>(latitude), <span class="st">"longitude"</span>: <span class="bu">float</span>(longitude)}</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        close <span class="op">=</span> driver.find_element(By.CLASS_NAME, <span class="st">"close"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        close.click()</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        sleep(<span class="fl">0.5</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        marker_id <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>        progress_bar.update(<span class="dv">1</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        driver.refresh()</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">input</span>(<span class="st">"Please manually solve the Captcha"</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        all_station_markers <span class="op">=</span> driver.find_elements(By.CLASS_NAME, <span class="st">'leaflet-marker-icon'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"5b712b4a44c34ab2828fb21e2e17ff0f","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"bbbf6e731094473995e1a676b3f8c5a4","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[4], line 12</span>
+<span class="ansi-green-fg ansi-bold">     10</span> marker <span style="color:rgb(98,98,98)">=</span> all_station_markers[marker_id]
+<span class="ansi-green-fg ansi-bold">     11</span> driver<span style="color:rgb(98,98,98)">.</span>execute_script(<span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">arguments[0].click();</span><span style="color:rgb(175,0,0)">"</span>, marker)
+<span class="ansi-green-fg">---&gt; 12</span> <span class="ansi-yellow-bg">WebDriverWait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">driver</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">10</span><span class="ansi-yellow-bg">)</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">until</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">EC</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">element_to_be_clickable</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">By</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">CLASS_NAME</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">close</span><span style="color:rgb(175,0,0)" class="ansi-yellow-bg">'</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">     13</span> children <span style="color:rgb(98,98,98)">=</span> driver<span style="color:rgb(98,98,98)">.</span>find_elements(By<span style="color:rgb(98,98,98)">.</span>CLASS_NAME, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">col-md-12</span><span style="color:rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg ansi-bold">     14</span> <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">Station Name</span><span style="color:rgb(175,0,0)">"</span> <span style="font-weight:bold;color:rgb(175,0,255)">in</span> children[<span style="color:rgb(98,98,98)">3</span>]<span style="color:rgb(98,98,98)">.</span>text
+
+File <span class="ansi-green-fg">/opt/miniconda3/lib/python3.12/site-packages/selenium/webdriver/support/wait.py:102</span>, in <span class="ansi-cyan-fg">WebDriverWait.until</span><span class="ansi-blue-fg">(self, method, message)</span>
+<span class="ansi-green-fg ansi-bold">    100</span>     screen <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">getattr</span>(exc, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">screen</span><span style="color:rgb(175,0,0)">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>)
+<span class="ansi-green-fg ansi-bold">    101</span>     stacktrace <span style="color:rgb(98,98,98)">=</span> <span style="color:rgb(0,135,0)">getattr</span>(exc, <span style="color:rgb(175,0,0)">"</span><span style="color:rgb(175,0,0)">stacktrace</span><span style="color:rgb(175,0,0)">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>)
+<span class="ansi-green-fg">--&gt; 102</span> <span class="ansi-yellow-bg">time</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">sleep</span><span class="ansi-yellow-bg">(</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_poll</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg ansi-bold">    103</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> time<span style="color:rgb(98,98,98)">.</span>monotonic() <span style="color:rgb(98,98,98)">&gt;</span> end_time:
+<span class="ansi-green-fg ansi-bold">    104</span>     <span style="font-weight:bold;color:rgb(0,135,0)">break</span>
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+</div>
 </div>
 </div>
 <div id="cell-6" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data).T</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df.index.name <span class="op">=</span> <span class="st">"station"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data).T</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df.index.name <span class="op">=</span> <span class="st">"station"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
@@ -430,7 +358,7 @@ Stacktrace:
 </div>
 </div>
 <div id="cell-7" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"station_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"station_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
