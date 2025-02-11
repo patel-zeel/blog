@@ -2,11 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2025-02-10-object-detection-random-baseline.html",
       "/posts/2024-12-29-object-detection-how-to.html",
       "/posts/2024-12-27-download_caaqm_locations copy.html",
       "/posts/2024-12-10-cpcb-download.html",
       "/posts/fundamentals_across_domains.html",
-      "/posts/2025-02-10-object-detection-random-baseline.html",
       "/posts/non-gaussian-likelihood-mlps.html",
       "/posts/pruning_vs_uncertainty.html",
       "/posts/bayesian-gaussian-basis-regression.html",
