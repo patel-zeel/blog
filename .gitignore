@@ -3,6 +3,7 @@ _site/
 posts/logs
 
 data/
+*.pt
 *.pdf
 *.xlsx
 launch.json
