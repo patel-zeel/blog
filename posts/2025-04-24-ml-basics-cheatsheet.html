@@ -189,6 +189,8 @@ window.Quarto = {
   <li><a href="#classification" id="toc-classification" class="nav-link active" data-scroll-target="#classification">Classification</a>
   <ul class="collapse">
   <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
+  <li><a href="#multi-class-logistic-regression" id="toc-multi-class-logistic-regression" class="nav-link" data-scroll-target="#multi-class-logistic-regression">Multi-Class Logistic Regression</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -253,11 +255,164 @@ window.Quarto = {
 \log(1 - \hat{y}_i) &amp; \text{if } y_i = 0
 \end{cases}
 \end{align*}\]</span></p>
-<p>Another way to write the loss function is: <span class="math display">\[\begin{align*}
-\text{Loss} = -\frac{1}{n} \sum_{i=1}^{n} y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i)
+<p>Another way to write the loss function is:</p>
+<p><span class="math display">\[\begin{align*}
+\text{Loss} = -\frac{1}{n} \sum\_{i=1}^{n} y_i \log(\hat{y}\_i) + (1 - y_i) \log(1 - \hat{y}\_i)
+\end{align*}\]</span></p>
+</section>
+<section id="multi-class-logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="multi-class-logistic-regression">Multi-Class Logistic Regression</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Entity</th>
+<th style="text-align: left;">Math</th>
+<th style="text-align: left;">Shape</th>
+<th style="text-align: left;">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Features</td>
+<td style="text-align: left;"><span class="math inline">\(X\)</span></td>
+<td style="text-align: left;">(n, d)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Weights</td>
+<td style="text-align: left;"><span class="math inline">\(W\)</span></td>
+<td style="text-align: left;">(d, k)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bias</td>
+<td style="text-align: left;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: left;">(1, k)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{y}\)</span></td>
+<td style="text-align: left;">(n, k)</td>
+<td style="text-align: left;">Categorical</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[\begin{align*}
+\hat{\boldsymbol{y}} &amp;= \text{softmax}(XW + b) \\
+&amp;= \text{softmax}(\underbrace{X}_{n \times d} \underbrace{W}_{d \times k} + \underbrace{b}_{1 \times k}) \\
+&amp;= \text{softmax}(\underbrace{z}_{n \times k}) \\
+\text{where } \text{softmax}(z) &amp;= \frac{e^{z_i}}{\sum_{j=1}^{k} e^{z_j}}
+\end{align*}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+\text{Loss} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{k} y_{ij} \log(\hat{y}_{ij})
+\end{align*}\]</span></p>
+</section>
+<section id="metrics" class="level3">
+<h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Accuracy</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP + TN}{TP + TN + FP + FN}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precision</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FP}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Recall</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FN}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F1 Score</td>
+<td style="text-align: left;"><span class="math inline">\(2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">False Positive Rate</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{FP}{FP + TN}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">True Positive Rate</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FN}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ROC curve</td>
+<td style="text-align: left;">Plot of True Positive Rate vs False Positive Rate (X-axis is FPR, Y-axis is TPR)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AUC-ROC</td>
+<td style="text-align: left;">Area under the ROC curve (1 is perfect, 0.5 is random guessing, 0 is worst)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matthews Correlation Coefficient</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cohen’s Kappa</td>
+<td style="text-align: left;"><span class="math inline">\(\frac{P_o - P_e}{1 - P_e}\)</span> where <span class="math inline">\(P_o\)</span> is observed accuracy and <span class="math inline">\(P_e\)</span> is expected accuracy</td>
+</tr>
+</tbody>
+</table>
+<section id="accuracy" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy">Accuracy</h4>
+<p><span class="math display">\[\begin{align*}
+\text{Accuracy} &amp;= \frac{\text{Correct Predictions}}{\text{Total Predictions}} \\
+&amp;= \frac{TP + TN}{TP + TN + FP + FN}
+\end{align*}\]</span></p>
+</section>
+<section id="precision" class="level4">
+<h4 class="anchored" data-anchor-id="precision">Precision</h4>
+<p><span class="math display">\[\begin{align*}
+\text{Precision} &amp;= \frac{\text{True Positives}}{\text{Predicted Positives}} \\
+&amp;= \frac{TP}{TP + FP}
+\end{align*}\]</span></p>
+</section>
+<section id="recall" class="level4">
+<h4 class="anchored" data-anchor-id="recall">Recall</h4>
+<p><span class="math display">\[\begin{align*}
+\text{Recall} &amp;= \frac{\text{True Positives}}{\text{Actual Positives}} \\
+&amp;= \frac{TP}{TP + FN}
+\end{align*}\]</span></p>
+</section>
+<section id="f1-score" class="level4">
+<h4 class="anchored" data-anchor-id="f1-score">F1 Score</h4>
+<p>Harmonic mean of precision and recall.</p>
+<p><span class="math display">\[\begin{align*}
+\text{F1 Score} &amp;= 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} \\
+&amp;= \frac{2TP}{2TP + FP + FN}
+\end{align*}\]</span></p>
+</section>
+<section id="matthews-correlation-coefficient" class="level4">
+<h4 class="anchored" data-anchor-id="matthews-correlation-coefficient">Matthews Correlation Coefficient</h4>
+<p>Similar to Pearson correlation coefficient, but for binary classification.</p>
+<blockquote class="blockquote">
+<p>The Matthews correlation coefficient (MCC) is pearson correlation coefficient between the observed and predicted binary classifications.</p>
+</blockquote>
+<p>Derivation: (Homework)</p>
+</section>
+<section id="cohens-kappa" class="level4">
+<h4 class="anchored" data-anchor-id="cohens-kappa">Cohen’s Kappa</h4>
+<p>Definition: Cohen’s Kappa is a statistic that measures agreement between two rates while correcting for chance. Range: -1 to 1 - 1: Total disagreement - 0: Random agreement - 1: Perfect agreement</p>
+<p>Formula:</p>
+<p><span class="math display">\[\begin{align*}
+\text{Cohen's Kappa} &amp;= \frac{P_o - P_e}{1 - P_e} \\
+P_o &amp;= \text{Accuracy} \\
+P_e &amp;= \sum_{i=1}^{k} \frac{\text{predicted}_i}{\text{total samples}} \cdot \frac{\text{actual}_i}{\text{total samples}}
 \end{align*}\]</span></p>
 
 
+</section>
 </section>
 </section>
 
