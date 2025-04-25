@@ -1,6 +1,8 @@
 /.quarto/
 _site/
 posts/logs
+site_libs
+libs
 
 data/
 *.pt
