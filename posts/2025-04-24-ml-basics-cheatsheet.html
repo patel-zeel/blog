@@ -186,11 +186,39 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#classification" id="toc-classification" class="nav-link active" data-scroll-target="#classification">Classification</a>
+  <li><a href="#probability" id="toc-probability" class="nav-link active" data-scroll-target="#probability">Probability</a>
+  <ul class="collapse">
+  <li><a href="#expectation" id="toc-expectation" class="nav-link" data-scroll-target="#expectation">Expectation</a></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance">Variance</a></li>
+  <li><a href="#standard-deviation" id="toc-standard-deviation" class="nav-link" data-scroll-target="#standard-deviation">Standard Deviation</a></li>
+  <li><a href="#covariance" id="toc-covariance" class="nav-link" data-scroll-target="#covariance">Covariance</a></li>
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
+  <li><a href="#linearity-of-expectation" id="toc-linearity-of-expectation" class="nav-link" data-scroll-target="#linearity-of-expectation">Linearity of Expectation</a></li>
+  </ul></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a>
   <ul class="collapse">
   <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
   <li><a href="#multi-class-logistic-regression" id="toc-multi-class-logistic-regression" class="nav-link" data-scroll-target="#multi-class-logistic-regression">Multi-Class Logistic Regression</a></li>
   <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Metrics</a></li>
+  </ul></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a>
+  <ul class="collapse">
+  <li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear Regression</a></li>
+  <li><a href="#metrics-1" id="toc-metrics-1" class="nav-link" data-scroll-target="#metrics-1">Metrics</a></li>
+  </ul></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a></li>
+  </ul></li>
+  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff">Bias-Variance Tradeoff</a></li>
+  <li><a href="#optimization" id="toc-optimization" class="nav-link" data-scroll-target="#optimization">Optimization</a>
+  <ul class="collapse">
+  <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a></li>
+  <li><a href="#stochastic-gradient-descent-sgd" id="toc-stochastic-gradient-descent-sgd" class="nav-link" data-scroll-target="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a></li>
+  <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-Batch Gradient Descent</a></li>
+  <li><a href="#sgd-with-momentum" id="toc-sgd-with-momentum" class="nav-link" data-scroll-target="#sgd-with-momentum">SGD with Momentum</a></li>
+  <li><a href="#rmsprop" id="toc-rmsprop" class="nav-link" data-scroll-target="#rmsprop">RMSProp</a></li>
+  <li><a href="#adam" id="toc-adam" class="nav-link" data-scroll-target="#adam">Adam</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -202,6 +230,58 @@ window.Quarto = {
 
 
 
+<section id="probability" class="level2">
+<h2 class="anchored" data-anchor-id="probability">Probability</h2>
+<section id="expectation" class="level3">
+<h3 class="anchored" data-anchor-id="expectation">Expectation</h3>
+<p><span class="math display">\[\begin{align*}
+\mathbb{E}[X] &amp;= \sum_{x} x P(X=x) \\
+\mathbb{E}[X] &amp;= \int_{-\infty}^{\infty} x p(x) dx \\
+\bar{x} &amp;= \frac{1}{n} \sum_{i=1}^{n} x_i \\
+\mathbb{E}[aX + b] &amp;= a\mathbb{E}[X] + b
+\end{align*}\]</span></p>
+</section>
+<section id="variance" class="level3">
+<h3 class="anchored" data-anchor-id="variance">Variance</h3>
+<p><span class="math display">\[\begin{align*}
+\text{Var}(X) &amp;= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 \\
+\text{Var}(X) &amp;= \sum_{x} (x - \mathbb{E}[X])^2 P(X=x) \\
+\text{Var}(X) &amp;= \int_{-\infty}^{\infty} (x - \mathbb{E}[X])^2 p(x) dx\\
+\text{Var}(X) &amp;= \frac{1}{n} \sum_{i=1}^{n} (x_i - \mathbb{E}[X])^2 \\
+\text{Var}(aX + b) = a^2 \text{Var}(X)
+\end{align*}\]</span></p>
+</section>
+<section id="standard-deviation" class="level3">
+<h3 class="anchored" data-anchor-id="standard-deviation">Standard Deviation</h3>
+<p><span class="math display">\[\begin{align*}
+\text{SD}(X) &amp;= \sqrt{\text{Var}(X)}
+\end{align*}\]</span></p>
+</section>
+<section id="covariance" class="level3">
+<h3 class="anchored" data-anchor-id="covariance">Covariance</h3>
+<p><span class="math display">\[\begin{align*}
+\text{Cov}(X, Y) &amp;= \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] \\
+\text{Cov}(X, Y) &amp;= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y] \\
+\text{Cov}(X, Y) &amp;= \sum_{x,y} (x - \mathbb{E}[X])(y - \mathbb{E}[Y]) P(X=x, Y=y) \\
+\text{Cov}(X, Y) &amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x - \mathbb{E}[X])(y - \mathbb{E}[Y]) p(x,y) dx dy \\
+\text{Cov}(X, Y) &amp;= \frac{1}{n} \sum_{i=1}^{n} (x_i - \mathbb{E}[X])(y_i - \mathbb{E}[Y]) \\
+\end{align*}\]</span></p>
+</section>
+<section id="correlation" class="level3">
+<h3 class="anchored" data-anchor-id="correlation">Correlation</h3>
+<p><span class="math display">\[\begin{align*}
+\text{Corr}(X, Y) &amp;= \frac{\text{Cov}(X, Y)}{\sqrt{\text{Var}(X) \text{Var}(Y)}} \\
+&amp;= \frac{\text{Cov}(X, Y)}{\text{SD}(X) \text{SD}(Y)} \\
+\end{align*}\]</span></p>
+</section>
+<section id="linearity-of-expectation" class="level3">
+<h3 class="anchored" data-anchor-id="linearity-of-expectation">Linearity of Expectation</h3>
+<p><span class="math display">\[\begin{align*}
+\mathbb{E}[X + Y] &amp;= \mathbb{E}[X] + \mathbb{E}[Y] \\
+\mathbb{E}\left[\sum_{i=1}^{n} X_i\right] &amp;= \sum_{i=1}^{n} \mathbb{E}[X_i]
+\end{align*}\]</span></p>
+</section>
+</section>
 <section id="classification" class="level2">
 <h2 class="anchored" data-anchor-id="classification">Classification</h2>
 <section id="logistic-regression" class="level3">
@@ -244,20 +324,20 @@ window.Quarto = {
 </table>
 <p><span class="math display">\[\begin{align*}
 \hat{\boldsymbol{y}} &amp;= \sigma(XW + b) \\
-&amp;= \sigma(\underbrace{X}*{n \times d} \underbrace{W}_{d \times 1} + \underbrace{b}_{1}) \\
-&amp;= \sigma(\underbrace{z}_{n \times 1}) \\
-\text{where } \sigma(z) &amp;= \frac{1}{1 + e^{-z}}
+&amp;= \sigma(\underbrace{X}_{n \times d} \underbrace{W}_{d \times 1} + \underbrace{b}_{1}) \\
+&amp;= \sigma(\underbrace{\boldsymbol{z}}_{n \times 1}) \\
+\text{where } \sigma(a) &amp;= \frac{1}{1 + e^{-a}}
 \end{align*}\]</span></p>
 <p><span class="math display">\[\begin{align*}
 \text{Loss} = -\frac{1}{n} \sum_{i=1}^{n}
 \begin{cases}
-\log(\hat{y}_i) &amp; \text{if } y_i = 1 \\
-\log(1 - \hat{y}_i) &amp; \text{if } y_i = 0
+\log(\hat{\boldsymbol{y}}_i) &amp; \text{if } \boldsymbol{y}_i = 1 \\
+\log(1 - \hat{\boldsymbol{y}}_i) &amp; \text{if } \boldsymbol{y}_i = 0
 \end{cases}
 \end{align*}\]</span></p>
 <p>Another way to write the loss function is:</p>
 <p><span class="math display">\[\begin{align*}
-\text{Loss} = -\frac{1}{n} \sum\_{i=1}^{n} y_i \log(\hat{y}\_i) + (1 - y_i) \log(1 - \hat{y}\_i)
+\text{Loss} = -\frac{1}{n} \sum_{i=1}^{n} \left( \boldsymbol{y}_i \log(\hat{\boldsymbol{y}}_i) + (1 - \boldsymbol{y}_i) \log(1 - \hat{\boldsymbol{y}}_i)\right)
 \end{align*}\]</span></p>
 </section>
 <section id="multi-class-logistic-regression" class="level3">
@@ -286,23 +366,23 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bias</td>
-<td style="text-align: left;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{b}\)</span></td>
 <td style="text-align: left;">(1, k)</td>
 <td style="text-align: left;">Continuous</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Output</td>
-<td style="text-align: left;"><span class="math inline">\(\boldsymbol{y}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(Y\)</span></td>
 <td style="text-align: left;">(n, k)</td>
-<td style="text-align: left;">Categorical</td>
+<td style="text-align: left;">One-Hot</td>
 </tr>
 </tbody>
 </table>
 <p><span class="math display">\[\begin{align*}
-\hat{\boldsymbol{y}} &amp;= \text{softmax}(XW + b) \\
-&amp;= \text{softmax}(\underbrace{X}_{n \times d} \underbrace{W}_{d \times k} + \underbrace{b}_{1 \times k}) \\
-&amp;= \text{softmax}(\underbrace{z}_{n \times k}) \\
-\text{where } \text{softmax}(z) &amp;= \frac{e^{z_i}}{\sum_{j=1}^{k} e^{z_j}}
+\hat{Y} &amp;= \text{softmax}(XW + \boldsymbol{b}) \\
+&amp;= \text{softmax}(\underbrace{X}_{n \times d} \underbrace{W}_{d \times k} + \underbrace{\boldsymbol{b}}_{1 \times k}) \\
+&amp;= \text{softmax}(\underbrace{Z}_{n \times k}) \\
+\text{where } \hat{Y}_{ij} = \text{softmax}(Z_{ij}) &amp;= \frac{e^{Z_{ij}}}{\sum_{j=1}^{k} e^{Z_{ij}}}
 \end{align*}\]</span></p>
 <p><span class="math display">\[\begin{align*}
 \text{Loss} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{k} y_{ij} \log(\hat{y}_{ij})
@@ -310,66 +390,40 @@ window.Quarto = {
 </section>
 <section id="metrics" class="level3">
 <h3 class="anchored" data-anchor-id="metrics">Metrics</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 83%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Metric</th>
-<th style="text-align: left;">Formula</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Accuracy</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{TP + TN}{TP + TN + FP + FN}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Precision</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FP}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Recall</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FN}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">F1 Score</td>
-<td style="text-align: left;"><span class="math inline">\(2 \cdot \frac{Precision \cdot Recall}{Precision + Recall}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">False Positive Rate</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{FP}{FP + TN}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">True Positive Rate</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{TP}{TP + FN}\)</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ROC curve</td>
-<td style="text-align: left;">Plot of True Positive Rate vs False Positive Rate (X-axis is FPR, Y-axis is TPR)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AUC-ROC</td>
-<td style="text-align: left;">Area under the ROC curve (1 is perfect, 0.5 is random guessing, 0 is worst)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Matthews Correlation Coefficient</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}\)</span></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Cohen’s Kappa</td>
-<td style="text-align: left;"><span class="math inline">\(\frac{P_o - P_e}{1 - P_e}\)</span> where <span class="math inline">\(P_o\)</span> is observed accuracy and <span class="math inline">\(P_e\)</span> is expected accuracy</td>
-</tr>
-</tbody>
-</table>
 <section id="accuracy" class="level4">
 <h4 class="anchored" data-anchor-id="accuracy">Accuracy</h4>
 <p><span class="math display">\[\begin{align*}
 \text{Accuracy} &amp;= \frac{\text{Correct Predictions}}{\text{Total Predictions}} \\
 &amp;= \frac{TP + TN}{TP + TN + FP + FN}
 \end{align*}\]</span></p>
+</section>
+<section id="true-positive-rate-tpr" class="level4">
+<h4 class="anchored" data-anchor-id="true-positive-rate-tpr">True Positive Rate (TPR)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{True Positive Rate} &amp;= \frac{\text{True Positives}}{\text{Actual Positives}} \\
+&amp;= \frac{TP}{TP + FN}
+\end{align*}\]</span></p>
+</section>
+<section id="false-positive-rate-fpr" class="level4">
+<h4 class="anchored" data-anchor-id="false-positive-rate-fpr">False Positive Rate (FPR)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{False Positive Rate} &amp;= \frac{\text{False Positives}}{\text{Actual Negatives}} \\
+&amp;= \frac{FP}{FP + TN}
+\end{align*}\]</span></p>
+</section>
+<section id="roc-curve-receiver-operating-characteristic-curve" class="level4">
+<h4 class="anchored" data-anchor-id="roc-curve-receiver-operating-characteristic-curve">ROC Curve (Receiver Operating Characteristic Curve)</h4>
+<ul>
+<li>X-axis: FPR, Y-axis: TPR</li>
+</ul>
+</section>
+<section id="area-under-the-roc-curve-auc" class="level4">
+<h4 class="anchored" data-anchor-id="area-under-the-roc-curve-auc">Area Under the ROC Curve (AUC)</h4>
+<ul>
+<li>AUC = 1: Perfect model</li>
+<li>AUC = 0.5: Random model</li>
+<li>AUC &lt; 0.5: Model is worse than random</li>
+</ul>
 </section>
 <section id="precision" class="level4">
 <h4 class="anchored" data-anchor-id="precision">Precision</h4>
@@ -399,20 +453,252 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>The Matthews correlation coefficient (MCC) is pearson correlation coefficient between the observed and predicted binary classifications.</p>
 </blockquote>
-<p>Derivation: (Homework)</p>
+<p>Derivation: (Homework) Range: -1 to 1</p>
+<ul>
+<li>1: Total disagreement</li>
+<li>0: Random agreement</li>
+<li>1: Perfect agreement</li>
+</ul>
+<p>Formula:</p>
+<p><span class="math display">\[\begin{align*}
+\text{MCC} &amp;= \frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}
+\end{align*}\]</span></p>
 </section>
 <section id="cohens-kappa" class="level4">
 <h4 class="anchored" data-anchor-id="cohens-kappa">Cohen’s Kappa</h4>
-<p>Definition: Cohen’s Kappa is a statistic that measures agreement between two rates while correcting for chance. Range: -1 to 1 - 1: Total disagreement - 0: Random agreement - 1: Perfect agreement</p>
+<p>Definition: Cohen’s Kappa is a statistic that measures agreement between two rates while correcting for chance. Range: -1 to 1</p>
+<ul>
+<li>1: Total disagreement</li>
+<li>0: Random agreement</li>
+<li>1: Perfect agreement</li>
+</ul>
 <p>Formula:</p>
 <p><span class="math display">\[\begin{align*}
 \text{Cohen's Kappa} &amp;= \frac{P_o - P_e}{1 - P_e} \\
 P_o &amp;= \text{Accuracy} \\
 P_e &amp;= \sum_{i=1}^{k} \frac{\text{predicted}_i}{\text{total samples}} \cdot \frac{\text{actual}_i}{\text{total samples}}
 \end{align*}\]</span></p>
-
-
 </section>
+</section>
+</section>
+<section id="regression" class="level2">
+<h2 class="anchored" data-anchor-id="regression">Regression</h2>
+<section id="linear-regression" class="level3">
+<h3 class="anchored" data-anchor-id="linear-regression">Linear Regression</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Entity</th>
+<th style="text-align: left;">Math</th>
+<th style="text-align: left;">Shape</th>
+<th style="text-align: left;">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Features</td>
+<td style="text-align: left;"><span class="math inline">\(X\)</span></td>
+<td style="text-align: left;">(n, d)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Weights</td>
+<td style="text-align: left;"><span class="math inline">\(W\)</span></td>
+<td style="text-align: left;">(d, 1)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bias</td>
+<td style="text-align: left;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: left;">(1, 1)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Output</td>
+<td style="text-align: left;"><span class="math inline">\(\boldsymbol{y}\)</span></td>
+<td style="text-align: left;">(n, 1)</td>
+<td style="text-align: left;">Continuous</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[\begin{align*}
+\hat{\boldsymbol{y}} &amp;= XW + b \\
+&amp;= \underbrace{X}_{n \times d} \underbrace{W}_{d \times 1} + \underbrace{b}_{1} \\
+&amp;= \underbrace{\boldsymbol{z}}_{n \times 1}
+\end{align*}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+\text{Mean Squared Loss} &amp;= \frac{1}{n} \sum_{i=1}^{n} (\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i)^2
+\end{align*}\]</span></p>
+<p>Normal Equation:</p>
+<p><span class="math display">\[\begin{align*}
+\tilde{X} &amp;= \begin{bmatrix}
+1 &amp; X
+\end{bmatrix} \\
+\tilde{W} &amp;= \begin{bmatrix}
+b \\
+W
+\end{bmatrix} \\
+\hat{\boldsymbol{y}} &amp;= \tilde{X} \tilde{W} \\
+\tilde{W} &amp;= (\tilde{X}^T \tilde{X})^{-1} \tilde{X}^T \boldsymbol{y}
+\end{align*}\]</span></p>
+</section>
+<section id="metrics-1" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-1">Metrics</h3>
+<section id="mean-absolute-error-mae" class="level4">
+<h4 class="anchored" data-anchor-id="mean-absolute-error-mae">Mean Absolute Error (MAE)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{MAE} &amp;= \frac{1}{n} \sum_{i=1}^{n} |\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i|
+\end{align*}\]</span></p>
+</section>
+<section id="mean-squared-error-mse" class="level4">
+<h4 class="anchored" data-anchor-id="mean-squared-error-mse">Mean Squared Error (MSE)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{MSE} &amp;= \frac{1}{n} \sum_{i=1}^{n} (\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i)^2
+\end{align*}\]</span></p>
+</section>
+<section id="root-mean-squared-error-rmse" class="level4">
+<h4 class="anchored" data-anchor-id="root-mean-squared-error-rmse">Root Mean Squared Error (RMSE)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{RMSE} &amp;= \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i)^2}
+\end{align*}\]</span></p>
+</section>
+<section id="r-squared-coefficient-of-determination" class="level4">
+<h4 class="anchored" data-anchor-id="r-squared-coefficient-of-determination">R-squared (Coefficient of Determination)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{R-squared} &amp;= 1 - \frac{\text{SS}_{\text{res}}}{\text{SS}_{\text{tot}}} \\
+\text{where } \text{SS}_{\text{res}} &amp;= \sum_{i=1}^{n} (\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i)^2 \\
+\text{and } \text{SS}_{\text{tot}} &amp;= \sum_{i=1}^{n} (\boldsymbol{y}_i - \bar{\boldsymbol{y}})^2
+\end{align*}\]</span></p>
+</section>
+<section id="mean-absolute-percentage-error-mape" class="level4">
+<h4 class="anchored" data-anchor-id="mean-absolute-percentage-error-mape">Mean Absolute Percentage Error (MAPE)</h4>
+<p><span class="math display">\[\begin{align*}
+\text{MAPE} &amp;= \frac{1}{n} \sum_{i=1}^{n} \left| \frac{\boldsymbol{y}_i - \hat{\boldsymbol{y}}_i}{\boldsymbol{y}_i} \right| \times 100
+\end{align*}\]</span></p>
+</section>
+</section>
+</section>
+<section id="clustering" class="level2">
+<h2 class="anchored" data-anchor-id="clustering">Clustering</h2>
+<section id="k-means-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="k-means-clustering">K-Means Clustering</h3>
+<ul>
+<li>Randomly initialize <span class="math inline">\(k\)</span> centroids</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+\mu_j &amp;= \text{randomly initialize } j \text{th centroid}
+\end{align*}\]</span></p>
+<ul>
+<li>Assign each data point to the nearest centroid</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+\hat{y}_i &amp;= \arg\min_{j} ||x_i - \mu_j||^2
+\end{align*}\]</span></p>
+<ul>
+<li>Update the centroids</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+\mu_j &amp;= \frac{1}{n_j} \sum_{i: \hat{y}_i = j} x_i
+\end{align*}\]</span></p>
+<ul>
+<li>K-Means is guaranteed to converge, but not necessarily to the global optimum.</li>
+<li>K-Means is sensitive to the initial placement of centroids.</li>
+<li>K-Means is sensitive to outliers.</li>
+</ul>
+</section>
+</section>
+<section id="bias-variance-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="bias-variance-tradeoff">Bias-Variance Tradeoff</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">High Bias</th>
+<th style="text-align: left;">High Variance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Simple model</td>
+<td style="text-align: left;">Complex model</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Underfitting</td>
+<td style="text-align: left;">Overfitting</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High training error</td>
+<td style="text-align: left;">Low training error</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High test error</td>
+<td style="text-align: left;">High test error</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Not sensitive to noise</td>
+<td style="text-align: left;">Sensitive to noise</td>
+</tr>
+</tbody>
+</table>
+<p>Decompose the error into three components:</p>
+<ul>
+<li>This decomposition is applied to a single point <span class="math inline">\((x, y)\)</span>.</li>
+<li>Train K models on different training datasets of the same distribution.</li>
+<li>All expectations are taken over predictions <span class="math inline">\(\hat{y}_i\)</span> of the K models on the same point <span class="math inline">\((x, y)\)</span> where <span class="math inline">\(i = 1, \ldots, K\)</span>.</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+\text{Error} &amp;= \text{Variance} + \text{Bias}^2 + \sigma^2 \\
+E[(\hat{y} - y)^2] &amp;= E[(\hat{y} - \mathbb{E}[\hat{y}])^2] + (\mathbb{E}[\hat{y}] - y)^2 + \sigma^2
+\end{align*}\]</span></p>
+</section>
+<section id="optimization" class="level2">
+<h2 class="anchored" data-anchor-id="optimization">Optimization</h2>
+<section id="gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h3>
+<p><span class="math display">\[\begin{align*}
+\theta_{t+1} &amp;= \theta_t - \alpha \nabla J(\theta_t) \\
+\text{where } \alpha &amp;= \text{learning rate} \\
+\text{and } J(\theta) &amp;= \text{cost function}
+\end{align*}\]</span></p>
+</section>
+<section id="stochastic-gradient-descent-sgd" class="level3">
+<h3 class="anchored" data-anchor-id="stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</h3>
+<p><span class="math display">\[\begin{align*}
+\theta_{t+1} &amp;= \theta_t - \alpha \nabla J(\theta_t, x_i, y_i) \\
+\text{where } (x_i, y_i) &amp;= \text{randomly selected training example}
+\end{align*}\]</span></p>
+</section>
+<section id="mini-batch-gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="mini-batch-gradient-descent">Mini-Batch Gradient Descent</h3>
+<p><span class="math display">\[\begin{align*}
+\theta_{t+1} &amp;= \theta_t - \alpha \nabla J(\theta_t, B) \\
+\text{where } B &amp;= \text{mini-batch of training examples}
+\end{align*}\]</span></p>
+</section>
+<section id="sgd-with-momentum" class="level3">
+<h3 class="anchored" data-anchor-id="sgd-with-momentum">SGD with Momentum</h3>
+<p><span class="math display">\[\begin{align*}
+v_t &amp;= \beta v_{t-1} + (1 - \beta) \nabla J(\theta_t) \\
+\theta_{t+1} &amp;= \theta_t - \alpha v_t
+\end{align*}\]</span> where <span class="math inline">\(\beta\)</span> is the momentum term (usually set to 0.9).</p>
+</section>
+<section id="rmsprop" class="level3">
+<h3 class="anchored" data-anchor-id="rmsprop">RMSProp</h3>
+<p><span class="math display">\[\begin{align*}
+s_t &amp;= \beta s_{t-1} + (1 - \beta) (\nabla J(\theta_t))^2 \\
+\theta_{t+1} &amp;= \theta_t - \frac{\alpha}{\sqrt{s_t} + \epsilon} \nabla J(\theta_t)
+\end{align*}\]</span> where <span class="math inline">\(\epsilon\)</span> is a small constant to prevent division by zero.</p>
+</section>
+<section id="adam" class="level3">
+<h3 class="anchored" data-anchor-id="adam">Adam</h3>
+<p><span class="math display">\[\begin{align*}
+m_t &amp;= \beta_1 m_{t-1} + (1 - \beta_1) \nabla J(\theta_t) \\
+s_t &amp;= \beta_2 s_{t-1} + (1 - \beta_2) (\nabla J(\theta_t))^2 \\
+\hat{m}_t &amp;= \frac{m_t}{1 - \beta_1^t} \\
+\hat{s}_t &amp;= \frac{s_t}{1 - \beta_2^t} \\
+\theta_{t+1} &amp;= \theta_t - \frac{\alpha}{\sqrt{\hat{s}_t} + \epsilon} \hat{m}_t
+\end{align*}\]</span> where <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are the exponential decay rates for the first and second moment estimates, respectively (usually set to 0.9 and 0.999).</p>
+
+
 </section>
 </section>
 
