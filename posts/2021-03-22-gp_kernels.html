@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.43">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -24,8 +24,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +37,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -60,22 +61,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-12858c9ce0885248945210bbd3c85d1a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -121,7 +124,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -140,7 +143,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -250,7 +253,7 @@ window.Quarto = {
 
 
 <div id="cell-1" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qq GPy</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>qq GPy</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> autograd.numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> GPy</span>
@@ -258,7 +261,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> autograd <span class="im">import</span> grad</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.animation <span class="im">import</span> FuncAnimation</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> rc</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="basics-of-kernels-in-gaussian-processes" class="level3">
 <h3 class="anchored" data-anchor-id="basics-of-kernels-in-gaussian-processes">Basics of kernels in Gaussian processes</h3>
@@ -291,14 +294,14 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 <p>RBF is also isotropic kernel, which means that <span class="math inline">\(\mathcal{K}(x,x')\)</span> depends only on <span class="math inline">\(|x-x'|\)</span>. Thus, we have <span class="math inline">\(\mathcal{K}(x,x') = \mathcal{K}(x',x)\)</span>.</p>
 <p>Let’s visualize few functions drawn from the RBF kernel</p>
 <div id="cell-6" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_rbf(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(np.exp(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.square(X1<span class="op">-</span>X2.T)<span class="op">/</span>l<span class="op">**</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_rbf(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(np.exp(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.square(X1<span class="op">-</span>X2.T)<span class="op">/</span>l<span class="op">**</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="helper-functions" class="level4">
 <h4 class="anchored" data-anchor-id="helper-functions">Helper functions</h4>
 <div id="cell-8" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_functions(kernel_func, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">1.1</span>)):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_functions(kernel_func, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">3</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>,<span class="fl">1.1</span>)):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  mean <span class="op">=</span> np.zeros(X.shape[<span class="dv">0</span>])</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> kernel_func(X, X, sigma, l)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  functions <span class="op">=</span> np.random.multivariate_normal(mean, cov, size<span class="op">=</span><span class="dv">5</span>)</span>
@@ -343,21 +346,21 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 <span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  anim <span class="op">=</span> FuncAnimation(fig, update, frames<span class="op">=</span>val_list, blit<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  plt.close()</span>
 <span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  rc(<span class="st">'animation'</span>, html<span class="op">=</span><span class="st">'jshtml'</span>)</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> anim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> anim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Verifying if our kernel is consistent with GPy kernels.</p>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">200</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">200</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sigma, l <span class="op">=</span> <span class="dv">7</span>, <span class="dv">11</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_rbf(X,X,sigma,l), GPy.kern.RBF(<span class="dv">1</span>, variance<span class="op">=</span>sigma<span class="op">**</span><span class="dv">2</span>, lengthscale<span class="op">=</span>l).K(X,X)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_rbf(X,X,sigma,l), GPy.kern.RBF(<span class="dv">1</span>, variance<span class="op">=</span>sigma<span class="op">**</span><span class="dv">2</span>, lengthscale<span class="op">=</span>l).K(X,X)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-11" class="cell" data-outputid="983765a7-5c04-42df-862e-b1cbd363255a">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:601}}" data-outputid="983765a7-5c04-42df-862e-b1cbd363255a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">3.</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>k_name <span class="op">=</span> <span class="st">'RBF'</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plot_functions(K_rbf, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">3.5</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plot_functions(K_rbf, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">3.5</span>,<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -367,11 +370,11 @@ Y \sim \mathcal{N}\left(\mathcal{F}(X), \mathcal{K}(X,X)\right)
 </div>
 </div>
 <p>Let’s see the effect of varying parameters <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(l\)</span> of the RBF kernel function.</p>
-<div id="cell-13" class="cell" data-outputid="eafc0914-fe8b-4fb9-9150-a78936cc7223">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="eafc0914-fe8b-4fb9-9150-a78936cc7223">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_rbf, val_list, k_name<span class="op">=</span><span class="st">'RBF'</span>, p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_rbf, val_list, k_name<span class="op">=</span><span class="st">'RBF'</span>, p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="87">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -7431,11 +7434,11 @@ QICABwAAgIB/ryoDywl2MFEAAAAASUVORK5CYII=\
 </script>
 </div>
 </div>
-<div id="cell-14" class="cell" data-outputid="94016d2d-66fc-4448-a41f-1085a9c07faa">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">1.</span></span>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="94016d2d-66fc-4448-a41f-1085a9c07faa">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">25</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>animate_functions(K_rbf, val_list, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">12</span>,<span class="dv">12</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="dv">26</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'RBF'</span>, p_name<span class="op">=</span><span class="st">'Variance'</span>, symbol<span class="op">=</span><span class="st">'sigma'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'RBF'</span>, p_name<span class="op">=</span><span class="st">'Variance'</span>, symbol<span class="op">=</span><span class="st">'sigma'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="88">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -12773,22 +12776,22 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 \]</span> Matern kernels are stationary as well as isotropic. With <span class="math inline">\(\nu \to \infty\)</span> they converge to <span class="math inline">\(RBF\)</span> kernel. <span class="math inline">\(Matern12\)</span> is also known as <span class="math inline">\(Exponential\)</span> kernel in toolkits such as GPy.</p>
 <p>Now, let’s draw few functions from each of these versions and try to get intuition behind each of them.</p>
 <div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m12(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 0.5</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m12(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 0.5</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(np.exp(<span class="op">-</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m32(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 1.5</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">+</span>((<span class="dv">3</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T))<span class="op">/</span>l)<span class="op">*</span>(np.exp(<span class="op">-</span>(<span class="dv">3</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_m52(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>): <span class="co"># v = 2.5</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (sigma<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(<span class="dv">1</span><span class="op">+</span>(((<span class="dv">5</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T))<span class="op">/</span>l)<span class="op">+</span>((<span class="dv">5</span><span class="op">*</span>(X1<span class="op">-</span>X2.T)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>(<span class="dv">3</span><span class="op">*</span>l<span class="op">**</span><span class="dv">2</span>)))<span class="op">*\</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                    (np.exp(<span class="op">-</span>(<span class="dv">5</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                    (np.exp(<span class="op">-</span>(<span class="dv">5</span><span class="op">**</span><span class="fl">0.5</span>)<span class="op">*</span>np.<span class="bu">abs</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>l))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Verifying if our kernels are consistent with GPy kernels.</p>
 <div id="cell-19" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">50</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">101</span>,<span class="dv">1001</span>,<span class="dv">50</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_m32(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>), GPy.kern.Matern32(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>).K(X,X))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_m52(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>), GPy.kern.Matern52(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>).K(X,X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_m52(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>), GPy.kern.Matern52(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>).K(X,X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-20" class="cell" data-outputid="2bc03810-e766-4b24-dc51-1388f5dba035">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:729}}" data-outputid="2bc03810-e766-4b24-dc51-1388f5dba035">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">3.</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -12803,7 +12806,7 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  ax[k_i,<span class="dv">0</span>].set_xlabel(<span class="st">'X'</span>)<span class="op">;</span>ax[k_i,<span class="dv">0</span>].set_ylabel(<span class="st">'Y'</span>)<span class="op">;</span>ax[k_i,<span class="dv">0</span>].set_title(<span class="st">'Functions drawn from '</span><span class="op">+</span>names[k_i]<span class="op">+</span><span class="st">' kernel'</span>)<span class="op">;</span></span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  sns.heatmap(cov.<span class="bu">round</span>(<span class="dv">2</span>), ax<span class="op">=</span>ax[k_i,<span class="dv">1</span>], xticklabels<span class="op">=</span>X.ravel(), yticklabels<span class="op">=</span>X.ravel(), annot<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ax[k_i,<span class="dv">1</span>].set_xlabel(<span class="st">'X'</span>)<span class="op">;</span>ax[k_i,<span class="dv">1</span>].set_ylabel(<span class="st">'X'</span>)<span class="op">;</span>ax[k_i,<span class="dv">1</span>].set_title(<span class="st">'Covariance matrix'</span>)<span class="op">;</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -12814,11 +12817,11 @@ Matern52 \to \mathcal{K_{\nu=2.5}}(x_1, x_2) &amp;=  \sigma^2\left(1+\frac{\sqrt
 </div>
 <p>From the above plot, we can say that smoothness is increasing in functions as we increase <span class="math inline">\(\nu\)</span>. Thus, smoothness of functions in terms of kernels is in the following order: Matern12&lt;Matern32&lt;Matern52.</p>
 <p>Let us see effect of varying <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(l\)</span> on Matern32 which is more popular among the three.</p>
-<div id="cell-22" class="cell" data-outputid="f5c10168-c49e-4da4-c99a-37b5d426c7c8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="f5c10168-c49e-4da4-c99a-37b5d426c7c8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_m32, val_list, k_name<span class="op">=</span><span class="st">'Matern32'</span>, p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_m32, val_list, k_name<span class="op">=</span><span class="st">'Matern32'</span>, p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="92">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -20293,12 +20296,12 @@ rkJggg==\
 </div>
 </div>
 <p>We can see that Matern32 kernel behaves similar to RBF with varying <span class="math inline">\(l\)</span>. Though, Matern32 is less smoother than RBF. A quick comparison would clarify this.</p>
-<div id="cell-24" class="cell" data-outputid="b104803e-0931-4f6a-edd2-05defcfdc0f2">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:295}}" data-outputid="b104803e-0931-4f6a-edd2-05defcfdc0f2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_rbf(X,X, l<span class="op">=</span><span class="fl">3.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'RBF'</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_m32(X,X, l<span class="op">=</span><span class="fl">3.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Matern32'</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Covariance (K(0,X))'</span>)<span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,X)'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,X)'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -20316,21 +20319,21 @@ rkJggg==\
 \end{aligned}
 \]</span> Where <span class="math inline">\(p\)</span> is period. Let’s visualize few functions drawn from this kernel.</p>
 <div id="cell-27" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_periodic(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>, p<span class="op">=</span><span class="fl">3.</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_periodic(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, l<span class="op">=</span><span class="fl">1.</span>, p<span class="op">=</span><span class="fl">3.</span>):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> sigma<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>np.square(np.sin(np.pi<span class="op">*</span>(X1<span class="op">-</span>X2.T)<span class="op">/</span>p))<span class="op">/</span>l<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">10</span>,<span class="dv">1001</span>,<span class="dv">50</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(K_periodic(X,X,sigma<span class="op">=</span><span class="fl">7.</span>,l<span class="op">=</span><span class="fl">11.</span>,p<span class="op">=</span><span class="fl">3.</span>), </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                   GPy.kern.StdPeriodic(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>,period<span class="op">=</span><span class="fl">3.</span>).K(X,X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                   GPy.kern.StdPeriodic(<span class="dv">1</span>,lengthscale<span class="op">=</span><span class="fl">11.</span>,variance<span class="op">=</span><span class="dv">7</span><span class="op">**</span><span class="dv">2</span>,period<span class="op">=</span><span class="fl">3.</span>).K(X,X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-28" class="cell" data-outputid="2b12d04a-75c8-4741-e797-bc89ba1fc96e">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:601}}" data-outputid="2b12d04a-75c8-4741-e797-bc89ba1fc96e">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>,<span class="dv">5</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">3.</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>k_name <span class="op">=</span> <span class="st">'Periodic'</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plot_functions(K_periodic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plot_functions(K_periodic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -20340,12 +20343,12 @@ rkJggg==\
 </div>
 </div>
 <p>We will investigate the effect of varying period <span class="math inline">\(p\)</span> now.</p>
-<div id="cell-30" class="cell" data-outputid="1469c892-eb24-4f3d-b3ad-0984506799d4">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="1469c892-eb24-4f3d-b3ad-0984506799d4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">3.</span>, <span class="fl">4.</span>, <span class="fl">5.</span>]</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_periodic, val_list, ax1_ylim<span class="op">=</span>(<span class="fl">0.4</span>,<span class="fl">1.1</span>),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'Periodic'</span>,p_name<span class="op">=</span><span class="st">'Period'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'Periodic'</span>,p_name<span class="op">=</span><span class="st">'Period'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="96">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -25142,12 +25145,12 @@ PAAAAAAAFmCBBwAAAADAAizwAAAAAABY4H8B9Ud/DaasxwgAAAAASUVORK5CYII=\
 </div>
 <p>From the above animation we can see that, all points that are <span class="math inline">\(p\)</span> distance apart from each other have exactly same values because they have correlation of exactly 1 (<span class="math inline">\(\sigma=1 \to covariance=correlation\)</span>).</p>
 <p>Now, we will investigate effect of lenging lengthscale <span class="math inline">\(l\)</span> while other parameters are constant.</p>
-<div id="cell-32" class="cell" data-outputid="42e60eb0-2b2b-4178-b10a-5392500e0cbd">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="42e60eb0-2b2b-4178-b10a-5392500e0cbd">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">3.</span>, <span class="fl">4.</span>, <span class="fl">5.</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_periodic, val_list, ax1_ylim<span class="op">=</span>(<span class="fl">0.6</span>,<span class="fl">1.1</span>),</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'Periodic'</span>,p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                  k_name<span class="op">=</span><span class="st">'Periodic'</span>,p_name<span class="op">=</span><span class="st">'Lengthscale'</span>, symbol<span class="op">=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="97">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -29384,15 +29387,15 @@ AAAAHMACDwAAAACAA/4fS32ajWE+DJwAAAAASUVORK5CYII=\
 \end{aligned}
 \]</span> Let’s visualize few functions drawn from the linear kernel</p>
 <div id="cell-36" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_lin(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, c<span class="op">=</span><span class="fl">1.</span>):</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (X1<span class="op">-</span>c)<span class="op">@</span>(X2.T<span class="op">-</span>c) <span class="op">+</span> sigma<span class="op">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> K_lin(X1, X2, sigma<span class="op">=</span><span class="fl">1.</span>, c<span class="op">=</span><span class="fl">1.</span>):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (X1<span class="op">-</span>c)<span class="op">@</span>(X2.T<span class="op">-</span>c) <span class="op">+</span> sigma<span class="op">**</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-37" class="cell" data-outputid="09ea6776-5a7a-4e99-f7c8-8291001dc2fc">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:601}}" data-outputid="09ea6776-5a7a-4e99-f7c8-8291001dc2fc">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plot_functions(K_lin, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">5</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>plot_functions(K_lin, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">5</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -29402,11 +29405,11 @@ AAAAHMACDwAAAACAA/4fS32ajWE+DJwAAAAASUVORK5CYII=\
 </div>
 </div>
 <p>Let’s see the effect of varying parameters <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(c\)</span> of the linear kernel function.</p>
-<div id="cell-39" class="cell" data-outputid="48451695-c0a2-4ad6-ca62-bfa4f30a753a">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</span>
+<div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="48451695-c0a2-4ad6-ca62-bfa4f30a753a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> [<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>animate_functions(K_lin, val_list, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">15</span>,<span class="dv">12</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">23</span>), </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  p_name<span class="op">=</span><span class="st">'Offset'</span>, symbol<span class="op">=</span><span class="st">'c'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  p_name<span class="op">=</span><span class="st">'Offset'</span>, symbol<span class="op">=</span><span class="st">'c'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="100">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -35622,12 +35625,12 @@ AABABgx4AAAAyIABDwAAABkw4AEAACADBjwAAABkwIAHAACADBjwAAAAkAEDHgAAADJgwAMAAEAG\
 </script>
 </div>
 </div>
-<div id="cell-40" class="cell" data-outputid="e28dd189-4691-42d3-b8ef-89bd03fcc058">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:673}}" data-outputid="e28dd189-4691-42d3-b8ef-89bd03fcc058">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>val_list <span class="op">=</span> np.square(np.array([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">8</span>]))</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>animate_functions(K_lin, val_list, ax0_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">25</span>,<span class="dv">15</span>), ax1_ylim<span class="op">=</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">110</span>), </span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                  p_name<span class="op">=</span><span class="st">'Variance'</span>, symbol<span class="op">=</span><span class="st">'sigma'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                  p_name<span class="op">=</span><span class="st">'Variance'</span>, symbol<span class="op">=</span><span class="st">'sigma'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="101">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -41102,8 +41105,8 @@ AIADWOABAAAAAHDA/wMtm7tHLfwSKgAAAABJRU5ErkJggg==\
 <section id="non-stationary-behaviour-of-linear-kernel" class="level3">
 <h3 class="anchored" data-anchor-id="non-stationary-behaviour-of-linear-kernel">Non-stationary behaviour of Linear kernel</h3>
 <p>Unlike other stationary kernels, Linear kernel is not invariant of translations in the input space. The comparison below, visually supports this claim.</p>
-<div id="cell-44" class="cell" data-outputid="92a41257-229d-4c9f-b86d-d9b569899894">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>,figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<div id="cell-44" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:690}}" data-outputid="92a41257-229d-4c9f-b86d-d9b569899894">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>,figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kerns <span class="op">=</span> [K_rbf, K_m32, K_periodic, K_lin]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>k_names <span class="op">=</span> [<span class="st">'RBF'</span>, <span class="st">'Matern32'</span>, <span class="st">'Periodic'</span>, <span class="st">'Linear'</span>]</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">21</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
@@ -41127,7 +41130,7 @@ AIADWOABAAAAAHDA/wMtm7tHLfwSKgAAAABJRU5ErkJggg==\
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> FuncAnimation(fig, update, frames<span class="op">=</span>[<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">15</span>], blit<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>plt.close()</span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>rc(<span class="st">'animation'</span>, html<span class="op">=</span><span class="st">'jshtml'</span>)</span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>anim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>anim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="102">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/
@@ -46883,13 +46886,13 @@ RU5ErkJggg==\
 <p>If a single kernel is having high bias in fitting a dataset, we can use mutiple of these kernels in multiplications and/or summations. First, let us see effect of multiplication of a few kernels.</p>
 <section id="periodic-linear" class="level4">
 <h4 class="anchored" data-anchor-id="periodic-linear">Periodic * Linear</h4>
-<div id="cell-48" class="cell" data-outputid="8bff1850-44c4-445f-af28-445c536dbdf4">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:295}}" data-outputid="8bff1850-44c4-445f-af28-445c536dbdf4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_periodic(X,X,sigma<span class="op">=</span><span class="fl">2.</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Periodic'</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,sigma<span class="op">=</span><span class="fl">0.01</span>,c<span class="op">=</span><span class="dv">0</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear'</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_periodic(X,X,sigma<span class="op">=</span><span class="fl">2.</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,sigma<span class="op">=</span><span class="fl">0.01</span>,c<span class="op">=</span><span class="dv">0</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Periodic*Linear'</span>)</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Covariance'</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,*)'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K(0,*)'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -46901,14 +46904,14 @@ RU5ErkJggg==\
 </section>
 <section id="linear-linear" class="level4">
 <h4 class="anchored" data-anchor-id="linear-linear">Linear * Linear</h4>
-<div id="cell-50" class="cell" data-outputid="6c0dfa20-d6ab-45ee-ba2d-c25855310739">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-50" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:265}}" data-outputid="6c0dfa20-d6ab-45ee-ba2d-c25855310739">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=-</span><span class="dv">1</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear1'</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear2'</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=</span><span class="fl">0.5</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear3'</span>)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=-</span><span class="dv">1</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear1*Linear3'</span>)</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>plt.plot(X, K_lin(X,X,c<span class="op">=-</span><span class="dv">1</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>]<span class="op">*</span>K_lin(X,X,c<span class="op">=</span><span class="fl">0.5</span>)[:,<span class="dv">50</span>], label<span class="op">=</span><span class="st">'Linear1*Linear2*Linear3'</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -46920,14 +46923,14 @@ RU5ErkJggg==\
 </section>
 <section id="matern-linear" class="level4">
 <h4 class="anchored" data-anchor-id="matern-linear">Matern * Linear</h4>
-<div id="cell-52" class="cell" data-outputid="25543a95-5543-4014-ffa3-16a19976ff5d">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-52" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:265}}" data-outputid="25543a95-5543-4014-ffa3-16a19976ff5d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">100</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>k1 <span class="op">=</span> K_lin(X,X,c<span class="op">=</span><span class="dv">1</span>)[:,<span class="dv">50</span>]</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>k2 <span class="op">=</span> K_m32(X,X)[:,<span class="dv">50</span>]</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.plot(X, k1, label<span class="op">=</span><span class="st">'Linear'</span>)</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plt.plot(X, k2, label<span class="op">=</span><span class="st">'Matern32'</span>)</span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>plt.plot(X, k1<span class="op">*</span>k2, label<span class="op">=</span><span class="st">'Matern32*Linear'</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -47006,10 +47009,10 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <section id="prepering-useful-functions" class="level3">
 <h3 class="anchored" data-anchor-id="prepering-useful-functions">Prepering useful functions</h3>
 <div id="cell-58" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-59" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cov_func(x, x_prime, sigma, c):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cov_func(x, x_prime, sigma, c):</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (x<span class="op">-</span>c)<span class="op">@</span>(x_prime<span class="op">-</span>c) <span class="op">+</span> sigma<span class="op">**</span><span class="dv">2</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(params):</span>
@@ -47029,13 +47032,13 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  mean <span class="op">=</span> k_star<span class="op">@</span>k_inv<span class="op">@</span>Y</span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> cov_func(X_test, X_test.T, sigma, c) <span class="op">-</span> k_star<span class="op">@</span>k_inv<span class="op">@</span>k_star.T</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> mean, cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> mean, cov</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="observing-more-than-two-points-and-changing-hyperparameters-manually" class="level3">
 <h3 class="anchored" data-anchor-id="observing-more-than-two-points-and-changing-hyperparameters-manually">Observing more than two points and changing hyperparameters manually</h3>
-<div id="cell-61" class="cell" data-outputid="946fd26b-4c12-4d88-871d-afc038d66973">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<div id="cell-61" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:350}}" data-outputid="946fd26b-4c12-4d88-871d-afc038d66973">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.array([<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">10</span>,<span class="dv">13</span>]).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> np.linspace(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">20</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>params_grid <span class="op">=</span> [[<span class="fl">1.</span>, <span class="fl">0.01</span>, <span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>], [<span class="fl">100.</span>, <span class="fl">1.</span>, <span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>], </span>
@@ -47054,7 +47057,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  ax[p_i].scatter(X, Y, label<span class="op">=</span><span class="st">'train'</span>)</span>
 <span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  ax[p_i].scatter(X_test, Y_test_mean, label<span class="op">=</span><span class="st">'test'</span>)</span>
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  ax[p_i].legend()<span class="op">;</span>ax[p_i].set_xlabel(<span class="st">'X'</span>)<span class="op">;</span>ax[p_i].set_ylabel(<span class="st">'Y'</span>)<span class="op">;</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  ax[p_i].set_title(<span class="st">'sigma='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">0</span>])<span class="op">+</span><span class="st">', c='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">1</span>])<span class="op">+</span><span class="st">', noise='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">2</span>]))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  ax[p_i].set_title(<span class="st">'sigma='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">0</span>])<span class="op">+</span><span class="st">', c='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">1</span>])<span class="op">+</span><span class="st">', noise='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">2</span>]))<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -47063,17 +47066,17 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </div>
 </div>
 </div>
-<div id="cell-62" class="cell" data-outputid="e80774c1-a2b3-4832-aca4-09a8d7cb9a0a">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">0</span>]),<span class="op">\</span></span>
+<div id="cell-62" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="e80774c1-a2b3-4832-aca4-09a8d7cb9a0a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">0</span>]),<span class="op">\</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">1</span>]),<span class="op">\</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">2</span>]),<span class="op">\</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, means[<span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="118">
 <pre><code>(True, True, True, False)</code></pre>
 </div>
 </div>
-<div id="cell-63" class="cell" data-outputid="c3f370ee-10ef-4626-cfd0-ec511f8d0947">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> GPy.models.GPRegression(X, Y, GPy.kern.Linear(input_dim<span class="op">=</span><span class="dv">1</span>))</span>
+<div id="cell-63" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:481}}" data-outputid="c3f370ee-10ef-4626-cfd0-ec511f8d0947">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> GPy.models.GPRegression(X, Y, GPy.kern.Linear(input_dim<span class="op">=</span><span class="dv">1</span>))</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># model['Gaussian_noise'].fix(10**-10)</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># model.kern.variances.fix(10**-10)</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>model.optimize()</span>
@@ -47081,7 +47084,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plt.plot(X_test, Y_test_ideal, label<span class="op">=</span><span class="st">'Normal Eq. fit'</span>)</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>plt.plot(X_test,model.predict(X_test)[<span class="dv">0</span>], label<span class="op">=</span><span class="st">'Prediction'</span>)</span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="127">
 <style type="text/css">
 .pd{
@@ -47107,13 +47110,13 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 .tg .tg-right{font-family:"Courier New", Courier, monospace !important;font-weight:normal;text-align:right;}
 </style>
 
-<table class="tg caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="tg caption-top table table-sm table-striped small">
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th"><strong>GP_regression.</strong></td>
-<td data-quarto-table-cell-role="th"><strong>value</strong></td>
-<td data-quarto-table-cell-role="th"><strong>constraints</strong></td>
-<td data-quarto-table-cell-role="th"><strong>priors</strong></td>
+<th data-quarto-table-cell-role="th"><strong>GP_regression.</strong></th>
+<th data-quarto-table-cell-role="th"><strong>value</strong></th>
+<th data-quarto-table-cell-role="th"><strong>constraints</strong></th>
+<th data-quarto-table-cell-role="th"><strong>priors</strong></th>
 </tr>
 <tr class="even">
 <td class="tg-left">linear.variances</td>
@@ -47139,8 +47142,8 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </div>
 </div>
 <p>We can see that there is no change in fit with change in <span class="math inline">\(c\)</span> and <span class="math inline">\(\sigma\)</span>. 4th fit is not matching with the ideal fit obtained by normal equation because of high noise. Now, let us estimate parameters by minimizing negative log marginal likelihood.</p>
-<div id="cell-65" class="cell" data-outputid="85ff0cc1-9028-42c3-d56a-943a7804587d">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">1.</span>, <span class="fl">1.</span>]</span>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:330}}" data-outputid="85ff0cc1-9028-42c3-d56a-943a7804587d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> [<span class="fl">1.</span>, <span class="fl">1.</span>, <span class="fl">1.</span>]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(neg_log_likelihood, params, bounds<span class="op">=</span>[(<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">5</span>), (<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**</span><span class="dv">5</span>), (<span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>, <span class="dv">10</span><span class="op">**-</span><span class="dv">5</span>)])</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> result.x</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(params, result.fun)</span>
@@ -47150,7 +47153,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Y'</span>)<span class="op">;</span></span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> np.<span class="bu">round</span>(params, <span class="dv">4</span>)</span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'sigma='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">0</span>])<span class="op">+</span><span class="st">', c='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">1</span>])<span class="op">+</span><span class="st">', noise='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">2</span>]))<span class="op">;</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, Y_test_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>np.allclose(Y_test_ideal, Y_test_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[9.99998123e-01 9.99998123e-01 1.00000000e-05] 10207223403405.541</code></pre>
 </div>
@@ -47166,15 +47169,15 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </div>
 </div>
 <div id="cell-66" class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(sigma, c, noise_std):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(sigma, c, noise_std):</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> cov_func(X, X.T, sigma, c)</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  cov <span class="op">=</span> cov <span class="op">+</span> (noise_std<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>np.eye(n)</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  nll_ar <span class="op">=</span>  <span class="fl">0.5</span><span class="op">*</span>(Y.T<span class="op">@</span>np.linalg.pinv(cov)<span class="op">@</span>Y) <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>n<span class="op">*</span>np.log(<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>np.log(np.linalg.det(cov))</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> nll_ar[<span class="dv">0</span>,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> nll_ar[<span class="dv">0</span>,<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-67" class="cell" data-outputid="86fbf608-203a-49da-e960-922e81de5a7d">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>grad_func <span class="op">=</span> grad(neg_log_likelihood, argnum<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>])</span>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:300}}" data-outputid="86fbf608-203a-49da-e960-922e81de5a7d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>grad_func <span class="op">=</span> grad(neg_log_likelihood, argnum<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>])</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.01</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> []</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>sigma, c, noise_std <span class="op">=</span> <span class="fl">1.</span>, <span class="fl">1.</span>, <span class="fl">1.</span></span>
@@ -47187,7 +47190,7 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  loss.append(neg_log_likelihood(sigma, c, noise_std))</span>
 <span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sigma, c, noise_std)</span>
 <span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>plt.plot(loss)<span class="op">;</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>loss[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>loss[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>7.588989986845149 -2.830840439162303 32.2487569348891</code></pre>
 </div>
@@ -47202,15 +47205,15 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 </div>
 </div>
 </div>
-<div id="cell-68" class="cell" data-outputid="ebdd7da8-12af-410c-a4a0-0a4f1101635f">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> sigma, c, noise_std</span>
+<div id="cell-68" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:313}}" data-outputid="ebdd7da8-12af-410c-a4a0-0a4f1101635f">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> sigma, c, noise_std</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>Y_test_mean, Y_test_cov <span class="op">=</span> predict(params)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(X, Y, label<span class="op">=</span><span class="st">'train'</span>)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(X_test, Y_test_mean, label<span class="op">=</span><span class="st">'test'</span>)</span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span>plt.xlabel(<span class="st">'X'</span>)<span class="op">;</span>plt.ylabel(<span class="st">'Y'</span>)<span class="op">;</span></span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> np.<span class="bu">round</span>(params, <span class="dv">4</span>)</span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'sigma='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">0</span>])<span class="op">+</span><span class="st">', c='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">1</span>])<span class="op">+</span><span class="st">', noise='</span><span class="op">+</span><span class="bu">str</span>(params[<span class="dv">2</span>]))<span class="op">;</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>np.allclose(means[<span class="dv">0</span>], Y_test_mean, rtol<span class="op">=</span><span class="dv">10</span><span class="op">**-</span><span class="dv">1</span>, atol<span class="op">=</span><span class="dv">10</span><span class="op">**-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>np.allclose(means[<span class="dv">0</span>], Y_test_mean, rtol<span class="op">=</span><span class="dv">10</span><span class="op">**-</span><span class="dv">1</span>, atol<span class="op">=</span><span class="dv">10</span><span class="op">**-</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>False</code></pre>
 </div>
@@ -47229,236 +47232,243 @@ y^* = \frac{(x_1y_2-x_2y_1)+x^*(y_1-y_2)}{(x_1-x_2)}
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -47466,185 +47476,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 

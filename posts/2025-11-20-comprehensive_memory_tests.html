@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Zeel B Patel">
+<meta name="dcterms.date" content="2025-11-20">
+<meta name="description" content="Testing comprehensive memory usage in PyTorch models">
+
+<title>Comprehensive GPU Memory Tests in PyTorch – blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0b37c64f34216b628666a8dac638b53b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/patel-zeel"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/patel_zeel_"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Comprehensive GPU Memory Tests in PyTorch</h1>
+                  <div>
+        <div class="description">
+          Testing comprehensive memory usage in PyTorch models
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">PyTorch</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Zeel B Patel </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 20, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link active" data-scroll-target="#utility-functions">Utility Functions</a></li>
+  <li><a href="#experiment-group-1-function-return-behavior" id="toc-experiment-group-1-function-return-behavior" class="nav-link" data-scroll-target="#experiment-group-1-function-return-behavior">Experiment Group 1: Function Return Behavior</a>
+  <ul class="collapse">
+  <li><a href="#exp-1.1-no-return-no-cache-clear" id="toc-exp-1.1-no-return-no-cache-clear" class="nav-link" data-scroll-target="#exp-1.1-no-return-no-cache-clear">Exp 1.1: No Return, No Cache Clear</a></li>
+  <li><a href="#exp-1.2-no-return-with-cache-clear" id="toc-exp-1.2-no-return-with-cache-clear" class="nav-link" data-scroll-target="#exp-1.2-no-return-with-cache-clear">Exp 1.2: No Return, WITH Cache Clear</a></li>
+  <li><a href="#exp-1.3-with-return-holding-reference-no-cache-clear" id="toc-exp-1.3-with-return-holding-reference-no-cache-clear" class="nav-link" data-scroll-target="#exp-1.3-with-return-holding-reference-no-cache-clear">Exp 1.3: WITH Return, Holding Reference, No Cache Clear</a></li>
+  <li><a href="#exp-1.4-with-return-delete-reference-with-cache-clear" id="toc-exp-1.4-with-return-delete-reference-with-cache-clear" class="nav-link" data-scroll-target="#exp-1.4-with-return-delete-reference-with-cache-clear">Exp 1.4: WITH Return, Delete Reference, WITH Cache Clear</a></li>
+  </ul></li>
+  <li><a href="#experiment-group-2-list-reference-management" id="toc-experiment-group-2-list-reference-management" class="nav-link" data-scroll-target="#experiment-group-2-list-reference-management">Experiment Group 2: List Reference Management</a>
+  <ul class="collapse">
+  <li><a href="#exp-2.1-delete-list-directly-with-del" id="toc-exp-2.1-delete-list-directly-with-del" class="nav-link" data-scroll-target="#exp-2.1-delete-list-directly-with-del">Exp 2.1: Delete List Directly with <code>del</code></a></li>
+  <li><a href="#exp-2.2-clear-list-with-.clear" id="toc-exp-2.2-clear-list-with-.clear" class="nav-link" data-scroll-target="#exp-2.2-clear-list-with-.clear">Exp 2.2: Clear List with <code>.clear()</code></a></li>
+  <li><a href="#exp-2.3-reassign-to-empty-list" id="toc-exp-2.3-reassign-to-empty-list" class="nav-link" data-scroll-target="#exp-2.3-reassign-to-empty-list">Exp 2.3: Reassign to Empty List</a></li>
+  <li><a href="#exp-2.4-delete-elements-in-loop-backward" id="toc-exp-2.4-delete-elements-in-loop-backward" class="nav-link" data-scroll-target="#exp-2.4-delete-elements-in-loop-backward">Exp 2.4: Delete Elements in Loop (Backward)</a></li>
+  </ul></li>
+  <li><a href="#experiment-group-3-multiple-references-complex-scenarios" id="toc-experiment-group-3-multiple-references-complex-scenarios" class="nav-link" data-scroll-target="#experiment-group-3-multiple-references-complex-scenarios">Experiment Group 3: Multiple References &amp; Complex Scenarios</a>
+  <ul class="collapse">
+  <li><a href="#exp-3.1-list-element-assigned-to-another-variable-out" id="toc-exp-3.1-list-element-assigned-to-another-variable-out" class="nav-link" data-scroll-target="#exp-3.1-list-element-assigned-to-another-variable-out">Exp 3.1: List Element Assigned to Another Variable (<code>out</code>)</a></li>
+  <li><a href="#exp-3.2-tensor-referenced-by-list-and-separate-variable" id="toc-exp-3.2-tensor-referenced-by-list-and-separate-variable" class="nav-link" data-scroll-target="#exp-3.2-tensor-referenced-by-list-and-separate-variable">Exp 3.2: Tensor Referenced by List AND Separate Variable</a></li>
+  <li><a href="#exp-3.3-nested-dictionarylist-structure" id="toc-exp-3.3-nested-dictionarylist-structure" class="nav-link" data-scroll-target="#exp-3.3-nested-dictionarylist-structure">Exp 3.3: Nested Dictionary/List Structure</a></li>
+  <li><a href="#exp-3.4-explicit-garbage-collection-gc.collect" id="toc-exp-3.4-explicit-garbage-collection-gc.collect" class="nav-link" data-scroll-target="#exp-3.4-explicit-garbage-collection-gc.collect">Exp 3.4: Explicit Garbage Collection (<code>gc.collect()</code>)</a></li>
+  </ul></li>
+  <li><a href="#comprehensive-results-table" id="toc-comprehensive-results-table" class="nav-link" data-scroll-target="#comprehensive-results-table">📊 Comprehensive Results Table</a></li>
+  <li><a href="#key-insights-best-practices" id="toc-key-insights-best-practices" class="nav-link" data-scroll-target="#key-insights-best-practices">🎯 Key Insights &amp; Best Practices</a>
+  <ul class="collapse">
+  <li><a href="#memory-behavior-summary" id="toc-memory-behavior-summary" class="nav-link" data-scroll-target="#memory-behavior-summary">Memory Behavior Summary</a></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls">⚠️ Common Pitfalls</a></li>
+  <li><a href="#best-practice-checklist" id="toc-best-practice-checklist" class="nav-link" data-scroll-target="#best-practice-checklist">✅ Best Practice Checklist</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<div id="9a399858" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gc</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, HTML</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify CUDA availability</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> torch.cuda.is_available():</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"CUDA is not available. This notebook requires a GPU."</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"🎯 Testing on: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_name(device)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📊 Total GPU Memory: </span><span class="sc">{</span>torch<span class="sc">.</span>cuda<span class="sc">.</span>get_device_properties(device)<span class="sc">.</span>total_memory <span class="op">/</span> (<span class="dv">1024</span><span class="op">**</span><span class="dv">3</span>)<span class="sc">:.2f}</span><span class="ss"> GB"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>🎯 Testing on: Tesla V100-SXM3-32GB
+📊 Total GPU Memory: 31.73 GB</code></pre>
+</div>
+</div>
+<section id="utility-functions" class="level2">
+<h2 class="anchored" data-anchor-id="utility-functions">Utility Functions</h2>
+<div id="94323203" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_memory_stats(device<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Get current GPU memory statistics in GB"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    allocated <span class="op">=</span> torch.cuda.memory_allocated(device) <span class="op">/</span> (<span class="dv">1024</span><span class="op">**</span><span class="dv">3</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    reserved <span class="op">=</span> torch.cuda.memory_reserved(device) <span class="op">/</span> (<span class="dv">1024</span><span class="op">**</span><span class="dv">3</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> allocated, reserved</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reset_memory():</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Clean slate for each experiment"""</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    torch.cuda.empty_cache()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    gc.collect()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    torch.cuda.reset_peak_memory_stats(device)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_tensors_no_return(device<span class="op">=</span><span class="dv">0</span>, size_gb<span class="op">=</span><span class="fl">2.0</span>):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Create tensors but don't return them"""</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    elements <span class="op">=</span> <span class="bu">int</span>(size_gb <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span> <span class="op">/</span> <span class="dv">4</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    tensor <span class="op">=</span> torch.randn(elements, dtype<span class="op">=</span>torch.float32, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> torch.<span class="bu">sum</span>(tensor)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">None</span>  <span class="co"># Explicit no return</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_tensors_with_return(device<span class="op">=</span><span class="dv">0</span>, size_gb<span class="op">=</span><span class="fl">2.0</span>):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Create tensors and return them"""</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    elements <span class="op">=</span> <span class="bu">int</span>(size_gb <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span> <span class="op">/</span> <span class="dv">4</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    tensor <span class="op">=</span> torch.randn(elements, dtype<span class="op">=</span>torch.float32, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> torch.<span class="bu">sum</span>(tensor)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tensor, result</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_tensor_list(device<span class="op">=</span><span class="dv">0</span>, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>):</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Create a list of tensors"""</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    elements_per_tensor <span class="op">=</span> <span class="bu">int</span>(size_gb_each <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span> <span class="op">/</span> <span class="dv">4</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    tensor_list <span class="op">=</span> []</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_tensors):</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        tensor <span class="op">=</span> torch.randn(elements_per_tensor, dtype<span class="op">=</span>torch.float32, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        tensor_list.append(tensor)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tensor_list</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_nested_structure(device<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Create nested dict/list structure with tensors"""</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    elements <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.3</span> <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span> <span class="op">/</span> <span class="dv">4</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    structure <span class="op">=</span> {</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'tensors'</span>: [</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            torch.randn(elements, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>),</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>            torch.randn(elements, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">'nested'</span>: {</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>            <span class="st">'more_tensors'</span>: [</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>                torch.randn(elements, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>),</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>                torch.randn(elements, device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> structure</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Storage for all results</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✅ Utility functions loaded"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✅ Utility functions loaded</code></pre>
+</div>
+</div>
+</section>
+<section id="experiment-group-1-function-return-behavior" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-group-1-function-return-behavior">Experiment Group 1: Function Return Behavior</h2>
+<p>Testing how returning vs not returning tensors affects memory lifecycle</p>
+<section id="exp-1.1-no-return-no-cache-clear" class="level3">
+<h3 class="anchored" data-anchor-id="exp-1.1-no-return-no-cache-clear">Exp 1.1: No Return, No Cache Clear</h3>
+<div id="cd217814" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>create_tensors_no_return(device, size_gb<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Function Return'</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'No return, No cache clear'</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_after,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_after</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:  Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:   Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Tensors freed (allocated→0), but memory stays cached (reserved high)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:  Alloc=0.000GB, Res=0.000GB
+📍 After:   Alloc=0.000GB, Res=2.002GB
+
+💡 Tensors freed (allocated→0), but memory stays cached (reserved high)</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-1.2-no-return-with-cache-clear" class="level3">
+<h3 class="anchored" data-anchor-id="exp-1.2-no-return-with-cache-clear">Exp 1.2: No Return, WITH Cache Clear</h3>
+<div id="e58e5601" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>create_tensors_no_return(device, size_gb<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Function Return'</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'No return, WITH cache clear'</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Complete cleanup: Both allocated and reserved drop to 0"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=0.000GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 Complete cleanup: Both allocated and reserved drop to 0</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-1.3-with-return-holding-reference-no-cache-clear" class="level3">
+<h3 class="anchored" data-anchor-id="exp-1.3-with-return-holding-reference-no-cache-clear">Exp 1.3: WITH Return, Holding Reference, No Cache Clear</h3>
+<div id="6b194760" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>tensors <span class="op">=</span> create_tensors_with_return(device, size_gb<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Function Return'</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'WITH return, holding ref'</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_after,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_after</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:  Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:   Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Both stay high: Active references keep memory allocated"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensors  <span class="co"># Clean up for next experiments</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:  Alloc=0.000GB, Res=0.000GB
+📍 After:   Alloc=2.000GB, Res=2.002GB
+
+💡 Both stay high: Active references keep memory allocated</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-1.4-with-return-delete-reference-with-cache-clear" class="level3">
+<h3 class="anchored" data-anchor-id="exp-1.4-with-return-delete-reference-with-cache-clear">Exp 1.4: WITH Return, Delete Reference, WITH Cache Clear</h3>
+<div id="402e3a9a" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>tensors <span class="op">=</span> create_tensors_with_return(device, size_gb<span class="op">=</span><span class="fl">2.0</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensors</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Function Return'</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'WITH return, del ref + cache clear'</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Proper cleanup: del + empty_cache() fully releases memory"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.000GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 Proper cleanup: del + empty_cache() fully releases memory</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="experiment-group-2-list-reference-management" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-group-2-list-reference-management">Experiment Group 2: List Reference Management</h2>
+<p>Testing different ways to delete lists containing tensors</p>
+<section id="exp-2.1-delete-list-directly-with-del" class="level3">
+<h3 class="anchored" data-anchor-id="exp-2.1-delete-list-directly-with-del">Exp 2.1: Delete List Directly with <code>del</code></h3>
+<div id="dee71f3d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'List Management'</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'del list'</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 'del list' instantly frees all tensors in the list"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.002GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 'del list' instantly frees all tensors in the list</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-2.2-clear-list-with-.clear" class="level3">
+<h3 class="anchored" data-anchor-id="exp-2.2-clear-list-with-.clear">Exp 2.2: Clear List with <code>.clear()</code></h3>
+<div id="1666a31a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>tensor_list.clear()</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'List Management'</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'list.clear()'</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 'list.clear()' works identically to 'del list'"</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.002GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 'list.clear()' works identically to 'del list'</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-2.3-reassign-to-empty-list" class="level3">
+<h3 class="anchored" data-anchor-id="exp-2.3-reassign-to-empty-list">Exp 2.3: Reassign to Empty List</h3>
+<div id="5284d264" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> []  <span class="co"># Reassign</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'List Management'</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'reassign to []'</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 'list = []' also frees old list contents via garbage collection"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.002GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 'list = []' also frees old list contents via garbage collection</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-2.4-delete-elements-in-loop-backward" class="level3">
+<h3 class="anchored" data-anchor-id="exp-2.4-delete-elements-in-loop-backward">Exp 2.4: Delete Elements in Loop (Backward)</h3>
+<div id="864de988" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete backward to avoid index shifting</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(tensor_list) <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> tensor_list[i]</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'List Management'</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'loop deletion (backward)'</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Loop deletion works but is unnecessarily complex - just use 'del list'"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.002GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 Loop deletion works but is unnecessarily complex - just use 'del list'</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="experiment-group-3-multiple-references-complex-scenarios" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-group-3-multiple-references-complex-scenarios">Experiment Group 3: Multiple References &amp; Complex Scenarios</h2>
+<p>Testing edge cases with shared references and nested structures</p>
+<section id="exp-3.1-list-element-assigned-to-another-variable-out" class="level3">
+<h3 class="anchored" data-anchor-id="exp-3.1-list-element-assigned-to-another-variable-out">Exp 3.1: List Element Assigned to Another Variable (<code>out</code>)</h3>
+<div id="80e75c37" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save reference to one element</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> tensor_list[<span class="dv">2</span>]  <span class="co"># Keep reference to middle element</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list  <span class="co"># Delete the list</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>alloc_after_del_list, res_after_del_list <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Now delete the 'out' reference</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> out</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Multiple References'</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'List elem → out var, del list'</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after_del_list,  <span class="co"># After del list (out still alive)</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after_del_list,</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,  <span class="co"># After del out + cache clear</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:                Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After (5 tensors):     Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After del list:        Alloc=</span><span class="sc">{</span>alloc_after_del_list<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after_del_list<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After del out + clear: Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 CRITICAL: 'out' kept 1 tensor alive (~0.4GB) after list deletion"</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   Only after 'del out' did all memory get freed!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:                Alloc=0.000GB, Res=0.000GB
+📍 After (5 tensors):     Alloc=2.002GB, Res=2.002GB
+📍 After del list:        Alloc=0.400GB, Res=2.002GB
+📍 After del out + clear: Alloc=0.000GB, Res=0.000GB
+
+💡 CRITICAL: 'out' kept 1 tensor alive (~0.4GB) after list deletion
+   Only after 'del out' did all memory get freed!</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-3.2-tensor-referenced-by-list-and-separate-variable" class="level3">
+<h3 class="anchored" data-anchor-id="exp-3.2-tensor-referenced-by-list-and-separate-variable">Exp 3.2: Tensor Referenced by List AND Separate Variable</h3>
+<div id="087d0d34" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>tensor <span class="op">=</span> torch.randn(<span class="bu">int</span>(<span class="fl">1.0</span> <span class="op">*</span> <span class="dv">1024</span><span class="op">**</span><span class="dv">3</span> <span class="op">/</span> <span class="dv">4</span>), device<span class="op">=</span><span class="ss">f'cuda:</span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> [tensor]  <span class="co"># List references the same tensor</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list  <span class="co"># Delete list</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>alloc_after_del_list, res_after_del_list <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor  <span class="co"># Delete variable</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Multiple References'</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'Same tensor in list + var'</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after_del_list,  <span class="co"># After del list only</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after_del_list,</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:            Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After creation:    Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After del list:    Alloc=</span><span class="sc">{</span>alloc_after_del_list<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after_del_list<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After del tensor:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Same tensor referenced twice: Survives until ALL references deleted"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:            Alloc=0.000GB, Res=0.000GB
+📍 After creation:    Alloc=1.000GB, Res=1.000GB
+📍 After del list:    Alloc=1.000GB, Res=1.000GB
+📍 After del tensor:  Alloc=0.000GB, Res=0.000GB
+
+💡 Same tensor referenced twice: Survives until ALL references deleted</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-3.3-nested-dictionarylist-structure" class="level3">
+<h3 class="anchored" data-anchor-id="exp-3.3-nested-dictionarylist-structure">Exp 3.3: Nested Dictionary/List Structure</h3>
+<div id="700fa662" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>nested <span class="op">=</span> create_nested_structure(device)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> nested  <span class="co"># Single del handles entire nested structure</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Multiple References'</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'Nested dict/list structure'</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 Python's GC recursively frees nested structures - no manual traversal needed"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=1.203GB, Res=1.203GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 Python's GC recursively frees nested structures - no manual traversal needed</code></pre>
+</div>
+</div>
+</section>
+<section id="exp-3.4-explicit-garbage-collection-gc.collect" class="level3">
+<h3 class="anchored" data-anchor-id="exp-3.4-explicit-garbage-collection-gc.collect">Exp 3.4: Explicit Garbage Collection (<code>gc.collect()</code>)</h3>
+<div id="e18ba736" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>reset_memory()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>alloc_before, res_before <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>tensor_list <span class="op">=</span> create_tensor_list(device, num_tensors<span class="op">=</span><span class="dv">5</span>, size_gb_each<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>alloc_after, res_after <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> tensor_list</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>alloc_after_del, res_after_del <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>gc.collect()  <span class="co"># Force garbage collection</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>alloc_after_gc, res_after_gc <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>alloc_clear, res_clear <span class="op">=</span> get_memory_stats(device)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>results.append({</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Group'</span>: <span class="st">'Multiple References'</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Experiment'</span>: <span class="st">'with gc.collect()'</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Before'</span>: alloc_before,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Before'</span>: res_before,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc After'</span>: alloc_after_gc,  <span class="co"># After gc.collect()</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res After'</span>: res_after_gc,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alloc Clear'</span>: alloc_clear,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Res Clear'</span>: res_clear</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Before:       Alloc=</span><span class="sc">{</span>alloc_before<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_before<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After:        Alloc=</span><span class="sc">{</span>alloc_after<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After del:    Alloc=</span><span class="sc">{</span>alloc_after_del<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after_del<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 After gc:     Alloc=</span><span class="sc">{</span>alloc_after_gc<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_after_gc<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"📍 Cache Clear:  Alloc=</span><span class="sc">{</span>alloc_clear<span class="sc">:.3f}</span><span class="ss">GB, Res=</span><span class="sc">{</span>res_clear<span class="sc">:.3f}</span><span class="ss">GB"</span>)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">💡 gc.collect() makes NO difference - Python's refcounting handles it instantly"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>📍 Before:       Alloc=0.000GB, Res=0.000GB
+📍 After:        Alloc=2.002GB, Res=2.002GB
+📍 After del:    Alloc=0.000GB, Res=2.002GB
+📍 After gc:     Alloc=0.000GB, Res=2.002GB
+📍 Cache Clear:  Alloc=0.000GB, Res=0.000GB
+
+💡 gc.collect() makes NO difference - Python's refcounting handles it instantly</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="comprehensive-results-table" class="level2">
+<h2 class="anchored" data-anchor-id="comprehensive-results-table">📊 Comprehensive Results Table</h2>
+<p>Summary of all experiments showing memory behavior across different scenarios</p>
+<div id="089271dc" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comprehensive DataFrame</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Round to 3 decimals for readability</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>numeric_cols <span class="op">=</span> [<span class="st">'Alloc Before'</span>, <span class="st">'Res Before'</span>, <span class="st">'Alloc After'</span>, <span class="st">'Res After'</span>, <span class="st">'Alloc Clear'</span>, <span class="st">'Res Clear'</span>]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>df[numeric_cols] <span class="op">=</span> df[numeric_cols].<span class="bu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create styled HTML table</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> color_memory(val):</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Color code memory values"""</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> val <span class="op">==</span> <span class="fl">0.000</span>:</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'background-color: #d4edda; color: #155724; font-weight: bold'</span>  <span class="co"># Green</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> val <span class="op">&lt;</span> <span class="fl">0.5</span>:</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'background-color: #fff3cd; color: #856404'</span>  <span class="co"># Yellow</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'background-color: #f8d7da; color: #721c24'</span>  <span class="co"># Red</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>styled_df <span class="op">=</span> df.style.applymap(color_memory, subset<span class="op">=</span>numeric_cols) <span class="op">\</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    .set_properties(<span class="op">**</span>{</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'text-align'</span>: <span class="st">'left'</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'font-size'</span>: <span class="st">'11px'</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">'border'</span>: <span class="st">'1px solid #ddd'</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    }) <span class="op">\</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    .set_table_styles([</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'selector'</span>: <span class="st">'th'</span>, <span class="st">'props'</span>: [(<span class="st">'background-color'</span>, <span class="st">'#2c3e50'</span>), (<span class="st">'color'</span>, <span class="st">'white'</span>), </span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>                                      (<span class="st">'font-weight'</span>, <span class="st">'bold'</span>), (<span class="st">'text-align'</span>, <span class="st">'center'</span>),</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>                                      (<span class="st">'padding'</span>, <span class="st">'10px'</span>), (<span class="st">'font-size'</span>, <span class="st">'12px'</span>)]},</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'selector'</span>: <span class="st">'td'</span>, <span class="st">'props'</span>: [(<span class="st">'padding'</span>, <span class="st">'8px'</span>)]},</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'selector'</span>: <span class="st">'tr:hover'</span>, <span class="st">'props'</span>: [(<span class="st">'background-color'</span>, <span class="st">'#f5f5f5'</span>)]}</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>display(styled_df)</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">100</span>)</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"LEGEND"</span>)</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">100</span>)</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🟢 Green (0.000 GB):  Memory fully released"</span>)</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🟡 Yellow (&lt;0.5 GB):  Partial memory usage"</span>)</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🔴 Red (≥0.5 GB):     Significant memory usage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_406856/598390223.py:18: FutureWarning: Styler.applymap has been deprecated. Use Styler.map instead.
+  styled_df = df.style.applymap(color_memory, subset=numeric_cols) \</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<style type="text/css">
+#T_ce05f th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+}
+#T_ce05f td {
+  padding: 8px;
+}
+#T_ce05f tr:hover {
+  background-color: #f5f5f5;
+}
+#T_ce05f_row0_col0, #T_ce05f_row0_col1, #T_ce05f_row1_col0, #T_ce05f_row1_col1, #T_ce05f_row2_col0, #T_ce05f_row2_col1, #T_ce05f_row3_col0, #T_ce05f_row3_col1, #T_ce05f_row4_col0, #T_ce05f_row4_col1, #T_ce05f_row5_col0, #T_ce05f_row5_col1, #T_ce05f_row6_col0, #T_ce05f_row6_col1, #T_ce05f_row7_col0, #T_ce05f_row7_col1, #T_ce05f_row8_col0, #T_ce05f_row8_col1, #T_ce05f_row9_col0, #T_ce05f_row9_col1, #T_ce05f_row10_col0, #T_ce05f_row10_col1, #T_ce05f_row11_col0, #T_ce05f_row11_col1 {
+  text-align: left;
+  font-size: 11px;
+  border: 1px solid #ddd;
+}
+#T_ce05f_row0_col2, #T_ce05f_row0_col3, #T_ce05f_row0_col4, #T_ce05f_row0_col6, #T_ce05f_row1_col2, #T_ce05f_row1_col3, #T_ce05f_row1_col4, #T_ce05f_row1_col6, #T_ce05f_row1_col7, #T_ce05f_row2_col2, #T_ce05f_row2_col3, #T_ce05f_row3_col2, #T_ce05f_row3_col3, #T_ce05f_row3_col6, #T_ce05f_row3_col7, #T_ce05f_row4_col2, #T_ce05f_row4_col3, #T_ce05f_row4_col6, #T_ce05f_row4_col7, #T_ce05f_row5_col2, #T_ce05f_row5_col3, #T_ce05f_row5_col6, #T_ce05f_row5_col7, #T_ce05f_row6_col2, #T_ce05f_row6_col3, #T_ce05f_row6_col6, #T_ce05f_row6_col7, #T_ce05f_row7_col2, #T_ce05f_row7_col3, #T_ce05f_row7_col6, #T_ce05f_row7_col7, #T_ce05f_row8_col2, #T_ce05f_row8_col3, #T_ce05f_row8_col6, #T_ce05f_row8_col7, #T_ce05f_row9_col2, #T_ce05f_row9_col3, #T_ce05f_row9_col6, #T_ce05f_row9_col7, #T_ce05f_row10_col2, #T_ce05f_row10_col3, #T_ce05f_row10_col6, #T_ce05f_row10_col7, #T_ce05f_row11_col2, #T_ce05f_row11_col3, #T_ce05f_row11_col4, #T_ce05f_row11_col6, #T_ce05f_row11_col7 {
+  background-color: #d4edda;
+  color: #155724;
+  font-weight: bold;
+  text-align: left;
+  font-size: 11px;
+  border: 1px solid #ddd;
+}
+#T_ce05f_row0_col5, #T_ce05f_row0_col7, #T_ce05f_row1_col5, #T_ce05f_row2_col4, #T_ce05f_row2_col5, #T_ce05f_row2_col6, #T_ce05f_row2_col7, #T_ce05f_row3_col4, #T_ce05f_row3_col5, #T_ce05f_row4_col4, #T_ce05f_row4_col5, #T_ce05f_row5_col4, #T_ce05f_row5_col5, #T_ce05f_row6_col4, #T_ce05f_row6_col5, #T_ce05f_row7_col4, #T_ce05f_row7_col5, #T_ce05f_row8_col5, #T_ce05f_row9_col4, #T_ce05f_row9_col5, #T_ce05f_row10_col4, #T_ce05f_row10_col5, #T_ce05f_row11_col5 {
+  background-color: #f8d7da;
+  color: #721c24;
+  text-align: left;
+  font-size: 11px;
+  border: 1px solid #ddd;
+}
+#T_ce05f_row8_col4 {
+  background-color: #fff3cd;
+  color: #856404;
+  text-align: left;
+  font-size: 11px;
+  border: 1px solid #ddd;
+}
+</style>
+
+<table id="T_ce05f" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_ce05f_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Group</th>
+<th id="T_ce05f_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Experiment</th>
+<th id="T_ce05f_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Alloc Before</th>
+<th id="T_ce05f_level0_col3" class="col_heading level0 col3" data-quarto-table-cell-role="th">Res Before</th>
+<th id="T_ce05f_level0_col4" class="col_heading level0 col4" data-quarto-table-cell-role="th">Alloc After</th>
+<th id="T_ce05f_level0_col5" class="col_heading level0 col5" data-quarto-table-cell-role="th">Res After</th>
+<th id="T_ce05f_level0_col6" class="col_heading level0 col6" data-quarto-table-cell-role="th">Alloc Clear</th>
+<th id="T_ce05f_level0_col7" class="col_heading level0 col7" data-quarto-table-cell-role="th">Res Clear</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_ce05f_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</th>
+<td id="T_ce05f_row0_col0" class="data row0 col0">Function Return</td>
+<td id="T_ce05f_row0_col1" class="data row0 col1">No return, No cache clear</td>
+<td id="T_ce05f_row0_col2" class="data row0 col2">0.000000</td>
+<td id="T_ce05f_row0_col3" class="data row0 col3">0.000000</td>
+<td id="T_ce05f_row0_col4" class="data row0 col4">0.000000</td>
+<td id="T_ce05f_row0_col5" class="data row0 col5">2.002000</td>
+<td id="T_ce05f_row0_col6" class="data row0 col6">0.000000</td>
+<td id="T_ce05f_row0_col7" class="data row0 col7">2.002000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</th>
+<td id="T_ce05f_row1_col0" class="data row1 col0">Function Return</td>
+<td id="T_ce05f_row1_col1" class="data row1 col1">No return, WITH cache clear</td>
+<td id="T_ce05f_row1_col2" class="data row1 col2">0.000000</td>
+<td id="T_ce05f_row1_col3" class="data row1 col3">0.000000</td>
+<td id="T_ce05f_row1_col4" class="data row1 col4">0.000000</td>
+<td id="T_ce05f_row1_col5" class="data row1 col5">2.002000</td>
+<td id="T_ce05f_row1_col6" class="data row1 col6">0.000000</td>
+<td id="T_ce05f_row1_col7" class="data row1 col7">0.000000</td>
+</tr>
+<tr class="odd">
+<th id="T_ce05f_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</th>
+<td id="T_ce05f_row2_col0" class="data row2 col0">Function Return</td>
+<td id="T_ce05f_row2_col1" class="data row2 col1">WITH return, holding ref</td>
+<td id="T_ce05f_row2_col2" class="data row2 col2">0.000000</td>
+<td id="T_ce05f_row2_col3" class="data row2 col3">0.000000</td>
+<td id="T_ce05f_row2_col4" class="data row2 col4">2.000000</td>
+<td id="T_ce05f_row2_col5" class="data row2 col5">2.002000</td>
+<td id="T_ce05f_row2_col6" class="data row2 col6">2.000000</td>
+<td id="T_ce05f_row2_col7" class="data row2 col7">2.002000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</th>
+<td id="T_ce05f_row3_col0" class="data row3 col0">Function Return</td>
+<td id="T_ce05f_row3_col1" class="data row3 col1">WITH return, del ref + cache clear</td>
+<td id="T_ce05f_row3_col2" class="data row3 col2">0.000000</td>
+<td id="T_ce05f_row3_col3" class="data row3 col3">0.000000</td>
+<td id="T_ce05f_row3_col4" class="data row3 col4">2.000000</td>
+<td id="T_ce05f_row3_col5" class="data row3 col5">2.002000</td>
+<td id="T_ce05f_row3_col6" class="data row3 col6">0.000000</td>
+<td id="T_ce05f_row3_col7" class="data row3 col7">0.000000</td>
+</tr>
+<tr class="odd">
+<th id="T_ce05f_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</th>
+<td id="T_ce05f_row4_col0" class="data row4 col0">List Management</td>
+<td id="T_ce05f_row4_col1" class="data row4 col1">del list</td>
+<td id="T_ce05f_row4_col2" class="data row4 col2">0.000000</td>
+<td id="T_ce05f_row4_col3" class="data row4 col3">0.000000</td>
+<td id="T_ce05f_row4_col4" class="data row4 col4">2.002000</td>
+<td id="T_ce05f_row4_col5" class="data row4 col5">2.002000</td>
+<td id="T_ce05f_row4_col6" class="data row4 col6">0.000000</td>
+<td id="T_ce05f_row4_col7" class="data row4 col7">0.000000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">5</th>
+<td id="T_ce05f_row5_col0" class="data row5 col0">List Management</td>
+<td id="T_ce05f_row5_col1" class="data row5 col1">list.clear()</td>
+<td id="T_ce05f_row5_col2" class="data row5 col2">0.000000</td>
+<td id="T_ce05f_row5_col3" class="data row5 col3">0.000000</td>
+<td id="T_ce05f_row5_col4" class="data row5 col4">2.002000</td>
+<td id="T_ce05f_row5_col5" class="data row5 col5">2.002000</td>
+<td id="T_ce05f_row5_col6" class="data row5 col6">0.000000</td>
+<td id="T_ce05f_row5_col7" class="data row5 col7">0.000000</td>
+</tr>
+<tr class="odd">
+<th id="T_ce05f_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">6</th>
+<td id="T_ce05f_row6_col0" class="data row6 col0">List Management</td>
+<td id="T_ce05f_row6_col1" class="data row6 col1">reassign to []</td>
+<td id="T_ce05f_row6_col2" class="data row6 col2">0.000000</td>
+<td id="T_ce05f_row6_col3" class="data row6 col3">0.000000</td>
+<td id="T_ce05f_row6_col4" class="data row6 col4">2.002000</td>
+<td id="T_ce05f_row6_col5" class="data row6 col5">2.002000</td>
+<td id="T_ce05f_row6_col6" class="data row6 col6">0.000000</td>
+<td id="T_ce05f_row6_col7" class="data row6 col7">0.000000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">7</th>
+<td id="T_ce05f_row7_col0" class="data row7 col0">List Management</td>
+<td id="T_ce05f_row7_col1" class="data row7 col1">loop deletion (backward)</td>
+<td id="T_ce05f_row7_col2" class="data row7 col2">0.000000</td>
+<td id="T_ce05f_row7_col3" class="data row7 col3">0.000000</td>
+<td id="T_ce05f_row7_col4" class="data row7 col4">2.002000</td>
+<td id="T_ce05f_row7_col5" class="data row7 col5">2.002000</td>
+<td id="T_ce05f_row7_col6" class="data row7 col6">0.000000</td>
+<td id="T_ce05f_row7_col7" class="data row7 col7">0.000000</td>
+</tr>
+<tr class="odd">
+<th id="T_ce05f_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">8</th>
+<td id="T_ce05f_row8_col0" class="data row8 col0">Multiple References</td>
+<td id="T_ce05f_row8_col1" class="data row8 col1">List elem → out var, del list</td>
+<td id="T_ce05f_row8_col2" class="data row8 col2">0.000000</td>
+<td id="T_ce05f_row8_col3" class="data row8 col3">0.000000</td>
+<td id="T_ce05f_row8_col4" class="data row8 col4">0.400000</td>
+<td id="T_ce05f_row8_col5" class="data row8 col5">2.002000</td>
+<td id="T_ce05f_row8_col6" class="data row8 col6">0.000000</td>
+<td id="T_ce05f_row8_col7" class="data row8 col7">0.000000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">9</th>
+<td id="T_ce05f_row9_col0" class="data row9 col0">Multiple References</td>
+<td id="T_ce05f_row9_col1" class="data row9 col1">Same tensor in list + var</td>
+<td id="T_ce05f_row9_col2" class="data row9 col2">0.000000</td>
+<td id="T_ce05f_row9_col3" class="data row9 col3">0.000000</td>
+<td id="T_ce05f_row9_col4" class="data row9 col4">1.000000</td>
+<td id="T_ce05f_row9_col5" class="data row9 col5">1.000000</td>
+<td id="T_ce05f_row9_col6" class="data row9 col6">0.000000</td>
+<td id="T_ce05f_row9_col7" class="data row9 col7">0.000000</td>
+</tr>
+<tr class="odd">
+<th id="T_ce05f_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">10</th>
+<td id="T_ce05f_row10_col0" class="data row10 col0">Multiple References</td>
+<td id="T_ce05f_row10_col1" class="data row10 col1">Nested dict/list structure</td>
+<td id="T_ce05f_row10_col2" class="data row10 col2">0.000000</td>
+<td id="T_ce05f_row10_col3" class="data row10 col3">0.000000</td>
+<td id="T_ce05f_row10_col4" class="data row10 col4">1.203000</td>
+<td id="T_ce05f_row10_col5" class="data row10 col5">1.203000</td>
+<td id="T_ce05f_row10_col6" class="data row10 col6">0.000000</td>
+<td id="T_ce05f_row10_col7" class="data row10 col7">0.000000</td>
+</tr>
+<tr class="even">
+<th id="T_ce05f_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">11</th>
+<td id="T_ce05f_row11_col0" class="data row11 col0">Multiple References</td>
+<td id="T_ce05f_row11_col1" class="data row11 col1">with gc.collect()</td>
+<td id="T_ce05f_row11_col2" class="data row11 col2">0.000000</td>
+<td id="T_ce05f_row11_col3" class="data row11 col3">0.000000</td>
+<td id="T_ce05f_row11_col4" class="data row11 col4">0.000000</td>
+<td id="T_ce05f_row11_col5" class="data row11 col5">2.002000</td>
+<td id="T_ce05f_row11_col6" class="data row11 col6">0.000000</td>
+<td id="T_ce05f_row11_col7" class="data row11 col7">0.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================================================================================================
+LEGEND
+====================================================================================================
+🟢 Green (0.000 GB):  Memory fully released
+🟡 Yellow (&lt;0.5 GB):  Partial memory usage
+🔴 Red (≥0.5 GB):     Significant memory usage</code></pre>
+</div>
+</div>
+</section>
+<section id="key-insights-best-practices" class="level2">
+<h2 class="anchored" data-anchor-id="key-insights-best-practices">🎯 Key Insights &amp; Best Practices</h2>
+<section id="memory-behavior-summary" class="level3">
+<h3 class="anchored" data-anchor-id="memory-behavior-summary">Memory Behavior Summary</h3>
+<ol type="1">
+<li><strong><code>memory_allocated()</code> vs <code>memory_reserved()</code></strong>
+<ul>
+<li><strong>Allocated</strong>: Live tensor memory (active Python references)</li>
+<li><strong>Reserved</strong>: Total cached memory (allocated + free cache blocks)</li>
+<li>Reserved stays high even after tensors are freed (caching optimization)</li>
+</ul></li>
+<li><strong>Function Return Behavior</strong>
+<ul>
+<li>✅ <strong>No return</strong>: Tensors freed immediately after function exits</li>
+<li>⚠️ <strong>With return</strong>: Tensors stay alive as long as references exist</li>
+<li>🔑 <strong>Key</strong>: Reference lifetime determines memory lifetime</li>
+</ul></li>
+<li><strong>List Deletion Methods (All Equivalent)</strong>
+<ul>
+<li><code>del list</code> ✓</li>
+<li><code>list.clear()</code> ✓</li>
+<li><code>list = []</code> ✓</li>
+<li>Loop deletion ✓ (but unnecessarily complex)</li>
+</ul></li>
+<li><strong>Multiple References = Extended Lifetime</strong>
+<ul>
+<li>If <code>out = tensor_list[i]</code> exists, that tensor survives list deletion</li>
+<li>Memory freed only when <strong>ALL</strong> references are deleted</li>
+<li>Python’s reference counting handles this automatically</li>
+</ul></li>
+<li><strong>Nested Structures</strong>
+<ul>
+<li>Single <code>del</code> on top-level structure recursively frees everything</li>
+<li>No manual traversal needed - Python’s GC handles it</li>
+</ul></li>
+<li><strong>Cache Management</strong>
+<ul>
+<li><code>torch.cuda.empty_cache()</code> only releases <strong>unused</strong> cached memory</li>
+<li>Cannot release memory for live tensors (active references)</li>
+<li>Must delete references first, then call <code>empty_cache()</code></li>
+</ul></li>
+<li><strong>Garbage Collection</strong>
+<ul>
+<li><code>gc.collect()</code> usually <strong>NOT needed</strong> for PyTorch tensors</li>
+<li>Python’s reference counting frees memory immediately</li>
+<li>Only helpful for circular reference cycles (rare with tensors)</li>
+</ul></li>
+</ol>
+</section>
+<section id="common-pitfalls" class="level3">
+<h3 class="anchored" data-anchor-id="common-pitfalls">⚠️ Common Pitfalls</h3>
+<ol type="1">
+<li><strong>Hidden references</strong> in global scope, class attributes, or closures</li>
+<li><strong>Calling <code>empty_cache()</code> while holding references</strong> (does nothing)</li>
+<li><strong>Assuming <code>memory_reserved()</code> indicates active usage</strong> (it’s cache!)</li>
+<li><strong>Manual loop deletion instead of <code>del list</code></strong> (error-prone)</li>
+</ol>
+</section>
+<section id="best-practice-checklist" class="level3">
+<h3 class="anchored" data-anchor-id="best-practice-checklist">✅ Best Practice Checklist</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Delete references when done: <code>del tensors</code></label></li>
+<li><label><input type="checkbox">Clear cache after deletion: <code>torch.cuda.empty_cache()</code></label></li>
+<li><label><input type="checkbox">Check for hidden references (list elements, class attrs, etc.)</label></li>
+<li><label><input type="checkbox">Monitor both <code>memory_allocated()</code> and <code>memory_reserved()</code></label></li>
+<li><label><input type="checkbox">Use simple deletion (<code>del</code>, <code>.clear()</code>) over manual loops</label></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/patel-zeel\.github\.io\/blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
